@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/BodyFaceDetection.unity
+    guid: b938c3431da00a64c9a971cb31a863e5
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 74d022d9b97ea484e850d5514f9522fe, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 005fd76b384c11b4c8a7d278ffbe6e49, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: ffebbea622957744ca6bb58a0bfdff3f, type: 2}
