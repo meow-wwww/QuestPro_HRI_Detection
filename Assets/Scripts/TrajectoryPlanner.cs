@@ -128,7 +128,9 @@ public class TrajectoryPlanner : MonoBehaviour
         // Pick Pose
         request.pick_pose = new PoseMsg
         {
-            position = (m_Target.transform.position + m_PickPoseOffset).To<FLU>(),
+            // original code
+            // position = (m_Target.transform.position + m_PickPoseOffset).To<FLU>(),
+            position = (m_Target.transform.position - m_NiryoOne.transform.position + m_PickPoseOffset).To<FLU>(),
 
             // The hardcoded x/z angles assure that the gripper is always positioned above the target cube before grasping.
             orientation = Quaternion.Euler(90, m_Target.transform.eulerAngles.y, 0).To<FLU>()
@@ -137,7 +139,8 @@ public class TrajectoryPlanner : MonoBehaviour
         // Place Pose
         request.place_pose = new PoseMsg
         {
-            position = (m_TargetPlacement.transform.position + m_PickPoseOffset).To<FLU>(),
+            // position = (m_TargetPlacement.transform.position + m_PickPoseOffset).To<FLU>(),
+            position = (m_TargetPlacement.transform.position - m_NiryoOne.transform.position + m_PickPoseOffset).To<FLU>(),
             orientation = m_PickOrientation.To<FLU>()
         };
 

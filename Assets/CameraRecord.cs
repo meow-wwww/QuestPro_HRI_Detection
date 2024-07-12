@@ -34,8 +34,6 @@ public class CameraRecord : MonoBehaviour
         StartRecording();
 
         TMPText.text = "Recording...";
-
-        // Invoke("TestOnApplicationQuit", 15.0f);
     }
 
     void StartRecording()
@@ -68,22 +66,13 @@ public class CameraRecord : MonoBehaviour
             cameraInput.Dispose();
             var path = await recorder.FinishWriting();
 
-            // Log the path to the saved video
             Debug.Log($"Saved recording to: {path}");
             return path;
-            // TMPText.text = $"Path: {path}";
-            // await Task.Delay(10000);
         }
         else{
             return "Not recording.";
         }
     }
-
-    //gpt
-    // void OnDisable(){ // OnApplicationQuit
-    //     StartCoroutine(StopRecordingCoroutine());
-    //     Debug.Log("successfully stop recording");
-    // }
 
     private IEnumerator StopRecordingCoroutine(){
         var stopRecordingTask = StopRecording();

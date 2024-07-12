@@ -17,7 +17,7 @@ public class EyeTracking : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fileName = "Gaze" + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".csv";
+        fileName = "Gaze_" + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".csv";
         filePath = Path.Combine(Application.persistentDataPath, fileName);
         File.WriteAllText(filePath, "time,left_src_x,left_src_y,left_src_z,left_dir_x,left_dir_y,left_dir_z,right_src_x,right_src_y,right_src_z,right_dir_x,right_dir_y,right_dir_z,focus_x,focus_y,focus_z\n");
         // Debug.Log("write first line");
