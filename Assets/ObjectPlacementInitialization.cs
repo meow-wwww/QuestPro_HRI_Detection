@@ -10,9 +10,10 @@ public class ObjectPlacementInitialization : MonoBehaviour
     public Vector3 userForward, userRight;
     public Vector3 userPosition;
     public Vector3 performerPosition;
+    public Vector3 robotInitialPosition;
 
     [Header("Robot References")]
-    public GameObject waitorRobot;
+    public GameObject waiterRobot;
 
     // Start is called before the first frame update
     void Start()
@@ -41,11 +42,12 @@ public class ObjectPlacementInitialization : MonoBehaviour
         userRight = new Vector3(userForward.z, 0, -userForward.x);
 
         // set robots' initial positions
-        // waitor robot: 5 right + 3 forward
-        waitorRobot.transform.position = userPosition + userRight * 5f + userForward * 3f;
+        // waiter robot: 5.5 right + 3 forward
+        waiterRobot.transform.position = userPosition + userRight * 5.5f + userForward * 3f;
+        robotInitialPosition = waiterRobot.transform.position;
+
         GameObject.Find("Coffee_user1").transform.position = userPosition - userRight * 2f + userForward * 0.2f;
         GameObject.Find("Coffee_user2").transform.position = userPosition - userRight * 2f;
         GameObject.Find("Coffee_wrong").transform.position = userPosition - userRight * 2f - userForward * 0.2f;
-    
     }
 }

@@ -110,15 +110,16 @@ public class QuestServerBehavior : WebSocketBehavior
                 Send("Received");
             });
         }
-        else if (e.Data == "Waiter - Current drink: attach"){
-            MainThreadDispatcher.Enqueue(() => {
-                GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().currentDrink.GetComponent<FollowPlate>().SetFollowPlate(true);
-                Send("Received");
-            });
-        }
+        // else if (e.Data == "Waiter - Current drink: attach"){
+        //     MainThreadDispatcher.Enqueue(() => {
+        //         GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().currentDrink.GetComponent<FollowPlate>().SetFollowPlate(true);
+        //         Send("Received");
+        //     });
+        // }
         else if (e.Data == "Waiter - Current drink: detach"){
             MainThreadDispatcher.Enqueue(() => {
                 GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().currentDrink.GetComponent<FollowPlate>().SetFollowPlate(false);
+                GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().currentDrink = null;
                 Send("Received");
             });
         }
@@ -137,12 +138,25 @@ public class QuestServerBehavior : WebSocketBehavior
                 Send("Received");
             });
         }
+        //// system control
         else if (e.Data == "Stop recording"){
             MainThreadDispatcher.Enqueue(() => {
                 GameObject.Find("PoseCamera").GetComponent<CameraRecord>().StopRecordingInterface();
                 GameObject.Find("AvatarRelated").transform.Find("AvatarCamera").GetComponent<CameraRecord>().StopRecordingInterface();
                 Send("Received");
             });
+        }
+        else if (e.Data == "Save context"){
+            MainThreadDispatcher.Enqueue(() => {
+                bool result = GameObject.Find("ResetManager").GetComponent<ResetObjects>().SaveContext();
+                Send("Received; " + result);
+            });
+        }
+        else if (e.Data == "Reset context"){
+            MainThreadDispatcher.Enqueue(() => {
+                bool result = GameObject.Find("ResetManager").GetComponent<ResetObjects>().ResetContext();
+                Send("Received; " + result);
+            });        
         }
         else{
             Send("Unknown Command");

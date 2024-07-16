@@ -12,11 +12,10 @@ public class EXPMoveToTable : MonoBehaviour
 
     public GameObject currentDrink = null;
 
-    Vector3 robotInitialPosition;
     // Start is called before the first frame update
     void Start()
     {
-        robotInitialPosition = gameObject.transform.position;
+        
     }
 
     void Update(){
@@ -35,7 +34,7 @@ public class EXPMoveToTable : MonoBehaviour
             plate = GameObject.Find("plate_middle");
         }
         currentDrink = drink;
-        currentDrink.transform.position = plate.transform.position - plate.transform.right * 0.13f;
+        currentDrink.transform.position = plate.transform.position - plate.transform.right * 0.16f;
         currentDrink.GetComponent<FollowPlate>().SetFollowPlate(true);
     }
 
@@ -46,21 +45,16 @@ public class EXPMoveToTable : MonoBehaviour
 
     public void MoveToTableUser1()
     {
-        Vector3 targetPositon = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.25f * globalPositionInfo.userForward;
-        //new Vector3(0.8f,0f,-0.1f);
-        // GameObject.Find("TargetDebug").transform.position = targetPositon;
+        Vector3 targetPositon = table.transform.position + 0.75f * globalPositionInfo.userRight - 0.17f * globalPositionInfo.userForward;
         Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-        executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, tablePosition2d - 0.25f * globalPositionInfo.userForward);
+        executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, tablePosition2d - 0.17f * globalPositionInfo.userForward);
     }
     public void MoveToTableUser1Dangerous()
     {
         Vector3 targetPositon = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
-        //new Vector3(0.8f, 0f,-0.4f);
-        // GameObject.Find("TargetDebug").transform.position = targetPositon;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, globalPositionInfo.userPosition);
-        // executor.MoveAlongPath(new List<Vector3>{targetPositon}, moveSpeed, rotateSpeed);
     }
     // public void AdjustToTableUser1FromDangerous()
     // {
@@ -72,29 +66,26 @@ public class EXPMoveToTable : MonoBehaviour
 
     public void MoveToTableUser2()
     {
-        Vector3 targetPositon = table.transform.position + 0.8f * globalPositionInfo.userRight + 0.25f * globalPositionInfo.userForward;
-        // GameObject.Find("TargetDebug").transform.position = targetPositon;
+        Vector3 targetPositon = table.transform.position + 0.75f * globalPositionInfo.userRight + 0.17f * globalPositionInfo.userForward;
         Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-        executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, tablePosition2d + 0.25f * globalPositionInfo.userForward);
+        executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, tablePosition2d + 0.17f * globalPositionInfo.userForward);
     }
 
     public void GoAway(){
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-        // executor.PlanAndMoveTo(robotInitialPosition, moveSpeed, rotateSpeed);
-        executor.MoveAlongPath(new List<Vector3>{new Vector3(robotInitialPosition.x, 0, robotInitialPosition.z)}, moveSpeed, rotateSpeed);
+        executor.MoveAlongPath(new List<Vector3>{new Vector3(globalPositionInfo.robotInitialPosition.x, 0, globalPositionInfo.robotInitialPosition.z)}, moveSpeed, rotateSpeed);
     }
 
     public void WanderAround(){
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         List<Vector3> wanderPath = new List<Vector3>{
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 1.9f,
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 1.3f,
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 2.0f + globalPositionInfo.userForward * 0.5f,
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.1f + globalPositionInfo.userForward * 1.7f,
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 1.1f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 1.9f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 0.5f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 1.9f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.1f + globalPositionInfo.userForward * 0.5f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 1.9f,
         };
-        // StartCoroutine(executor.PlanAndMoveTo_Coroutine(wanderPath, moveSpeed, rotateSpeed, true, globalPositionInfo.userPosition));
         executor.MoveAlongPath(wanderPath, moveSpeed, rotateSpeed, false, new Vector3(0,0,0), true);
     }
 

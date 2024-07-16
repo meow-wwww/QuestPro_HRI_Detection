@@ -62,7 +62,7 @@ public class ExecuteMovement : MonoBehaviour
     private IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
     {
         // change the expression to 'sleep'
-        gameObject.GetComponent<RobotScreenNotification>().SetScreenImage("CatSleep");
+        gameObject.transform.Find("Body").Find("screen").gameObject.GetComponent<RobotScreenNotification>().SetScreenImage("CatSleep");
 
         // start to play the movement sound effect just before moving
         AudioPlayer audioPlayer = gameObject.GetComponent<AudioPlayer>();
@@ -110,6 +110,9 @@ public class ExecuteMovement : MonoBehaviour
 
     private IEnumerator MoveAlongPath_Loop_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed)
     {
+        // change the expression to 'sleep'
+        gameObject.transform.Find("Body").Find("screen").gameObject.GetComponent<RobotScreenNotification>().SetScreenImage("CatSleep");
+
         // start to play the movement sound effect just before moving
         AudioPlayer audioPlayer = gameObject.GetComponent<AudioPlayer>();
         audioPlayer.PlayAudio("Audio/Movement", true);
@@ -118,14 +121,14 @@ public class ExecuteMovement : MonoBehaviour
         while(true){
             foreach (Vector3 target in targetList) // for our 'next point'
             {
-                if (loopInterrupted){
-                    audioPlayer.StopAudio();
-                    yield break;
-                }
                 Debug.Log("Next point is: " + target);
                 // first rotate to face target
                 while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
                 {
+                    if (loopInterrupted){
+                        audioPlayer.StopAudio();
+                        yield break;
+                    }
                     // ensure that the rotation degree is less than 180
                     Quaternion targetRotation = Quaternion.LookRotation((target - transform.position).normalized);
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
@@ -136,6 +139,10 @@ public class ExecuteMovement : MonoBehaviour
                 // then move to target position
                 while (Vector3.Distance(transform.position, target) > 0.01f)
                 {
+                    if (loopInterrupted){
+                        audioPlayer.StopAudio();
+                        yield break;
+                    }
                     Vector3 direction = (target - transform.position).normalized;
                     float step = moveSpeed * Time.deltaTime;
                     transform.position = Vector3.MoveTowards(transform.position, target, step);
