@@ -29,12 +29,20 @@ public class PlateController : MonoBehaviour
 
     private IEnumerator MovePlate_Coroutine(GameObject plate, float distance, float moveSpeed, int direction)
     {
+        if (direction == 1)
+        {
+            gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SetScreenImage("Image/CatFace");
+        }
         Vector3 startPosition = plate.transform.position;
         while (Vector3.Distance(plate.transform.position, startPosition + gameObject.transform.forward * direction * distance) > 0.01f)
         {
             // Debug.Log("Moving plate ... ..." + Vector3.Distance(plate.transform.position, startPosition + Vector3.forward * distance));
             plate.GetComponent<Rigidbody>().MovePosition(plate.transform.position + gameObject.transform.forward * moveSpeed * direction * Time.deltaTime);
             yield return null;
+        }
+        if (direction == 1)
+        {
+            gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().DrinkReady();
         }
     }
 }

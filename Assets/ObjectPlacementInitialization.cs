@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ObjectPlacementInitialization : MonoBehaviour
+{
+    GameObject user1Seat, user2Seat;
+
+    [Header("Global Position Info")]
+    public Vector3 userForward, userRight;
+    public Vector3 userPosition;
+    public Vector3 performerPosition;
+
+    [Header("Robot References")]
+    public GameObject waitorRobot;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (user1Seat == null || user2Seat == null){
+            user1Seat = GameObject.Find("COUCH");
+            user2Seat = GameObject.Find("BED");
+            if (user1Seat != null && user2Seat != null){
+                FindGlobalPositionInfo();
+            }
+        }
+    }
+
+    void FindGlobalPositionInfo(){
+        userPosition = new Vector3(user1Seat.transform.position.x, 0, user1Seat.transform.position.z);
+        performerPosition = new Vector3(user2Seat.transform.position.x, 0, user2Seat.transform.position.z);
+
+        userForward = user2Seat.transform.position - user1Seat.transform.position;
+        userForward = new Vector3(userForward.x, 0, userForward.z).normalized;
+        userRight = new Vector3(userForward.z, 0, -userForward.x);
+
+        // set robots' initial positions
+        // waitor robot: 5 right + 3 forward
+        waitorRobot.transform.position = userPosition + userRight * 5f + userForward * 3f;
+    }
+}

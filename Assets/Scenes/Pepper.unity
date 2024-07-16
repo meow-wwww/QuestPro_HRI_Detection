@@ -738,7 +738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger13
+  jointName: LFinger12_link_LFinger13_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &54359162
@@ -823,7 +823,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &54359164
 MonoBehaviour:
@@ -896,7 +896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: base_link_fixedjoint
+  jointName: base_link_torso_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &62173058
@@ -980,8 +980,8 @@ ArticulationBody:
     m_Bits: 0
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
-  m_Immovable: 0
-  m_UseGravity: 1
+  m_Immovable: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &62173060
 MonoBehaviour:
@@ -1575,7 +1575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger41
+  jointName: l_wrist_LFinger41_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &154259023
@@ -1660,7 +1660,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &154259025
 MonoBehaviour:
@@ -1725,7 +1725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: CameraTop_sensor_fixedjoint
+  jointName: Head_CameraTop_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &156389454
@@ -1738,7 +1738,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: 0, y: 0.16284001, z: 0.08601}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -1792,7 +1792,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &156389455
 MonoBehaviour:
@@ -3434,7 +3434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &176387036
 Transform:
   m_ObjectHideFlags: 0
@@ -3521,7 +3521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LWristYaw
+  jointName: LForeArm_l_wrist_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &182427939
@@ -3606,7 +3606,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &182427941
 MonoBehaviour:
@@ -3670,7 +3670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Bumper/FrontRight_sensor_fixedjoint
+  jointName: Tibia_BumperFR_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &184697880
@@ -3683,8 +3683,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0.227, y: -0.264, z: 0.129}
+  m_ParentAnchorRotation: {x: 0.1711222, y: 0.1711222, z: 0.6860884, w: 0.6860884}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -3737,7 +3737,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &184697881
 MonoBehaviour:
@@ -3984,7 +3984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: CameraBottom_optical_frame_fixedjoint
+  jointName: CameraBottom_frame_CameraBottom_optical_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &208812646
@@ -3998,7 +3998,7 @@ ArticulationBody:
   serializedVersion: 5
   m_Mass: 1
   m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorRotation: {x: 0.7071068, y: 0.000000029802322, z: 0.7071068, w: 0.000000029802322}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -4051,7 +4051,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &208812647
 MonoBehaviour:
@@ -4495,7 +4495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: HipRoll
+  jointName: torso_Hip_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &246272395
@@ -4580,7 +4580,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &246272397
 MonoBehaviour:
@@ -4761,7 +4761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger31
+  jointName: r_wrist_RFinger31_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &250519534
@@ -4846,7 +4846,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &250519536
 MonoBehaviour:
@@ -5426,7 +5426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Bumper/FrontLeft_sensor_fixedjoint
+  jointName: Tibia_BumperFL_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &291339918
@@ -5439,8 +5439,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: -0.227, y: -0.264, z: 0.129}
+  m_ParentAnchorRotation: {x: -0.1711222, y: -0.1711222, z: 0.6860884, w: 0.6860884}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -5493,7 +5493,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &291339919
 MonoBehaviour:
@@ -5747,7 +5747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: SpeakerLeft_sensor_fixedjoint
+  jointName: Head_LSpeaker_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &314607022
@@ -5814,7 +5814,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &314607023
 MonoBehaviour:
@@ -6481,7 +6481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger42
+  jointName: LFinger41_link_LFinger42_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &377824582
@@ -6566,7 +6566,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &377824584
 MonoBehaviour:
@@ -8987,7 +8987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RThumb1
+  jointName: r_wrist_RThumb1_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &439047376
@@ -9072,7 +9072,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &439047378
 MonoBehaviour:
@@ -9182,7 +9182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger33
+  jointName: RFinger32_link_RFinger33_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &446705418
@@ -9267,7 +9267,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &446705420
 MonoBehaviour:
@@ -9543,7 +9543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger32
+  jointName: RFinger31_link_RFinger32_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &489614292
@@ -9628,7 +9628,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &489614294
 MonoBehaviour:
@@ -10230,7 +10230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LThumb1
+  jointName: l_wrist_LThumb1_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &558842325
@@ -10315,7 +10315,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &558842327
 MonoBehaviour:
@@ -10380,7 +10380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RThumb2
+  jointName: RThumb1_link_RThumb2_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &558928222
@@ -10465,7 +10465,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &558928224
 MonoBehaviour:
@@ -10649,7 +10649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LaserSensor/Left_sensor_fixedjoint
+  jointName: Tibia_SurroundingLeftLaser_device_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &561086068
@@ -10662,8 +10662,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: -0.0899, y: -0.07590002, z: -0.018}
+  m_ParentAnchorRotation: {x: -0.40558082, y: -0.57922876, z: 0.5792273, w: 0.4055787}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -10716,7 +10716,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &561086069
 MonoBehaviour:
@@ -10781,7 +10781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger13
+  jointName: RFinger12_link_RFinger13_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &582698219
@@ -10866,7 +10866,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &582698221
 MonoBehaviour:
@@ -10930,7 +10930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LaserSensor/Right_sensor_fixedjoint
+  jointName: Tibia_SurroundingRightLaser_device_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &585564851
@@ -10943,8 +10943,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0.0899, y: -0.07590002, z: -0.018}
+  m_ParentAnchorRotation: {x: 0.57922876, y: 0.40558082, z: 0.4055787, w: 0.5792273}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -10997,7 +10997,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &585564852
 MonoBehaviour:
@@ -11063,7 +11063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LElbowRoll
+  jointName: LElbow_LForeArm_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &593243503
@@ -11148,7 +11148,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &593243505
 MonoBehaviour:
@@ -11214,7 +11214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RElbowYaw
+  jointName: RBicep_RElbow_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &595887096
@@ -11299,7 +11299,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &595887098
 MonoBehaviour:
@@ -11549,6 +11549,10 @@ PrefabInstance:
     - target: {fileID: 199877367272806528, guid: cf682cca79c5c0642ac12d1c57ae0e29, type: 3}
       propertyPath: m_Name
       value: Torso_0.10
+      objectReference: {fileID: 0}
+    - target: {fileID: 199877367272806528, guid: cf682cca79c5c0642ac12d1c57ae0e29, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6043331857303789642, guid: cf682cca79c5c0642ac12d1c57ae0e29, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12042,7 +12046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: CameraTop_optical_frame_fixedjoint
+  jointName: CameraTop_frame_CameraTop_optical_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &658854554
@@ -12056,7 +12060,7 @@ ArticulationBody:
   serializedVersion: 5
   m_Mass: 1
   m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorRotation: {x: 0.7071068, y: 0, z: 0.7071068, w: 0}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -12109,7 +12113,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &658854555
 MonoBehaviour:
@@ -12243,7 +12247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Sonar/Front_sensor_fixedjoint
+  jointName: Tibia_SonarFront_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &686042823
@@ -12256,8 +12260,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: -0.10229999, z: 0.0699}
+  m_ParentAnchorRotation: {x: -0.11365243, y: 0.11365243, z: 0.69791347, w: 0.69791347}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -12310,7 +12314,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &686042824
 MonoBehaviour:
@@ -12464,7 +12468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LHand/Touch/Back_sensor_fixedjoint
+  jointName: l_wrist_LHandTouchBack_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &695698746
@@ -12477,8 +12481,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: 0.0304, z: 0.052299984}
+  m_ParentAnchorRotation: {x: -0.0000021755695, y: 0.70710564, z: 0.70710814, w: 0.0000021755695}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -12531,7 +12535,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &695698747
 MonoBehaviour:
@@ -12684,7 +12688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: ChestBoard/Button_sensor_fixedjoint
+  jointName: torso_ChestButton_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &702259586
@@ -12697,7 +12701,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: -0.001588, y: 0.055163, z: 0.049871}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -12751,7 +12755,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &702259587
 MonoBehaviour:
@@ -12817,7 +12821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger12
+  jointName: LFinger11_link_LFinger12_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &706649264
@@ -12902,7 +12906,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &706649266
 MonoBehaviour:
@@ -12968,7 +12972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RShoulderRoll
+  jointName: RShoulder_RBicep_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &707252180
@@ -13053,7 +13057,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &707252182
 MonoBehaviour:
@@ -13263,7 +13267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger22
+  jointName: RFinger21_link_RFinger22_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &721923763
@@ -13348,7 +13352,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &721923765
 MonoBehaviour:
@@ -14276,7 +14280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LThumb2
+  jointName: LThumb1_link_LThumb2_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &815250615
@@ -14361,7 +14365,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &815250617
 MonoBehaviour:
@@ -14917,7 +14921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Gyrometer_sensor_fixedjoint
+  jointName: torso_ImuTorsoGyrometer_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &841567585
@@ -14930,7 +14934,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: 0.03491, y: -0.00959, z: 0.00204}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -14984,7 +14988,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &841567586
 MonoBehaviour:
@@ -15126,7 +15130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RWristYaw
+  jointName: RForeArm_r_wrist_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &850050663
@@ -15211,7 +15215,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &850050665
 MonoBehaviour:
@@ -15643,7 +15647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger21
+  jointName: l_wrist_LFinger21_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &922025267
@@ -15728,7 +15732,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &922025269
 MonoBehaviour:
@@ -16279,7 +16283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Sonar/Back_sensor_fixedjoint
+  jointName: Tibia_SonarBack_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &942610130
@@ -16292,8 +16296,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: -0.05339998, z: -0.0718}
+  m_ParentAnchorRotation: {x: 0.70323324, y: 0.70323336, z: 0.07391315, w: -0.07391136}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -16346,7 +16350,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &942610131
 MonoBehaviour:
@@ -17197,7 +17201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RShoulderPitch
+  jointName: torso_RShoulder_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1001410828
@@ -17282,7 +17286,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1001410830
 MonoBehaviour:
@@ -17623,7 +17627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RElbowRoll
+  jointName: RElbow_RForeArm_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1008999225
@@ -17708,7 +17712,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1008999227
 MonoBehaviour:
@@ -17774,7 +17778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger11
+  jointName: l_wrist_LFinger11_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1013551629
@@ -17859,7 +17863,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1013551631
 MonoBehaviour:
@@ -18149,7 +18153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: CameraBottom_sensor_fixedjoint
+  jointName: Head_CameraBottom_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1053146618
@@ -18162,8 +18166,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: 0.061769992, z: 0.09262}
+  m_ParentAnchorRotation: {x: 0.24184488, y: -0.24184488, z: 0.66446304, w: 0.66446304}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -18216,7 +18220,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1053146619
 MonoBehaviour:
@@ -22282,7 +22286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LaserSensor/Right_projected_sensor_fixedjoint
+  jointName: Tibia_SurroundingRightLaser_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1072247529
@@ -22295,8 +22299,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0.0899, y: -0.334, z: -0.018}
+  m_ParentAnchorRotation: {x: 0.5443815, y: 0.5443815, z: 0.4512747, w: 0.4512747}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -22349,7 +22353,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1072247530
 MonoBehaviour:
@@ -22910,7 +22914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger33
+  jointName: LFinger32_link_LFinger33_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1154003203
@@ -22995,7 +22999,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1154003205
 MonoBehaviour:
@@ -23059,7 +23063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Head/Touch/Middle_sensor_fixedjoint
+  jointName: Head_HeadTouchMiddle_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1162329367
@@ -23072,8 +23076,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: 0.2159, z: 0.0040999986}
+  m_ParentAnchorRotation: {x: -0.012340721, y: 0.012340721, z: 0.7069991, w: 0.7069991}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -23126,7 +23130,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1162329368
 MonoBehaviour:
@@ -23190,7 +23194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Head/Touch/Rear_sensor_fixedjoint
+  jointName: Head_HeadTouchRear_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1169878355
@@ -23203,8 +23207,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: 0.21052, z: -0.03376}
+  m_ParentAnchorRotation: {x: -0.11061579, y: 0.11061579, z: 0.6984012, w: 0.6984012}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -23257,7 +23261,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1169878356
 MonoBehaviour:
@@ -23407,6 +23411,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9090ae501ff9cd459bec5271d40249c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1193451116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1193451117}
+  - component: {fileID: 1193451118}
+  m_Layer: 0
+  m_Name: PepperController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1193451117
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193451116}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1326791774}
+  - {fileID: 2012515178}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1193451118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193451116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87cf7222bb7ea8b41a9dbd13d386ceb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Pepper: {fileID: 2109255709}
+  headYawDriveTarget: 0
+  headPitchDriveTarget: 0
 --- !u!1001 &1199127247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28204,7 +28257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: HipPitch
+  jointName: Hip_Pelvis_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1266314281
@@ -28289,7 +28342,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1266314283
 MonoBehaviour:
@@ -28763,7 +28816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger23
+  jointName: LFinger22_link_LFinger23_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1303189010
@@ -28848,7 +28901,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1303189012
 MonoBehaviour:
@@ -29117,7 +29170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: CameraDepth_optical_frame_fixedjoint
+  jointName: CameraDepth_frame_CameraDepth_optical_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1308397168
@@ -29131,7 +29184,7 @@ ArticulationBody:
   serializedVersion: 5
   m_Mass: 1
   m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorRotation: {x: 0.7071068, y: 0, z: 0.7071068, w: 0}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -29184,7 +29237,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1308397169
 MonoBehaviour:
@@ -29244,6 +29297,111 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9090ae501ff9cd459bec5271d40249c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1326791770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1326791774}
+  - component: {fileID: 1326791773}
+  - component: {fileID: 1326791772}
+  - component: {fileID: 1326791771}
+  m_Layer: 0
+  m_Name: LSphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!135 &1326791771
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326791770}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1326791772
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326791770}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 6f667d359fcf0ff4c844d5204697a6d9, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1326791773
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326791770}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1326791774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326791770}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.1615, y: 0.113, z: 0.3121}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1193451117}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1331584062
 GameObject:
   m_ObjectHideFlags: 8
@@ -29338,7 +29496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LaserSensor/Shovel_sensor_fixedjoint
+  jointName: Tibia_ShovelLaser_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1333804666
@@ -29351,8 +29509,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: -0.06919998, z: 0.0562}
+  m_ParentAnchorRotation: {x: 0.12278788, y: -0.12278788, z: 0.6963643, w: 0.6963643}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -29405,7 +29563,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1333804667
 MonoBehaviour:
@@ -29516,7 +29674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger32
+  jointName: LFinger31_link_LFinger32_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1355924012
@@ -29601,7 +29759,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1355924014
 MonoBehaviour:
@@ -29666,7 +29824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger23
+  jointName: RFinger22_link_RFinger23_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1360287634
@@ -29751,7 +29909,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1360287636
 MonoBehaviour:
@@ -30048,7 +30206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: WheelB
+  jointName: Tibia_WheelB_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1377295688
@@ -30133,7 +30291,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1377295690
 MonoBehaviour:
@@ -30243,7 +30401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LaserSensor/VerticalLeft_sensor_fixedjoint
+  jointName: Tibia_VerticalLeftLaser_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1386209431
@@ -30256,8 +30414,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: -0.06919998, z: 0.0562}
+  m_ParentAnchorRotation: {x: 0.12278788, y: -0.12278788, z: 0.6963643, w: 0.6963643}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -30310,7 +30468,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1386209432
 MonoBehaviour:
@@ -30864,7 +31022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: KneePitch
+  jointName: Pelvis_Tibia_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1443940926
@@ -30949,7 +31107,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1443940928
 MonoBehaviour:
@@ -31102,7 +31260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: SpeakerRight_sensor_fixedjoint
+  jointName: Head_RSpeaker_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1453583774
@@ -31169,7 +31327,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1453583775
 MonoBehaviour:
@@ -31817,7 +31975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RHand
+  jointName: r_wrist_r_gripper_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1490721975
@@ -31902,7 +32060,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1490721977
 MonoBehaviour:
@@ -35541,7 +35699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LaserSensor/Front_projected_sensor_fixedjoint
+  jointName: Tibia_SurroundingFrontLaser_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1526640832
@@ -35554,7 +35712,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: 0, y: -0.334, z: 0.0562}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -35608,7 +35766,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1526640833
 MonoBehaviour:
@@ -35672,7 +35830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: base_footprint_joint
+  jointName: Tibia_base_footprint_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1527488851
@@ -35685,7 +35843,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: 0, y: -0.334, z: 0}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -35739,7 +35897,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1527488852
 MonoBehaviour:
@@ -35894,7 +36052,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger42
+  jointName: RFinger41_link_RFinger42_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1541640572
@@ -35979,7 +36137,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1541640574
 MonoBehaviour:
@@ -36311,7 +36469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Tablet_sensor_fixedjoint
+  jointName: torso_Tablet_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1578299506
@@ -36324,8 +36482,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: 0.06251, z: 0.0839249}
+  m_ParentAnchorRotation: {x: -0.1830128, y: 0.1830128, z: 0.6830127, w: 0.6830127}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -36378,7 +36536,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1578299507
 MonoBehaviour:
@@ -36489,7 +36647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger31
+  jointName: l_wrist_LFinger31_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1582750786
@@ -36574,7 +36732,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1582750788
 MonoBehaviour:
@@ -36752,7 +36910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RHand/Touch/Back_sensor_fixedjoint
+  jointName: r_wrist_RHandTouchBack_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1606406890
@@ -36765,8 +36923,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: 0.0304, z: 0.052299984}
+  m_ParentAnchorRotation: {x: -0.0000021755695, y: 0.70710564, z: 0.70710814, w: 0.0000021755695}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -36819,7 +36977,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1606406891
 MonoBehaviour:
@@ -37114,7 +37272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LaserSensor/Left_projected_sensor_fixedjoint
+  jointName: Tibia_SurroundingLeftLaser_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1622706563
@@ -37127,8 +37285,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: -0.0899, y: -0.334, z: -0.018}
+  m_ParentAnchorRotation: {x: -0.5443815, y: -0.5443815, z: 0.4512747, w: 0.4512747}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -37181,7 +37339,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1622706564
 MonoBehaviour:
@@ -37246,7 +37404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LHand
+  jointName: l_wrist_l_gripper_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1624745178
@@ -37331,7 +37489,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1624745180
 MonoBehaviour:
@@ -37957,7 +38115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LShoulderPitch
+  jointName: torso_LShoulder_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1689347344
@@ -38042,7 +38200,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1689347346
 MonoBehaviour:
@@ -38151,7 +38309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LaserSensor/VerticalRight_sensor_fixedjoint
+  jointName: Tibia_VerticalRightLaser_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1689953147
@@ -38164,8 +38322,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: -0.06919998, z: 0.0562}
+  m_ParentAnchorRotation: {x: 0.12278788, y: -0.12278788, z: 0.6963643, w: 0.6963643}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -38218,7 +38376,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1689953148
 MonoBehaviour:
@@ -38417,7 +38575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Head/Touch/Front_sensor_fixedjoint
+  jointName: Head_HeadTouchFront_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1704589291
@@ -38430,8 +38588,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: 0.21267, z: 0.028175}
+  m_ParentAnchorRotation: {x: 0.07391296, y: -0.07391296, z: 0.70323324, w: 0.70323324}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -38484,7 +38642,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1704589292
 MonoBehaviour:
@@ -39064,7 +39222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LElbowYaw
+  jointName: LBicep_LElbow_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1743237863
@@ -39149,7 +39307,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1743237865
 MonoBehaviour:
@@ -39214,7 +39372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger43
+  jointName: LFinger42_link_LFinger43_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1745367461
@@ -39299,7 +39457,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1745367463
 MonoBehaviour:
@@ -40074,7 +40232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger41
+  jointName: r_wrist_RFinger41_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1791958104
@@ -40159,7 +40317,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1791958106
 MonoBehaviour:
@@ -40626,7 +40784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LShoulderRoll
+  jointName: LShoulder_LBicep_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1825783175
@@ -40711,7 +40869,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1825783177
 MonoBehaviour:
@@ -41036,7 +41194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: AccelerometerBase_sensor_fixedjoint
+  jointName: Tibia_ImuBaseAccelerometer_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1837637321
@@ -41049,7 +41207,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: 0.0017, y: -0.26318997, z: 0.0147}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -41103,7 +41261,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1837637322
 MonoBehaviour:
@@ -41213,7 +41371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger12
+  jointName: RFinger11_link_RFinger12_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1840456655
@@ -41298,7 +41456,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1840456657
 MonoBehaviour:
@@ -41407,7 +41565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger43
+  jointName: RFinger42_link_RFinger43_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1850020426
@@ -41492,7 +41650,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1850020428
 MonoBehaviour:
@@ -42184,7 +42342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: CameraDepth_sensor_fixedjoint
+  jointName: Head_CameraDepth_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1901660357
@@ -42197,7 +42355,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: -0.039, y: 0.119399995, z: 0.05138}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -42251,7 +42409,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1901660358
 MonoBehaviour:
@@ -42317,7 +42475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LFinger22
+  jointName: LFinger21_link_LFinger22_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1902695965
@@ -42402,7 +42560,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1902695967
 MonoBehaviour:
@@ -43051,7 +43209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Bumper/Back_sensor_fixedjoint
+  jointName: Tibia_BumperB_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1967537312
@@ -43064,8 +43222,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: -0.264, z: -0.251}
+  m_ParentAnchorRotation: {x: 0.7071068, y: 0.7071068, z: 0.00000089632215, w: 0.00000089632215}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -43118,7 +43276,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1967537313
 MonoBehaviour:
@@ -43228,7 +43386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: LaserSensor/Front_sensor_fixedjoint
+  jointName: Tibia_SurroundingFrontLaser_device_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &1970755877
@@ -43241,8 +43399,8 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
-  m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_ParentAnchorPosition: {x: 0, y: -0.06919998, z: 0.0562}
+  m_ParentAnchorRotation: {x: 0.12278788, y: -0.12278788, z: 0.6963643, w: 0.6963643}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_MatchAnchors: 1
@@ -43295,7 +43453,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1970755878
 MonoBehaviour:
@@ -43492,7 +43650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger11
+  jointName: r_wrist_RFinger11_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &1977150760
@@ -43577,7 +43735,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &1977150762
 MonoBehaviour:
@@ -43780,7 +43938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: WheelFR
+  jointName: Tibia_WheelFR_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &2000656676
@@ -43865,7 +44023,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &2000656678
 MonoBehaviour:
@@ -43926,6 +44084,111 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   geometryType: 3
+--- !u!1 &2012515174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2012515178}
+  - component: {fileID: 2012515177}
+  - component: {fileID: 2012515176}
+  - component: {fileID: 2012515175}
+  m_Layer: 0
+  m_Name: RSphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!135 &2012515175
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012515174}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &2012515176
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012515174}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 6f667d359fcf0ff4c844d5204697a6d9, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &2012515177
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012515174}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2012515178
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012515174}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.162, y: 0.113, z: 0.3121}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1193451117}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2014432079
 GameObject:
   m_ObjectHideFlags: 0
@@ -43977,7 +44240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: HeadYaw
+  jointName: torso_Neck_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &2014432082
@@ -44062,7 +44325,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &2014432084
 MonoBehaviour:
@@ -44318,7 +44581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: HeadPitch
+  jointName: Neck_Head_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &2039640881
@@ -44403,7 +44666,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &2039640883
 MonoBehaviour:
@@ -44847,7 +45110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: RFinger21
+  jointName: r_wrist_RFinger21_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &2071912737
@@ -44932,7 +45195,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &2071912739
 MonoBehaviour:
@@ -45132,7 +45395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: WheelFL
+  jointName: Tibia_WheelFL_link_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!114 &2091929508
@@ -45217,7 +45480,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &2091929510
 MonoBehaviour:
@@ -45357,7 +45620,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2109255712}
   - component: {fileID: 2109255711}
-  - component: {fileID: 2109255710}
+  - component: {fileID: 2109255713}
   m_Layer: 0
   m_Name: JulietteY20MP
   m_TagString: robot
@@ -45365,28 +45628,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2109255710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2109255709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d607ea46a579d44c4b19a6322ce4b9b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedJoint: 
-  selectedIndex: 0
-  control: 0
-  stiffness: 0
-  damping: 0
-  forceLimit: 0
-  speed: 5
-  torque: 100
-  acceleration: 5
-  highLightColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2109255711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45420,6 +45661,28 @@ Transform:
   - {fileID: 799881210}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2109255713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109255709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d607ea46a579d44c4b19a6322ce4b9b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedJoint: 
+  selectedIndex: 0
+  control: 0
+  stiffness: 10000
+  damping: 1000
+  forceLimit: 100
+  speed: 20
+  torque: 100
+  acceleration: 5
+  highLightColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &2116215005
 GameObject:
   m_ObjectHideFlags: 0
@@ -45469,7 +45732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xAxis: 0
-  jointName: Accelerometer_sensor_fixedjoint
+  jointName: torso_ImuTorsoAccelerometer_frame_joint
   EffortLimit: 1000
   VelocityLimit: 1000
 --- !u!171741748 &2116215008
@@ -45482,7 +45745,7 @@ ArticulationBody:
   m_Enabled: 1
   serializedVersion: 5
   m_Mass: 1
-  m_ParentAnchorPosition: {x: 0, y: 0, z: 0}
+  m_ParentAnchorPosition: {x: 0.03575, y: 0.00626, z: 0.00239}
   m_ParentAnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_AnchorPosition: {x: 0, y: 0, z: 0}
   m_AnchorRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
@@ -45536,7 +45799,7 @@ ArticulationBody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_Immovable: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_CollisionDetectionMode: 0
 --- !u!114 &2116215009
 MonoBehaviour:
@@ -46202,3 +46465,4 @@ SceneRoots:
   - {fileID: 1980743278}
   - {fileID: 904716009}
   - {fileID: 2109255712}
+  - {fileID: 1193451117}

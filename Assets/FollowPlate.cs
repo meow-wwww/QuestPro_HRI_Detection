@@ -6,33 +6,31 @@ public class FollowPlate : MonoBehaviour
 {
     public GameObject plate;
     bool followPlate = false;
-    Vector3 deltaPosition;
-    Quaternion deltaRotation;
+    Vector3 drinkOriginGlobalScale;
+    
     // Start is called before the first frame update
     void Start()
     {
-        // plate = GameObject.Find("plate_middle");
+        drinkOriginGlobalScale = gameObject.transform.localScale;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (followPlate) {
-            gameObject.transform.position = plate.transform.position + deltaPosition;
-            // rotate with plate
-            gameObject.transform.rotation = plate.transform.rotation * deltaRotation;
-        }
+        
     }
-
-    // void SetFollowPlateWrapper(){
-    //     SetFollowPlate(true);
-    // }
 
     public void SetFollowPlate(bool state){
         followPlate = state;
         if (state == true){
-            deltaPosition = plate.transform.position - gameObject.transform.position;
-            deltaRotation = plate.transform.rotation * Quaternion.Inverse(gameObject.transform.rotation);
+            // Vector3 drinkOriginGlobalScale = gameObject.transform.lossyScale;
+            gameObject.transform.parent = plate.transform;
+            // Vector3 parentGlobalScale = plate.transform.lossyScale;
+            // gameObject.transform.localScale = new Vector3(drinkOriginGlobalScale.x / parentGlobalScale.x, drinkOriginGlobalScale.y / parentGlobalScale.y, drinkOriginGlobalScale.z / parentGlobalScale.z);
+        }
+        else{
+            gameObject.transform.parent = null;
+            // gameObject.transform.localScale = drinkOriginGlobalScale;
         }
     }
 }

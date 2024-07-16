@@ -19,17 +19,24 @@ public class AudioPlayer : MonoBehaviour
         
     }
 
-    public void PlayAudio(String audioClipName)
+    public void PlayAudio(String audioClipName, bool loop = false)
     {
         AudioClip audioClip = Resources.Load<AudioClip>(audioClipName);
         audioSource.clip = audioClip;
         if (audioSource != null && audioSource.clip != null)
         {
+            if (loop)
+                audioSource.loop = true;
             audioSource.Play();
         }
         else
         {
             Debug.LogWarning("AudioSource or AudioClip not set");
         }
+    }
+
+    public void StopAudio()
+    {
+        audioSource.Stop();
     }
 }

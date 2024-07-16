@@ -6,6 +6,7 @@ public class ExecuteMovement : MonoBehaviour
 {
     RoutePlanning routePlanner;
     Rigidbody rigidbody;
+    // GameObject table;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,15 +17,17 @@ public class ExecuteMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // if (table == null){
+        //     table = GameObject.Find("TABLE");
+        // }
     }
 
-    public void PlanAndMoveTo(Vector3 destination, float moveSpeed, float rotateSpeed, bool turnLeftAtLast=false)
+    public void PlanAndMoveTo(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3))
     {
-        StartCoroutine(PlanAndMoveTo_Coroutine(destination, moveSpeed, rotateSpeed, turnLeftAtLast));
+        StartCoroutine(PlanAndMoveTo_Coroutine(destination, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
     }
 
-    private IEnumerator PlanAndMoveTo_Coroutine(Vector3 destination, float moveSpeed, float rotateSpeed, bool turnLeftAtLast)
+    private IEnumerator PlanAndMoveTo_Coroutine(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
     {
         // first plan the route
         // then move there
@@ -41,38 +44,37 @@ public class ExecuteMovement : MonoBehaviour
         {
             routePlanner.RenderPath(lr, foundPath);
         }
-        if (turnLeftAtLast){
-            Vector3 lastPoint = foundPath[foundPath.Count - 1];
-            Vector3 direction = foundPath[foundPath.Count - 1] - foundPath[foundPath.Count - 2];
-            Vector3 direction_turn_left = new Vector3(-direction.z, direction.y, direction.x);
-            Vector3 newPoint = lastPoint + direction_turn_left.normalized * 0.01f;
-            foundPath.Add(newPoint);
-        }
-        MoveAlongPath(foundPath, moveSpeed, rotateSpeed);
-        yield return null;
+        
+        yield return MoveAlongPath_Coroutine(foundPath, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards); 
+        // it will wait for the coroutine to finish
+        
     }
 
-    public void MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed)
+    public void MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false)
     {
         // move gameObject to target position
         // moveSpeed: length per second
         // rotateSpeed: degrees per second
-        StartCoroutine(MoveAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed));
+        if (loop)
+            StartCoroutine(MoveAlongPath_Loop_Coroutine(targetList, moveSpeed, rotateSpeed));
+        else
+            StartCoroutine(MoveAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
         Debug.Log("Coroutine started");
     }
 
-    private IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed)
-    {
+    private IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
+    { 
+        // start to play the movement sound effect just before moving
+        AudioPlayer audioPlayer = gameObject.GetComponent<AudioPlayer>();
+        audioPlayer.PlayAudio("Audio/Movement", true);
+
+        Debug.Log("MoveAlongPath_Coroutine started, initial position:" + gameObject.transform.position);
         foreach (Vector3 target in targetList)
         {
+            Debug.Log("Next point is: " + target);
             // first rotate to face target
             while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
             {
-                // Debug.Log("Rotating ... ...");
-                // Vector3 direction = (target - transform.position).normalized;
-                // Vector3 newDirection = Vector3.RotateTowards(transform.forward, direction, rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 0.0f);
-                // transform.rotation = Quaternion.LookRotation(newDirection);
-
                 // ensure that the rotation degree is less than 180
                 Quaternion targetRotation = Quaternion.LookRotation((target - transform.position).normalized);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
@@ -83,14 +85,66 @@ public class ExecuteMovement : MonoBehaviour
             // then move to target position
             while (Vector3.Distance(transform.position, target) > 0.01f)
             {
-                // Debug.Log("Moving ... ...");
                 Vector3 direction = (target - transform.position).normalized;
                 float step = moveSpeed * Time.deltaTime;
-                // transform.position = Vector3.MoveTowards(transform.position, target, step);
-                rigidbody.MovePosition(transform.position + direction * step);
+                transform.position = Vector3.MoveTowards(transform.position, target, step);
+
+                // rigid body 写法
+                // rigidbody.MovePosition(transform.position + direction * step);
                 yield return null;
             }
         }
+        if (finalRotate){
+            // Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
+            while (Vector3.Angle(transform.forward, finalFaceTowards - transform.position) > 1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(finalFaceTowards - transform.position);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                yield return null;
+            }
+        }
+        audioPlayer.StopAudio();
     }
 
+    public bool loopInterrupted;
+
+    private IEnumerator MoveAlongPath_Loop_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed)
+    {
+        // start to play the movement sound effect just before moving
+        AudioPlayer audioPlayer = gameObject.GetComponent<AudioPlayer>();
+        audioPlayer.PlayAudio("Audio/Movement", true);
+
+        loopInterrupted = false;
+        while(true){
+            foreach (Vector3 target in targetList) // for our 'next point'
+            {
+                if (loopInterrupted){
+                    audioPlayer.StopAudio();
+                    yield break;
+                }
+                Debug.Log("Next point is: " + target);
+                // first rotate to face target
+                while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
+                {
+                    // ensure that the rotation degree is less than 180
+                    Quaternion targetRotation = Quaternion.LookRotation((target - transform.position).normalized);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                    
+                    yield return null;
+                }
+
+                // then move to target position
+                while (Vector3.Distance(transform.position, target) > 0.01f)
+                {
+                    Vector3 direction = (target - transform.position).normalized;
+                    float step = moveSpeed * Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(transform.position, target, step);
+
+                    // rigid body 写法
+                    // rigidbody.MovePosition(transform.position + direction * step);
+                    yield return null;
+                }
+            }
+        }
+    }
 }
