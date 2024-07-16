@@ -44,7 +44,6 @@ public class ExecuteMovement : MonoBehaviour
         
         yield return MoveAlongPath_Coroutine(foundPath, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards); 
         // it will wait for the coroutine to finish
-        
     }
 
     public void MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false)
@@ -61,14 +60,11 @@ public class ExecuteMovement : MonoBehaviour
 
     private IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
     {
-        // change the expression to 'sleep'
-        gameObject.transform.Find("Body").Find("screen").gameObject.GetComponent<RobotScreenNotification>().SetScreenImage("CatSleep");
-
         // start to play the movement sound effect just before moving
-        AudioPlayer audioPlayer = gameObject.GetComponent<AudioPlayer>();
-        audioPlayer.PlayAudio("Audio/Movement", true);
+        AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
+        movementAudioSource.loop = true;
+        movementAudioSource.Play();
 
-        Debug.Log("MoveAlongPath_Coroutine started, initial position:" + gameObject.transform.position);
         foreach (Vector3 target in targetList)
         {
             Debug.Log("Next point is: " + target);
@@ -83,7 +79,7 @@ public class ExecuteMovement : MonoBehaviour
             }
 
             // then move to target position
-            while (Vector3.Distance(transform.position, target) > 0.01f)
+            while (Vector3.Distance(transform.position, target) > 0.02f)
             {
                 Vector3 direction = (target - transform.position).normalized;
                 float step = moveSpeed * Time.deltaTime;
@@ -103,19 +99,17 @@ public class ExecuteMovement : MonoBehaviour
                 yield return null;
             }
         }
-        audioPlayer.StopAudio();
+        movementAudioSource.Stop();
     }
 
     public bool loopInterrupted;
 
     private IEnumerator MoveAlongPath_Loop_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed)
     {
-        // change the expression to 'sleep'
-        gameObject.transform.Find("Body").Find("screen").gameObject.GetComponent<RobotScreenNotification>().SetScreenImage("CatSleep");
-
         // start to play the movement sound effect just before moving
-        AudioPlayer audioPlayer = gameObject.GetComponent<AudioPlayer>();
-        audioPlayer.PlayAudio("Audio/Movement", true);
+        AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
+        movementAudioSource.loop = true;
+        movementAudioSource.Play();
 
         loopInterrupted = false;
         while(true){
@@ -126,7 +120,7 @@ public class ExecuteMovement : MonoBehaviour
                 while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
                 {
                     if (loopInterrupted){
-                        audioPlayer.StopAudio();
+                        movementAudioSource.Stop();
                         yield break;
                     }
                     // ensure that the rotation degree is less than 180
@@ -137,10 +131,10 @@ public class ExecuteMovement : MonoBehaviour
                 }
 
                 // then move to target position
-                while (Vector3.Distance(transform.position, target) > 0.01f)
+                while (Vector3.Distance(transform.position, target) > 0.02f)
                 {
                     if (loopInterrupted){
-                        audioPlayer.StopAudio();
+                        movementAudioSource.Stop();
                         yield break;
                     }
                     Vector3 direction = (target - transform.position).normalized;
@@ -151,6 +145,63 @@ public class ExecuteMovement : MonoBehaviour
                     // rigidbody.MovePosition(transform.position + direction * step);
                     yield return null;
                 }
+            }
+        }
+    }
+
+    public void FlyAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3))
+    {
+        StartCoroutine(FlyAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
+    }
+
+    public float flightHeight = 2f;
+
+    private IEnumerator FlyAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
+    {
+        // start to play the movement sound effect just before moving
+
+        foreach (Vector3 target in targetList)
+        {
+            // first lift up to the flight height
+            Vector3 robotInFlightHeight = new Vector3(transform.position.x, flightHeight, transform.position.z);
+            while (Vector3.Distance(transform.position, robotInFlightHeight) > 0.05f)
+            {
+                Debug.Log("+++++++" + Vector3.Distance(transform.position, robotInFlightHeight));
+                Vector3 direction = new Vector3(0, 1, 0);
+                transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
+                yield return null;
+            }
+            Vector3 targetInFlightHeight = new Vector3(target.x, flightHeight, target.z);
+            // then rotate to face target
+            while (Vector3.Angle(transform.forward, targetInFlightHeight - transform.position) > 1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation((targetInFlightHeight - transform.position).normalized);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                yield return null;
+            }
+            // then fly to target position (keep the flight height)
+            while (Vector3.Distance(transform.position, targetInFlightHeight) > 0.02f)
+            {
+                Vector3 direction = (targetInFlightHeight - transform.position).normalized;
+                transform.position = Vector3.MoveTowards(transform.position, targetInFlightHeight, moveSpeed * Time.deltaTime);
+                yield return null;
+            }
+            // rotate to final face towards (but its y is changed to flightHeight)
+            Vector3 finalFaceTowardsInFlightHeight = new Vector3(finalFaceTowards.x, flightHeight, finalFaceTowards.z);
+            if (finalRotate){
+                while (Vector3.Angle(transform.forward, finalFaceTowardsInFlightHeight - transform.position) > 1f)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(finalFaceTowardsInFlightHeight - transform.position);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                    yield return null;
+                }
+            }
+            // finally lower down to the target position
+            while ((transform.position.y - target.y) > 0.02f)
+            {
+                Vector3 direction = new Vector3(0, -1, 0);
+                transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
+                yield return null;
             }
         }
     }

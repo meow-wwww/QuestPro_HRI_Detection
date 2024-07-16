@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EXPMoveToTable : MonoBehaviour
+public class EXPDroneOperation : MonoBehaviour
 {
     public GameObject table;
     public float moveSpeed = 2f;
-    public float rotateSpeed = 80f;
-    public ObjectPlacementInitialization globalPositionInfo;
+    public float rotateSpeed = 30f;
+    public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
 
 
     public GameObject currentDrink = null;
@@ -39,42 +39,42 @@ public class EXPMoveToTable : MonoBehaviour
     }
 
     public void MoveToTableHalf(){
-        Vector3 targetPositon = (gameObject.transform.position + table.transform.position) / 2f;
-        gameObject.GetComponent<ExecuteMovement>().PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed);
+        Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f;
+        targetPosition = new Vector3(targetPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, targetPosition.z);
+        gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed, rotateSpeed);
     }
 
     public void MoveToTableUser1()
     {
-        Vector3 targetPositon = table.transform.position + 0.75f * globalPositionInfo.userRight - 0.17f * globalPositionInfo.userForward;
-        Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
+        Vector3 targetPosition = table.transform.position + 0f * globalPositionInfo.userRight - 0.1f * globalPositionInfo.userForward;
+        // Vector3 targetLookAtPoint = new Vector3(targetPosition.)
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-        executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, tablePosition2d - 0.17f * globalPositionInfo.userForward);
+        executor.FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed, rotateSpeed, true, targetPosition - 0.1f * globalPositionInfo.userForward);
     }
     public void MoveToTableUser1Dangerous()
     {
-        Vector3 targetPositon = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
+        Vector3 targetPosition = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-        executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, globalPositionInfo.userPosition);
+        executor.FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed, rotateSpeed, true, new Vector3(globalPositionInfo.userPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, globalPositionInfo.userPosition.z));
     }
     // public void AdjustToTableUser1FromDangerous()
     // {
-    //     Vector3 targetPositon = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.3f * globalPositionInfo.userForward;
-    //     // GameObject.Find("TargetDebug").transform.position = targetPositon;
+    //     Vector3 targetPosition = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.3f * globalPositionInfo.userForward;
+    //     // GameObject.Find("TargetDebug").transform.position = targetPosition;
     //     ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-    //     executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true);
+    //     executor.PlanAndMoveTo(targetPosition, moveSpeed, rotateSpeed, true);
     // }
 
     public void MoveToTableUser2()
     {
-        Vector3 targetPositon = table.transform.position + 0.75f * globalPositionInfo.userRight + 0.17f * globalPositionInfo.userForward;
-        Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
+        Vector3 targetPosition = table.transform.position + 0f * globalPositionInfo.userRight + 0.1f * globalPositionInfo.userForward;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-        executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, tablePosition2d + 0.17f * globalPositionInfo.userForward);
+        executor.FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed, rotateSpeed, true, targetPosition + 0.1f * globalPositionInfo.userForward);
     }
 
     public void GoAway(){
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-        executor.MoveAlongPath(new List<Vector3>{new Vector3(globalPositionInfo.robotInitialPosition.x, 0, globalPositionInfo.robotInitialPosition.z)}, moveSpeed, rotateSpeed);
+        executor.FlyAlongPath(new List<Vector3>{new Vector3(globalPositionInfo.robotInitialPosition.x, 0, globalPositionInfo.robotInitialPosition.z)}, moveSpeed, rotateSpeed);
     }
 
     public void WanderAround(){
@@ -86,10 +86,12 @@ public class EXPMoveToTable : MonoBehaviour
             globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.1f + globalPositionInfo.userForward * 0.5f,
             globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 1.9f,
         };
-        executor.MoveAlongPath(wanderPath, moveSpeed, rotateSpeed, false, new Vector3(0,0,0), true);
+        for (int i = 0; i < wanderPath.Count; i++)
+            wanderPath[i] = new Vector3(wanderPath[i].x, gameObject.GetComponent<ExecuteMovement>().flightHeight, wanderPath[i].z);
+        executor.FlyAlongPath(wanderPath, moveSpeed, rotateSpeed, false, new Vector3(0,0,0));
     }
 
     public void StopWandering(){
-        gameObject.GetComponent<ExecuteMovement>().loopInterrupted = true;
+        // gameObject.GetComponent<ExecuteMovement>().loopInterrupted = true;
     }
 }

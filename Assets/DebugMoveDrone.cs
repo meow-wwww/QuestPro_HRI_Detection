@@ -26,6 +26,6 @@ public class DebugMoveDrone : MonoBehaviour
     
 
     void FlyToTarget(){
-        robot.GetComponent<ExecuteMovement>().MoveAlongPath(new List<Vector3>{target.transform.position}, 1f, 3f);
+        robot.GetComponent<ExecuteMovement>().FlyAlongPath(new List<Vector3>{target.transform.position}, 2f, 80f);
     }
 }
