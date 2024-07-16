@@ -27,7 +27,7 @@ public class ObjectPlacementInitialization : MonoBehaviour
             user1Seat = GameObject.Find("COUCH");
             user2Seat = GameObject.Find("BED");
             if (user1Seat != null && user2Seat != null){
-                FindGlobalPositionInfo();
+                FindGlobalPositionInfo(); // only execute once
             }
         }
     }
@@ -43,5 +43,9 @@ public class ObjectPlacementInitialization : MonoBehaviour
         // set robots' initial positions
         // waitor robot: 5 right + 3 forward
         waitorRobot.transform.position = userPosition + userRight * 5f + userForward * 3f;
+        GameObject.Find("Coffee_user1").transform.position = userPosition - userRight * 2f + userForward * 0.2f;
+        GameObject.Find("Coffee_user2").transform.position = userPosition - userRight * 2f;
+        GameObject.Find("Coffee_wrong").transform.position = userPosition - userRight * 2f - userForward * 0.2f;
+    
     }
 }

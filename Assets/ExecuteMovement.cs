@@ -6,8 +6,7 @@ public class ExecuteMovement : MonoBehaviour
 {
     RoutePlanning routePlanner;
     Rigidbody rigidbody;
-    // GameObject table;
-    // Start is called before the first frame update
+    
     void Start()
     {
         routePlanner = GameObject.Find("MRUK").GetComponent<RoutePlanning>();
@@ -17,9 +16,7 @@ public class ExecuteMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (table == null){
-        //     table = GameObject.Find("TABLE");
-        // }
+        
     }
 
     public void PlanAndMoveTo(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3))
@@ -63,7 +60,10 @@ public class ExecuteMovement : MonoBehaviour
     }
 
     private IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
-    { 
+    {
+        // change the expression to 'sleep'
+        gameObject.GetComponent<RobotScreenNotification>().SetScreenImage("CatSleep");
+
         // start to play the movement sound effect just before moving
         AudioPlayer audioPlayer = gameObject.GetComponent<AudioPlayer>();
         audioPlayer.PlayAudio("Audio/Movement", true);

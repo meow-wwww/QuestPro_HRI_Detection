@@ -94,20 +94,19 @@ public class QuestServerBehavior : WebSocketBehavior
         }
         else if (e.Data == "Waiter - Current drink: wrong"){
             MainThreadDispatcher.Enqueue(() => {
-                // GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().currentDrink = GameObject.Find("coffee_plate_wrong");
-                GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().SetCurrentDrink(GameObject.Find("coffee_plate_wrong"));
+                GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().SetCurrentDrink(GameObject.Find("Coffee_wrong"));
                 Send("Received");
             });
         }
         else if (e.Data == "Waiter - Current drink: user1"){
             MainThreadDispatcher.Enqueue(() => {
-                GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().SetCurrentDrink(GameObject.Find("coffee_plate_user1"));
+                GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().SetCurrentDrink(GameObject.Find("Coffee_user1"));
                 Send("Received");
             });
         }
         else if (e.Data == "Waiter - Current drink: user2"){
             MainThreadDispatcher.Enqueue(() => {
-                GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().SetCurrentDrink(GameObject.Find("coffee_plate_user2"));
+                GameObject.Find("WaiterRobot").GetComponent<EXPMoveToTable>().SetCurrentDrink(GameObject.Find("Coffee_user2"));
                 Send("Received");
             });
         }
@@ -125,7 +124,7 @@ public class QuestServerBehavior : WebSocketBehavior
         }
         else if (e.Data == "Coffee - User2 drink up"){
             MainThreadDispatcher.Enqueue(() => {
-                GameObject.Find("coffee_plate_user2").GetComponent<DrinkAction>().DrinkUp();
+                GameObject.Find("Coffee_user2").GetComponent<DrinkAction>().DrinkUp();
                 Send("Received");
             });
         }
@@ -133,9 +132,8 @@ public class QuestServerBehavior : WebSocketBehavior
         else if (e.Data.StartsWith("Waiter - Audio: ")){
             string prefix = "Waiter - Audio: ";
             string audioClipName = e.Data.Substring(prefix.Length);
-            // Debug.Log("Playing audio: " + audioClipName);
             MainThreadDispatcher.Enqueue(() => {
-                GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<AudioPlayer>().PlayAudio("Audio/"+audioClipName);
+                GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SendVoiceRequest(audioClipName);
                 Send("Received");
             });
         }

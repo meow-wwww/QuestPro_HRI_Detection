@@ -17,9 +17,6 @@ public class EXPMoveToTable : MonoBehaviour
     void Start()
     {
         robotInitialPosition = gameObject.transform.position;
-
-        // currentDrink = GameObject.Find("coffee_plate_user2");
-        // currentDrink.GetComponent<FollowPlate>().SetFollowPlate(true);
     }
 
     void Update(){

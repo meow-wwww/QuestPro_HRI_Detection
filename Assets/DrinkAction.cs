@@ -8,7 +8,7 @@ public class DrinkAction : MonoBehaviour
 
     void Start()
     {
-        coffee = transform.Find("coffee").gameObject;
+        coffee = transform.Find("coffee_cup").Find("coffee").gameObject;
     }
 
     public void DrinkUp()

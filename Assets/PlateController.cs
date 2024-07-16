@@ -12,7 +12,7 @@ public class PlateController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Invoke("MovePlate", 1f);
+
     }
 
     // Update is called once per frame
@@ -31,7 +31,7 @@ public class PlateController : MonoBehaviour
     {
         if (direction == 1)
         {
-            gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SetScreenImage("Image/CatFace");
+            gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SetScreenImage("CatAwake");
         }
         Vector3 startPosition = plate.transform.position;
         while (Vector3.Distance(plate.transform.position, startPosition + gameObject.transform.forward * direction * distance) > 0.01f)
@@ -43,6 +43,10 @@ public class PlateController : MonoBehaviour
         if (direction == 1)
         {
             gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().DrinkReady();
+        }
+        else if (direction == -1)
+        {
+            gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SetScreenImage("CatSleep");
         }
     }
 }
