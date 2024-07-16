@@ -51,7 +51,7 @@ public class RobotPlacement : MonoBehaviour
 
             robotWhole.transform.position = robotWhole.transform.position + (targetFurnitureTopPosition - robotBottomPosition);
             robotWhole.SetActive(true);
-            Debug.Log("++++++++ The robot is set active");
+            // Debug.Log("++++++++ The robot is set active");
         }
         else {
             Debug.Log("!!!!!! target furniture has more than one child or no child !!!!!!" + targetFurniture.transform.childCount);

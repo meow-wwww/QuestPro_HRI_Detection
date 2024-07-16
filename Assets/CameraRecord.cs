@@ -11,13 +11,10 @@ using static OVRInput;
 public class CameraRecord : MonoBehaviour
 {
     public Camera secondCamera;
-    // public string videoFileName = "CaptureVideo.mp4";
     private RenderTexture renderTexture;
     private Texture2D texture2D;
     private MP4Recorder recorder;
     private CameraInput cameraInput;
-
-    public TextMeshPro TMPText;
 
     public bool isRecording = false;
 
@@ -32,8 +29,6 @@ public class CameraRecord : MonoBehaviour
 
         // Start recording
         StartRecording();
-
-        TMPText.text = "Recording...";
     }
 
     void StartRecording()
@@ -55,7 +50,6 @@ public class CameraRecord : MonoBehaviour
 
     public async void StopRecordingInterface(){
         await StopRecording();
-        Debug.Log("successfully stop recording");
     }
 
     public async Task<string> StopRecording()
@@ -82,10 +76,6 @@ public class CameraRecord : MonoBehaviour
         }
         else{
             var path = stopRecordingTask.Result;
-            TMPText.text = $"Path: {path}";
-            // yield return new WaitForSeconds(10);
-            TMPText.text = "Record finished.";
-            // Application.Quit();
         }
     }
 }

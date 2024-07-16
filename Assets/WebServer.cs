@@ -137,6 +137,13 @@ public class QuestServerBehavior : WebSocketBehavior
                 Send("Received");
             });
         }
+        else if (e.Data == "Stop recording"){
+            MainThreadDispatcher.Enqueue(() => {
+                GameObject.Find("PoseCamera").GetComponent<CameraRecord>().StopRecordingInterface();
+                GameObject.Find("AvatarRelated").transform.Find("AvatarCamera").GetComponent<CameraRecord>().StopRecordingInterface();
+                Send("Received");
+            });
+        }
         else{
             Send("Unknown Command");
         }

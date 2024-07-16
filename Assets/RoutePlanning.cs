@@ -351,7 +351,7 @@ public class RoutePlanning : MonoBehaviour
             smoothPath.Add(path[nextIndex - 1]);
             currentIndex = nextIndex - 1;
         }
-        Debug.Log("+++++++++ smoothed path length: " + smoothPath.Count);
+        // Debug.Log("+++++++++ smoothed path length: " + smoothPath.Count);
        return smoothPath;
    }
 
