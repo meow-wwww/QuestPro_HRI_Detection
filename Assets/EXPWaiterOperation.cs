@@ -50,9 +50,15 @@ public class EXPWaiterOperation : MonoBehaviour
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, tablePosition2d - 0.1f * globalPositionInfo.userForward);
     }
-    public void MoveToTableUser1Dangerous()
+    public void MoveToTableUser1Collision()
     {
         Vector3 targetPositon = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
+        ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
+        executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, globalPositionInfo.userPosition);
+    }
+    public void MoveToTableUser1Dangerous()
+    {
+        Vector3 targetPositon = table.transform.position + 1.0f * globalPositionInfo.userRight - 0.1f * globalPositionInfo.userForward;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         executor.PlanAndMoveTo(targetPositon, moveSpeed, rotateSpeed, true, globalPositionInfo.userPosition);
     }
@@ -86,7 +92,7 @@ public class EXPWaiterOperation : MonoBehaviour
             globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.1f + globalPositionInfo.userForward * 0.5f,
             globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 1.9f,
         };
-        executor.MoveAlongPath(wanderPath, moveSpeed, rotateSpeed, false, new Vector3(0,0,0), true);
+        executor.MoveAlongPath(wanderPath, moveSpeed, rotateSpeed, false, new Vector3(0,0,0), loop: true);
     }
 
     public void StopWandering(){

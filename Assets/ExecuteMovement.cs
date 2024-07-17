@@ -36,11 +36,6 @@ public class ExecuteMovement : MonoBehaviour
             Debug.Log("No Path Found");
             yield return null;
         }
-        LineRenderer lr = gameObject.GetComponent<LineRenderer>();
-        if (lr != null)
-        {
-            routePlanner.RenderPath(lr, foundPath);
-        }
         
         yield return MoveAlongPath_Coroutine(foundPath, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards); 
         // it will wait for the coroutine to finish
@@ -108,7 +103,7 @@ public class ExecuteMovement : MonoBehaviour
     {
         // start to play the movement sound effect just before moving
         AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
-        movementAudioSource.loop = true;
+        movementAudioSource.loop = true; // TODO: can be deleted
         movementAudioSource.Play();
 
         loopInterrupted = false;
@@ -149,9 +144,12 @@ public class ExecuteMovement : MonoBehaviour
         }
     }
 
-    public void FlyAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3))
+    public void FlyAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false)
     {
-        StartCoroutine(FlyAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
+        if (loop)
+            StartCoroutine(FlyAlongPath_Loop_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
+        else
+            StartCoroutine(FlyAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
     }
 
     public float flightHeight = 2f;
@@ -159,6 +157,7 @@ public class ExecuteMovement : MonoBehaviour
     private IEnumerator FlyAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
     {
         // start to play the movement sound effect just before moving
+        gameObject.GetComponent<AudioSource>().Play();
 
         foreach (Vector3 target in targetList)
         {
@@ -166,14 +165,15 @@ public class ExecuteMovement : MonoBehaviour
             Vector3 robotInFlightHeight = new Vector3(transform.position.x, flightHeight, transform.position.z);
             while (Vector3.Distance(transform.position, robotInFlightHeight) > 0.05f)
             {
-                Debug.Log("+++++++" + Vector3.Distance(transform.position, robotInFlightHeight));
                 Vector3 direction = new Vector3(0, 1, 0);
                 transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
                 yield return null;
             }
             Vector3 targetInFlightHeight = new Vector3(target.x, flightHeight, target.z);
+            Debug.Log("gameObject position: " + transform.position);
+            Debug.Log("targetInFlightHeight position: " + targetInFlightHeight);
             // then rotate to face target
-            while (Vector3.Angle(transform.forward, targetInFlightHeight - transform.position) > 1f)
+            while (Vector3.Angle(transform.forward, targetInFlightHeight - transform.position) > 1f && Vector3.Distance(transform.position, targetInFlightHeight) > 0.05f)
             {
                 Quaternion targetRotation = Quaternion.LookRotation((targetInFlightHeight - transform.position).normalized);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
@@ -202,6 +202,82 @@ public class ExecuteMovement : MonoBehaviour
                 Vector3 direction = new Vector3(0, -1, 0);
                 transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
                 yield return null;
+            }
+        }
+        gameObject.GetComponent<AudioSource>().Stop();
+    }
+
+    private IEnumerator FlyAlongPath_Loop_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
+    {
+        // start to play the movement sound effect just before moving
+        gameObject.GetComponent<AudioSource>().Play();
+
+        loopInterrupted = false;
+
+        while (true){
+            foreach (Vector3 target in targetList)
+            {
+                // first lift up to the flight height
+                Vector3 robotInFlightHeight = new Vector3(transform.position.x, flightHeight, transform.position.z);
+                while (Vector3.Distance(transform.position, robotInFlightHeight) > 0.05f)
+                {
+                    if (loopInterrupted){
+                        gameObject.GetComponent<AudioSource>().Stop();
+                        yield break;
+                    }
+                    Debug.Log("+++++++" + Vector3.Distance(transform.position, robotInFlightHeight));
+                    Vector3 direction = new Vector3(0, 1, 0);
+                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
+                    yield return null;
+                }
+                Vector3 targetInFlightHeight = new Vector3(target.x, flightHeight, target.z);
+                // then rotate to face target
+                while (Vector3.Angle(transform.forward, targetInFlightHeight - transform.position) > 1f)
+                {
+                    if (loopInterrupted){
+                        gameObject.GetComponent<AudioSource>().Stop();
+                        yield break;
+                    }
+                    Quaternion targetRotation = Quaternion.LookRotation((targetInFlightHeight - transform.position).normalized);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                    yield return null;
+                }
+                // then fly to target position (keep the flight height)
+                while (Vector3.Distance(transform.position, targetInFlightHeight) > 0.02f)
+                {
+                    if (loopInterrupted){
+                        gameObject.GetComponent<AudioSource>().Stop();
+                        yield break;
+                    }
+                    Vector3 direction = (targetInFlightHeight - transform.position).normalized;
+                    transform.position = Vector3.MoveTowards(transform.position, targetInFlightHeight, moveSpeed * Time.deltaTime);
+                    yield return null;
+                }
+                // rotate to final face towards (but its y is changed to flightHeight)
+                Vector3 finalFaceTowardsInFlightHeight = new Vector3(finalFaceTowards.x, flightHeight, finalFaceTowards.z);
+                if (finalRotate){
+                    while (Vector3.Angle(transform.forward, finalFaceTowardsInFlightHeight - transform.position) > 1f)
+                    {
+                        if (loopInterrupted){
+                        gameObject.GetComponent<AudioSource>().Stop();
+                        yield break;
+                    }
+                        Quaternion targetRotation = Quaternion.LookRotation(finalFaceTowardsInFlightHeight - transform.position);
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                        yield return null;
+                    }
+                }
+                // finally lower down to the target position
+                while ((transform.position.y - target.y) > 0.02f)
+                {
+                    if (loopInterrupted){
+                        gameObject.GetComponent<AudioSource>().Stop();
+                        yield break;
+                    }
+                    Vector3 direction = new Vector3(0, -1, 0);
+                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
+                    yield return null;
+                }
             }
         }
     }

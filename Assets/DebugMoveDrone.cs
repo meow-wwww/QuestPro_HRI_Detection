@@ -20,8 +20,16 @@ public class DebugMoveDrone : MonoBehaviour
     }
 
     void OnEnable(){
-        FlyToTarget();
+        // FlyToTarget();
+        robot.transform.Find("CupCatcher").gameObject.GetComponent<DroneCatcherController>().LowerCatcher(0.25f);
+        robot.transform.Find("CupCatcher").gameObject.GetComponent<DroneCatcherController>().ForwardCatcher(0.1f);
     }
+
+    // void OnDisable(){
+    //     robot.transform.Find("CupCatcher").gameObject.GetComponent<DroneCatcherController>().LiftCatcher(0.25f);
+    // }
+
+    
 
     
 
