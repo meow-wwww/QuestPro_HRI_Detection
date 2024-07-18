@@ -31,4 +31,8 @@ public class RobotScreenNotification : MonoBehaviour
             SetScreenImage("CatQuestion");
         gameObject.GetComponent<AudioPlayer>().PlayAudio("Audio/"+audioClipName);
     }
+
+    public void StopVoice(){
+        gameObject.GetComponent<AudioPlayer>().StopAudio();
+    }
 }

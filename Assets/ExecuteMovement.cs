@@ -6,22 +6,19 @@ public class ExecuteMovement : MonoBehaviour
 {
     RoutePlanning routePlanner;
     Rigidbody rigidbody;
+    public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
     
     void Start()
     {
         routePlanner = GameObject.Find("MRUK").GetComponent<RoutePlanning>();
         rigidbody = gameObject.GetComponent<Rigidbody>();
+
+        System.Diagnostics.Debug.Assert(globalPositionInfo != null, "globalPositionInfo is not assigned in Unity Inspector");
     }
 
-    // Update is called once per frame
-    void Update()
+    public IEnumerator PlanAndMoveTo(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3))
     {
-        
-    }
-
-    public void PlanAndMoveTo(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3))
-    {
-        StartCoroutine(PlanAndMoveTo_Coroutine(destination, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
+        yield return StartCoroutine(PlanAndMoveTo_Coroutine(destination, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
     }
 
     private IEnumerator PlanAndMoveTo_Coroutine(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
@@ -36,21 +33,29 @@ public class ExecuteMovement : MonoBehaviour
             Debug.Log("No Path Found");
             yield return null;
         }
-        
+        for (int i = 0; i < foundPath.Count; i++)
+        {
+            Vector3 target = foundPath[i];
+            foundPath[i] = new Vector3(target.x, globalPositionInfo.floorHeight, target.z);
+        }
         yield return MoveAlongPath_Coroutine(foundPath, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards); 
         // it will wait for the coroutine to finish
     }
 
-    public void MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false)
-    {
+    public IEnumerator MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false)
+    {   
+        for (int i = 0; i < targetList.Count; i++)
+        {
+            targetList[i] = new Vector3(targetList[i].x, globalPositionInfo.floorHeight, targetList[i].z);
+        }
+        
         // move gameObject to target position
         // moveSpeed: length per second
         // rotateSpeed: degrees per second
         if (loop)
-            StartCoroutine(MoveAlongPath_Loop_Coroutine(targetList, moveSpeed, rotateSpeed));
+            yield return StartCoroutine(MoveAlongPath_Loop_Coroutine(targetList, moveSpeed, rotateSpeed));
         else
-            StartCoroutine(MoveAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
-        Debug.Log("Coroutine started");
+            yield return StartCoroutine(MoveAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
     }
 
     private IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
@@ -80,13 +85,10 @@ public class ExecuteMovement : MonoBehaviour
                 float step = moveSpeed * Time.deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, target, step);
 
-                // rigid body 写法
-                // rigidbody.MovePosition(transform.position + direction * step);
                 yield return null;
             }
         }
         if (finalRotate){
-            // Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
             while (Vector3.Angle(transform.forward, finalFaceTowards - transform.position) > 1f)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(finalFaceTowards - transform.position);
@@ -161,15 +163,23 @@ public class ExecuteMovement : MonoBehaviour
 
         foreach (Vector3 target in targetList)
         {
+            // Before start, check the distance in x-z plane between the robot and the target, and using this to decide the flight height.
+            // (if the distance is too small, the robot will fly lower)
+            float realFlightHeight;
+            if (Vector3.Distance(transform.position, target) < 0.5f)
+                realFlightHeight = globalPositionInfo.tableHeight + 0.4f;
+            else
+                realFlightHeight = globalPositionInfo.floorHeight + flightHeight;
+
             // first lift up to the flight height
-            Vector3 robotInFlightHeight = new Vector3(transform.position.x, flightHeight, transform.position.z);
+            Vector3 robotInFlightHeight = new Vector3(transform.position.x, realFlightHeight, transform.position.z);
             while (Vector3.Distance(transform.position, robotInFlightHeight) > 0.05f)
             {
                 Vector3 direction = new Vector3(0, 1, 0);
                 transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
                 yield return null;
             }
-            Vector3 targetInFlightHeight = new Vector3(target.x, flightHeight, target.z);
+            Vector3 targetInFlightHeight = new Vector3(target.x, realFlightHeight, target.z);
             Debug.Log("gameObject position: " + transform.position);
             Debug.Log("targetInFlightHeight position: " + targetInFlightHeight);
             // then rotate to face target
@@ -186,8 +196,8 @@ public class ExecuteMovement : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, targetInFlightHeight, moveSpeed * Time.deltaTime);
                 yield return null;
             }
-            // rotate to final face towards (but its y is changed to flightHeight)
-            Vector3 finalFaceTowardsInFlightHeight = new Vector3(finalFaceTowards.x, flightHeight, finalFaceTowards.z);
+            // rotate to final face towards (but its y is changed to realFlightHeight)
+            Vector3 finalFaceTowardsInFlightHeight = new Vector3(finalFaceTowards.x, realFlightHeight, finalFaceTowards.z);
             if (finalRotate){
                 while (Vector3.Angle(transform.forward, finalFaceTowardsInFlightHeight - transform.position) > 1f)
                 {
@@ -217,20 +227,27 @@ public class ExecuteMovement : MonoBehaviour
         while (true){
             foreach (Vector3 target in targetList)
             {
+                // Before start, check the distance in x-z plane between the robot and the target, and using this to decide the flight height.
+                // (if the distance is too small, the robot will fly lower)
+                float realFlightHeight;
+                if (Vector3.Distance(transform.position, target) < 0.5f)
+                    realFlightHeight = globalPositionInfo.tableHeight + 0.4f;
+                else
+                    realFlightHeight = flightHeight;
+
                 // first lift up to the flight height
-                Vector3 robotInFlightHeight = new Vector3(transform.position.x, flightHeight, transform.position.z);
+                Vector3 robotInFlightHeight = new Vector3(transform.position.x, realFlightHeight, transform.position.z);
                 while (Vector3.Distance(transform.position, robotInFlightHeight) > 0.05f)
                 {
                     if (loopInterrupted){
                         gameObject.GetComponent<AudioSource>().Stop();
                         yield break;
                     }
-                    Debug.Log("+++++++" + Vector3.Distance(transform.position, robotInFlightHeight));
                     Vector3 direction = new Vector3(0, 1, 0);
                     transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
                     yield return null;
                 }
-                Vector3 targetInFlightHeight = new Vector3(target.x, flightHeight, target.z);
+                Vector3 targetInFlightHeight = new Vector3(target.x, realFlightHeight, target.z);
                 // then rotate to face target
                 while (Vector3.Angle(transform.forward, targetInFlightHeight - transform.position) > 1f)
                 {
@@ -253,8 +270,8 @@ public class ExecuteMovement : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, targetInFlightHeight, moveSpeed * Time.deltaTime);
                     yield return null;
                 }
-                // rotate to final face towards (but its y is changed to flightHeight)
-                Vector3 finalFaceTowardsInFlightHeight = new Vector3(finalFaceTowards.x, flightHeight, finalFaceTowards.z);
+                // rotate to final face towards (but its y is changed to realFlightHeight)
+                Vector3 finalFaceTowardsInFlightHeight = new Vector3(finalFaceTowards.x, realFlightHeight, finalFaceTowards.z);
                 if (finalRotate){
                     while (Vector3.Angle(transform.forward, finalFaceTowardsInFlightHeight - transform.position) > 1f)
                     {

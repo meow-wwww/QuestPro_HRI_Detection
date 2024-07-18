@@ -1174,7 +1174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &486510568
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2404,7 +2404,9 @@ MonoBehaviour:
   userPosition: {x: 0, y: 0, z: 0}
   performerPosition: {x: 0, y: 0, z: 0}
   robotInitialPosition: {x: 0, y: 0, z: 0}
-  robot: {fileID: 0}
+  floorHeight: 0
+  tableHeight: 0
+  robot: {fileID: 1096852126}
 --- !u!1001 &909425922
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3168,6 +3170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6fe50854fec22429992bab56cbbb9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalPositionInfo: {fileID: 881603515}
   loopInterrupted: 0
   flightHeight: 2
 --- !u!114 &1096852129
@@ -6994,7 +6997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &4335841963749968935
 MeshFilter:
   m_ObjectHideFlags: 0

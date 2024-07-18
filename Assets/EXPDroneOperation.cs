@@ -5,7 +5,7 @@ using UnityEngine;
 public class EXPDroneOperation : MonoBehaviour
 {
     public GameObject table;
-    public float moveSpeed = 2f;
+    public float moveSpeed = 0.5f;
     public float rotateSpeed = 30f;
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
 
@@ -33,15 +33,14 @@ public class EXPDroneOperation : MonoBehaviour
         if (currentDrink != null) {
             currentDrink.transform.SetParent(null, worldPositionStays: true);
         }
-        else{
-            // if currentDrink's name == Coffee_wrong, disable it
-            if (currentDrink != null && currentDrink.name == "Coffee_wrong"){
-                currentDrink.SetActive(false);
-            }
+        // if currentDrink's name == Coffee_wrong, disable it
+        if (currentDrink != null && currentDrink.name == "Coffee_wrong"){
+            currentDrink.SetActive(false);
         }
         currentDrink = drink;
-        if (drink != null){
+        if (currentDrink != null){
             currentDrink.transform.position = cupCatcher.transform.position - new Vector3(0f, 0.17f, 0f);
+            currentDrink.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             currentDrink.transform.SetParent(cupCatcher.transform, worldPositionStays: true);
         }
     }
@@ -99,7 +98,7 @@ public class EXPDroneOperation : MonoBehaviour
 
     public void MoveToTableHalf(){
         Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f;
-        targetPosition = new Vector3(targetPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, targetPosition.z);
+        targetPosition = new Vector3(targetPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight + globalPositionInfo.floorHeight, targetPosition.z);
         gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed, rotateSpeed);
     }
 
@@ -116,13 +115,15 @@ public class EXPDroneOperation : MonoBehaviour
     {
         Vector3 targetPosition = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-        executor.FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed, rotateSpeed, true, new Vector3(globalPositionInfo.userPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, globalPositionInfo.userPosition.z));
+        executor.FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed*2, rotateSpeed, true, new Vector3(globalPositionInfo.userPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, globalPositionInfo.userPosition.z));
     }
 
     public void MoveToTableUser1Dangerous(){
         Vector3 targetPosition = table.transform.position + 0.3f * globalPositionInfo.userRight - 0.1f * globalPositionInfo.userForward;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         executor.FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed, rotateSpeed, true, targetPosition - 0.1f * globalPositionInfo.userForward);
+        System.Diagnostics.Debug.Assert(currentDrink.name == "Coffee_user1", "Error: now the coffee is not Coffee_user1");
+        currentDrink.GetComponent<DrinkAction>().Dangerous();
     }
 
     public void MoveUp(float height){
@@ -140,17 +141,14 @@ public class EXPDroneOperation : MonoBehaviour
 
     public void GoAway(){
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-        executor.FlyAlongPath(new List<Vector3>{new Vector3(globalPositionInfo.robotInitialPosition.x, 0, globalPositionInfo.robotInitialPosition.z)}, moveSpeed, rotateSpeed);
+        executor.FlyAlongPath(new List<Vector3>{globalPositionInfo.robotInitialPosition}, moveSpeed, rotateSpeed);
     }
 
     public void WanderAround(){
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         List<Vector3> wanderPath = new List<Vector3>{
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 1.9f,
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 0.5f,
-            // globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 1.9f,
-            // globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.1f + globalPositionInfo.userForward * 0.5f,
-            // globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 1.9f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 1.9f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 0.1f,
         };
         for (int i = 0; i < wanderPath.Count; i++)
             wanderPath[i] = new Vector3(wanderPath[i].x, gameObject.GetComponent<ExecuteMovement>().flightHeight, wanderPath[i].z);

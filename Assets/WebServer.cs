@@ -42,7 +42,7 @@ public class QuestServerBehavior : WebSocketBehavior
                 }
                 else if (e.Data == "Waiter - Move to the table user1"){
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1();
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1(rigid: true);
                         Send("Received");       
                     });
                 }
@@ -54,13 +54,13 @@ public class QuestServerBehavior : WebSocketBehavior
                 }
                 else if (e.Data == "Waiter - Move to the table user1 dangerous"){
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1Dangerous();
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1Dangerous(rigid: true);
                         Send("Received");       
                     });
                 }
                 else if (e.Data == "Waiter - Move to the table user2"){
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser2();
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser2(rigid: true);
                         Send("Received");
                     });
                 }
@@ -78,6 +78,14 @@ public class QuestServerBehavior : WebSocketBehavior
                 }
                 else{
                     Send("Unknown Command");
+                }
+            }
+            else if (e.Data.StartsWith("Waiter - Send ")){
+                if (e.Data == "Waiter - Send out drink"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().SendOutDrink();
+                        Send("Received");
+                    });
                 }
             }
             else if (e.Data == "Waiter - Stop wandering"){
@@ -136,6 +144,12 @@ public class QuestServerBehavior : WebSocketBehavior
                 string audioClipName = e.Data.Substring(prefix.Length);
                 MainThreadDispatcher.Enqueue(() => {
                     GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SendVoiceRequest(audioClipName);
+                    Send("Received");
+                });
+            }
+            else if (e.Data == "Waiter - Audio info stop"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().StopVoice();
                     Send("Received");
                 });
             }
@@ -227,6 +241,12 @@ public class QuestServerBehavior : WebSocketBehavior
                 else if (e.Data == "Drone - Current drink: detach"){
                     MainThreadDispatcher.Enqueue(() => {
                         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().SetCurrentDrink(null);
+                        Send("Received");
+                    });
+                }
+                else if (e.Data == "Drone - Current drink: dangerous"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().currentDrink.GetComponent<DrinkAction>().Dangerous();
                         Send("Received");
                     });
                 }

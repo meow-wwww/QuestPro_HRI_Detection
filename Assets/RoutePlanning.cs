@@ -51,7 +51,7 @@ public class RoutePlanning : MonoBehaviour
         foreach (Transform child in currentRoom.gameObject.transform){
             // Debug.Log("child name: " + child.name);
             if ((child.name != "FLOOR") && (child.name != "WALL_FACE") && (child.name != "WINDOW_FRAME") && (child.name != "CEILING") && (child.name != "DOOR_FRAME") && (child.name != "WALL_ART")){
-                // Debug.Log("child name: " + child.name);
+                Debug.Log("child name: " + child.name);
                 Bounds furnitureBounds = child.GetChild(0).gameObject.GetComponent<BoxCollider>().bounds;
                 // Debug.Log("child range: " + furnitureBounds.min + " " + furnitureBounds.max);
                 List<Vector3> furnitureVectorRange = new List<Vector3>{furnitureBounds.min, furnitureBounds.max};
@@ -101,8 +101,8 @@ public class RoutePlanning : MonoBehaviour
         // Mark furniture cells as blocked (false)
         foreach (var furniture in furnitures)
         {
-            Vector2Int furnitureMin = WorldToGridInt(furniture[0] - new Vector3(robotWidth * 0.1f, 0, robotWidth * 0.1f), gridMin, gridResolution);
-            Vector2Int furnitureMax = WorldToGridInt(furniture[1] + new Vector3(robotWidth * 0.1f, 0, robotWidth * 0.1f), gridMin, gridResolution);
+            Vector2Int furnitureMin = WorldToGridInt(furniture[0] - new Vector3(robotWidth * 0.40f, 0, robotWidth * 0.40f), gridMin, gridResolution);
+            Vector2Int furnitureMax = WorldToGridInt(furniture[1] + new Vector3(robotWidth * 0.40f, 0, robotWidth * 0.40f), gridMin, gridResolution);
             for (int x = Math.Max(0, furnitureMin.x); (x <= furnitureMax.x) && (x < gridWidth); x++)
             {
                 for (int y = Math.Max(0, furnitureMin.y); (y <= furnitureMax.y) && (y < gridHeight); y++)
@@ -116,6 +116,7 @@ public class RoutePlanning : MonoBehaviour
 
         // Find path using A* algorithm
         List<Vector3> path = AStarPathfinding(grid, startGridPos, targetGridPos, gridMin, gridResolution, robotWidth);
+        path = SmoothPath(path, grid, gridMin, gridResolution);
         path = SmoothPath(path, grid, gridMin, gridResolution);
         
         return path;
@@ -273,64 +274,6 @@ public class RoutePlanning : MonoBehaviour
             return 0;
     }
 
-    private List<Vector3> SmoothPath_New(List<Vector3> path, bool[,] grid, Vector2 gridMin, float gridResolution)
-    {
-        // from the start point, check if there are two different turns in the path
-        // if so, try to flip the path and check if the new path is valid
-        if (path.Count < 2)
-            return path;
-        List<Vector3> smoothPath = new List<Vector3>();
-        smoothPath.Add(path[0]);
-
-        int currentStartIndex = 0;
-        while (currentStartIndex < path.Count - 3)
-        {
-            Vector3 currentPoint = path[currentStartIndex];
-            Vector3 turningPoint1 = path[currentStartIndex + 1];
-            Vector3 turningPoint2 = path[currentStartIndex + 2];
-            Vector3 turningPoint3 = path[currentStartIndex + 3];
-            int turningDirectionAtPoint1 = GetTurnDirection(currentPoint, turningPoint1, turningPoint2);
-            int turningDirectionAtPoint2 = GetTurnDirection(turningPoint1, turningPoint2, turningPoint3);
-            if (turningDirectionAtPoint1 != turningDirectionAtPoint2)
-            {
-                // try to flip the path
-                List<Vector3> newPath = new List<Vector3>();
-                newPath.Add(currentPoint);
-                newPath.Add(currentPoint + (turningPoint2 - turningPoint1));
-                newPath.Add(turningPoint2);
-                // This is the new path generated. Then we need to check if this path is valid
-                bool isValid = true;
-                for (int i = 1; i < newPath.Count; i++)
-                {
-                    if (!LineOfSight(newPath[i - 1], newPath[i], grid, gridMin, gridResolution))
-                    {
-                        isValid = false;
-                        break;
-                    }
-                }
-                // if valid, we need to update "path" (not "smoothPath" because we may smooth the path again considering the following points)
-                if (isValid)
-                {
-                    path.RemoveRange(currentStartIndex + 1, 2);
-                    path.InsertRange(currentStartIndex + 1, newPath.GetRange(1, 1));
-                }
-                else
-                {
-                    // if not valid, we need to add the next point to the smoothPath, and start from the next point
-                    smoothPath.Add(path[currentStartIndex + 1]);
-                    currentStartIndex++;
-                }
-            }
-            else
-            {
-                // No smooth needed
-                smoothPath.Add(path[currentStartIndex + 1]);
-                currentStartIndex++;
-            }   
-        }
-        return smoothPath;
-    }
-
     private List<Vector3> SmoothPath(List<Vector3> path, bool[,] grid, Vector2 gridMin, float gridResolution)
     {
         if (path.Count < 2)
@@ -351,7 +294,6 @@ public class RoutePlanning : MonoBehaviour
             smoothPath.Add(path[nextIndex - 1]);
             currentIndex = nextIndex - 1;
         }
-        // Debug.Log("+++++++++ smoothed path length: " + smoothPath.Count);
        return smoothPath;
    }
 
