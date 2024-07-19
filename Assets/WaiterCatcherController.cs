@@ -8,10 +8,10 @@ public class WaiterCatcherController : MonoBehaviour
     GameObject rightCatcher;
 
     public float rotationSpeed = 6f;
-    public float moveSpeed = 0.06f;
+    public float moveSpeed = 0.15f;
+    public float openWidth = 0.05f;
 
     Vector3 catcherHorizontalLocalPositionOnStart = new Vector3(10000f, 10000f, 10000f);
-    // Vector3 catcherForwardLocalPositionOnStart = new Vector3(10000f, 10000f, 10000f);
     Dictionary<GameObject, Vector3> catcherForwardLocalPositionOnStart = new Dictionary<GameObject, Vector3>();
 
     // Start is called before the first frame update
@@ -32,22 +32,15 @@ public class WaiterCatcherController : MonoBehaviour
     }
 
     public IEnumerator OpenCatcher(){
-        Coroutine leftCoroutine = StartCoroutine(Horizontally_Move_Catcher_Coroutine(leftCatcher, moveSpeed, 0.1f, direction: 1));
-        Coroutine rightCoroutine = StartCoroutine(Horizontally_Move_Catcher_Coroutine(rightCatcher, moveSpeed, 0.1f, direction: 1));
+        Coroutine leftCoroutine = StartCoroutine(Horizontally_Move_Catcher_Coroutine(leftCatcher, moveSpeed, openWidth, direction: 1));
+        Coroutine rightCoroutine = StartCoroutine(Horizontally_Move_Catcher_Coroutine(rightCatcher, moveSpeed, openWidth, direction: 1));
         yield return leftCoroutine;
         yield return rightCoroutine;
     }
 
-    // public void TestOpenCatcher(){
-    //     StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>(){
-    //         OpenCatcher(),
-    //         CloseCatcher()
-    //     }));
-    // }
-
     public IEnumerator CloseCatcher(){
-        Coroutine leftCoroutine = StartCoroutine(Horizontally_Move_Catcher_Coroutine(leftCatcher, moveSpeed, 0.1f, direction: -1));
-        Coroutine rightCoroutine = StartCoroutine(Horizontally_Move_Catcher_Coroutine(rightCatcher, moveSpeed, 0.1f, direction: -1));
+        Coroutine leftCoroutine = StartCoroutine(Horizontally_Move_Catcher_Coroutine(leftCatcher, moveSpeed, openWidth, direction: -1));
+        Coroutine rightCoroutine = StartCoroutine(Horizontally_Move_Catcher_Coroutine(rightCatcher, moveSpeed, openWidth, direction: -1));
         yield return leftCoroutine;
         yield return rightCoroutine;
     }

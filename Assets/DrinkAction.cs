@@ -17,12 +17,10 @@ public class DrinkAction : MonoBehaviour
     }
 
     public void Dangerous(){
-        // gameObject.transform.localRotation = gameObject.transform.localRotation * Quaternion.Euler(-20f, 0f, 0f);
-        // gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x - 0.012f, gameObject.transform.localPosition.y - 0.005f, gameObject.transform.localPosition.z);
         StartCoroutine(Dangerous_Coroutine());
     }
 
-    private IEnumerator Dangerous_Coroutine(float moveSpeed=0.1f, float rotateSpeed=20f)
+    public IEnumerator Dangerous_Coroutine(float moveSpeed=0.1f, float rotateSpeed=20f)
     {
         Quaternion targetRotation = gameObject.transform.localRotation * Quaternion.Euler(-20f, 0f, 0f);
         Vector3 targetPosition = gameObject.transform.localPosition - new Vector3(0.012f, 0.005f, 0f);

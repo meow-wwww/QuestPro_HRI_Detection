@@ -84,7 +84,10 @@ public class DroneCatcherController : MonoBehaviour
     {
         while (Quaternion.Angle(catcher.transform.localRotation, targetRotation) > 0.5f)
         {
-            catcher.transform.localRotation = catcher.transform.localRotation * Quaternion.Euler(rotateSpeed*Time.deltaTime*direction*-1, 0, 0);
+            float realRotateSpeed = rotateSpeed;
+            if (Quaternion.Angle(catcher.transform.localRotation, targetRotation) < 2f)
+                realRotateSpeed = rotateSpeed/2f;
+            catcher.transform.localRotation = catcher.transform.localRotation * Quaternion.Euler(realRotateSpeed*Time.deltaTime*direction*-1, 0, 0);
             yield return null;
         }
     }

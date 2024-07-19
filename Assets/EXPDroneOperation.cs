@@ -13,16 +13,18 @@ public class EXPDroneOperation : MonoBehaviour
     public GameObject currentDrink = null;
     GameObject plate; // assigned in Unity Inspector
     public GameObject cupCatcher; // assigned in Unity Inspector
+    public SetInstruction instruction; // assigned in Unity Inspector
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        System.Diagnostics.Debug.Assert(cupCatcher != null, "CupCatcher is not assigned in Unity Inspector");
+        System.Diagnostics.Debug.Assert(instruction != null, "Instruction is not assigned in Unity Inspector");
     }
 
     void Update(){
         if (table == null){
-            table = GameObject.Find("TABLE");
+            table = GameObject.Find("table").transform.Find("TableTop").gameObject;
         }
     }
 

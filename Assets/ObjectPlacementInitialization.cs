@@ -7,7 +7,8 @@ public class ObjectPlacementInitialization : MonoBehaviour
     GameObject user1Seat, user2Seat, user3Seat;
 
     [Header("Global Position Info")]
-    public Vector3 userForward, userRight;
+    public Vector3 userForward;
+    public Vector3 userRight;
     public Vector3 userPosition;
     public Vector3 performerPosition;
     public Vector3 robotInitialPosition;
@@ -16,11 +17,13 @@ public class ObjectPlacementInitialization : MonoBehaviour
 
     [Header("Robot References")]
     public GameObject robot;
+    public GameObject table;
 
     // Start is called before the first frame update
     void Start()
     {
         System.Diagnostics.Debug.Assert(robot != null, "Robot is not assigned in Unity Inspector");
+        System.Diagnostics.Debug.Assert(table != null, "Table is not assigned in Unity Inspector");
     }
 
     // Update is called once per frame
@@ -38,8 +41,7 @@ public class ObjectPlacementInitialization : MonoBehaviour
 
     void FindGlobalPositionInfo(){
         floorHeight = GameObject.Find("FLOOR").transform.position.y;
-        tableHeight = GameObject.Find("TABLE").transform.position.y;
-
+        
         userPosition = new Vector3(user1Seat.transform.position.x, floorHeight, user1Seat.transform.position.z);
         performerPosition = new Vector3(user2Seat.transform.position.x, floorHeight, user2Seat.transform.position.z);
 
@@ -53,6 +55,10 @@ public class ObjectPlacementInitialization : MonoBehaviour
         if (robot.name == "DroneRobot")
             robot.transform.position += new Vector3(0, floorHeight + 2f, 0);
         robotInitialPosition = robot.transform.position;
+
+        Vector3 tablePosition = GameObject.Find("TABLE").transform.position;
+        table.transform.position = new Vector3(tablePosition.x, floorHeight, tablePosition.z) + userRight * 0.1f;
+        tableHeight = table.transform.Find("TableTop").transform.position.y;
 
         GameObject.Find("Coffee_user1").transform.position = userPosition - userRight * 2f + userForward * 0.2f;
         GameObject.Find("Coffee_user2").transform.position = userPosition - userRight * 2f;

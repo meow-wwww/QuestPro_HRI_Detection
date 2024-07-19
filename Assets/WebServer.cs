@@ -80,13 +80,23 @@ public class QuestServerBehavior : WebSocketBehavior
                     Send("Unknown Command");
                 }
             }
-            else if (e.Data.StartsWith("Waiter - Send ")){
-                if (e.Data == "Waiter - Send out drink"){
-                    MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().SendOutDrink();
-                        Send("Received");
-                    });
-                }
+            else if (e.Data == "Waiter - Send out drink"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().SendOutDrink();
+                    Send("Received");
+                });
+            }
+            else if (e.Data == "Waiter - Send out drink dangerous"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().SendOutDrink(dangerous: true);
+                    Send("Received");
+                });
+            }
+            else if (e.Data == "Waiter - Collect drink"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().CollectDrink();
+                    Send("Received");
+                });
             }
             else if (e.Data == "Waiter - Stop wandering"){
                 MainThreadDispatcher.Enqueue(() => {
@@ -327,6 +337,12 @@ public class QuestServerBehavior : WebSocketBehavior
                 bool result = GameObject.Find("ResetManager").GetComponent<ResetObjects>().ResetContext();
                 Send("Received; " + result);
             });        
+        }
+        else if (e.Data.StartsWith("Instruction - ")){
+            MainThreadDispatcher.Enqueue(() => {
+                GameObject.Find("Instruction").GetComponent<SetInstruction>().SetText(e.Data.Substring("Instruction - ".Length));
+                Send("Received");
+            });
         }
         else{
             Send("Unknown Command");

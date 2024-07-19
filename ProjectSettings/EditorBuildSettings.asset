@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ExperimentScene_Waiter.unity
     guid: b938c3431da00a64c9a971cb31a863e5
+  - enabled: 1
+    path: Assets/Scenes/ExperimentScene_Drone.unity
+    guid: 8a0bda347405d5543a6216071d327124
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 74d022d9b97ea484e850d5514f9522fe, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 005fd76b384c11b4c8a7d278ffbe6e49, type: 2}
