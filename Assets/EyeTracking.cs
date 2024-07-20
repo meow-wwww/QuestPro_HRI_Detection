@@ -20,25 +20,7 @@ public class EyeTracking : MonoBehaviour
         fileName = "Gaze_" + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".csv";
         filePath = Path.Combine(Application.persistentDataPath, fileName);
         File.WriteAllText(filePath, "time,left_src_x,left_src_y,left_src_z,left_dir_x,left_dir_y,left_dir_z,right_src_x,right_src_y,right_src_z,right_dir_x,right_dir_y,right_dir_z,focus_x,focus_y,focus_z\n");
-        // Debug.Log("write first line");
     }
-
-    // Update is called once per frame
-    // void Update()
-    // {
-    //     // update the sphere's position, s.t. it is eyeLeft's position + 0.5 unit * cube's forward vector
-    //     if (cubeLeft != null && eyeLeft != null && sphereLeft != null){
-    //         forwardNormalizedLeft = (cubeLeft.transform.forward).normalized; // cubeLeft.transform.forward + eyeLeft
-    //         Vector3 sphereLeftPos = eyeLeft.transform.position + 1f * forwardNormalizedLeft;
-    //         sphereLeft.transform.position = sphereLeftPos;
-    //     }
-
-    //     if (cubeRight!= null && eyeRight!= null && sphereRight!= null){
-    //         forwardNormalizedRight = (cubeRight.transform.forward).normalized; //cubeRight.transform.forward + eyeRight
-    //         Vector3 sphereRightPos = eyeRight.transform.position + 1f * forwardNormalizedRight;
-    //         sphereRight.transform.position = sphereRightPos;
-    //     }
-    // }
 
     void FixedUpdate()
     {
@@ -46,7 +28,6 @@ public class EyeTracking : MonoBehaviour
         sphere.transform.position = focusPoint;
         string dataLine = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "," + eyeLeft.transform.position.x + "," + eyeLeft.transform.position.y + "," + eyeLeft.transform.position.z + "," + cubeLeft.transform.forward.x + "," + cubeLeft.transform.forward.y + "," + cubeLeft.transform.forward.z + "," + eyeRight.transform.position.x + "," + eyeRight.transform.position.y + "," + eyeRight.transform.position.z + "," + cubeRight.transform.forward.x + "," + cubeRight.transform.forward.y + "," + cubeRight.transform.forward.z + "," + focusPoint.x + "," + focusPoint.y + "," + focusPoint.z + "\n";
         File.AppendAllText(filePath, dataLine);
-        // Debug.Log("write one new line");
     }
 
 

@@ -67,7 +67,6 @@ public class ExecuteMovement : MonoBehaviour
 
         foreach (Vector3 target in targetList)
         {
-            Debug.Log("Next point is: " + target);
             // first rotate to face target
             while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
             {
@@ -112,7 +111,6 @@ public class ExecuteMovement : MonoBehaviour
         while(true){
             foreach (Vector3 target in targetList) // for our 'next point'
             {
-                Debug.Log("Next point is: " + target);
                 // first rotate to face target
                 while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
                 {
@@ -175,8 +173,6 @@ public class ExecuteMovement : MonoBehaviour
            
             while (Vector3.Distance(transform.position, robotInFlightHeight) > 0.05f)
             {   
-                Debug.Log("======= first lift up to the flight height");
-                Debug.Log("+++++++" + transform.position + robotInFlightHeight + "+++" + Vector3.Distance(transform.position, robotInFlightHeight));
                 float realMoveSpeed = moveSpeed;
                 if (Vector3.Distance(transform.position, robotInFlightHeight) < 0.15f)
                     realMoveSpeed = moveSpeed / 2;
@@ -188,7 +184,6 @@ public class ExecuteMovement : MonoBehaviour
             // then rotate to face target
             while (Vector3.Angle(transform.forward, targetInFlightHeight - transform.position) > 1f && Vector3.Distance(transform.position, targetInFlightHeight) > 0.05f)
             {
-                Debug.Log("======= then rotate to face target");
                 Quaternion targetRotation = Quaternion.LookRotation((targetInFlightHeight - transform.position).normalized);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
                 yield return null;
@@ -196,7 +191,6 @@ public class ExecuteMovement : MonoBehaviour
             // then fly to target position (keep the flight height)
             while (Vector3.Distance(transform.position, targetInFlightHeight) > 0.02f)
             {
-                Debug.Log("======= then fly to target position (keep the flight height)");
                 Vector3 direction = (targetInFlightHeight - transform.position).normalized;
                 transform.position = Vector3.MoveTowards(transform.position, targetInFlightHeight, moveSpeed * Time.deltaTime);
                 yield return null;

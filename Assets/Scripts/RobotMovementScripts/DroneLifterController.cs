@@ -34,15 +34,8 @@ public class DroneLifterController : MonoBehaviour
     }
 
     public void OpenLifter(){ // 99.8 -> 105
-        Debug.Log("OpenLifter() called");
-        // first disable the front and back holder of the drone (they are only needed when the lifter is closed)
-        // best practice: the drone bring the plate to guests; open lifter and disable holders; then keep them open.
-
         StartCoroutine(Rotate_Rigidbody_Coroutine(leftLifterRigidbody.gameObject.transform.localRotation * Quaternion.Euler(0, 0, (openRotationZ - 99.8f)), leftLifterRigidbody, rotationSpeed));
         StartCoroutine(Rotate_Rigidbody_Coroutine(rightLifterRigidbody.gameObject.transform.localRotation * Quaternion.Euler(0, 0, (openRotationZ - 99.8f)), rightLifterRigidbody, rotationSpeed));
-
-        // Debug.Log("LeftLifterChild" + leftLifterChild.transform.parent.name);
-        // Debug.Log("RightLifterChild" + rightLifterChild.transform.parent.name);
     }
 
     public void CloseLifter(){ // 105 -> 99.8

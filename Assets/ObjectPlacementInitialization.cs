@@ -20,10 +20,12 @@ public class ObjectPlacementInitialization : MonoBehaviour
     public float floorHeight = 0f;
     public float tableHeight;
 
-    [Header("Robot References")]
+    [Header("Object References")]
     public GameObject robot;
     public GameObject table;
     public GameObject bar;
+
+    public GameObject experimentTable;
 
     // Start is called before the first frame update
     void Start()
@@ -50,24 +52,26 @@ public class ObjectPlacementInitialization : MonoBehaviour
     void FindGlobalPositionInfo(){
         floorHeight = GameObject.Find("FLOOR").transform.position.y;
 
-        // set virtual objects' position (eg. table, bar, ...)
-        table.transform.position = new Vector3(GameObject.Find("TABLE").transform.position.x, floorHeight, GameObject.Find("TABLE").transform.position.z) + userRight * 0.1f;
-        bar.transform.position = GameObject.Find("SCREEN").transform.position;
-        bar.transform.rotation = GameObject.Find("SCREEN").transform.rotation;
-
         // set up the room's directions
         userForward = user2Seat.transform.position - user1Seat.transform.position;
         userForward = new Vector3(userForward.x, 0, userForward.z).normalized;
         userRight = new Vector3(userForward.z, 0, -userForward.x);
-        
-        // TODO: for standing scenario, the positions are different.
+
+        // set virtual objects' position (eg. table, bar, ...)
+        table.transform.position = new Vector3(GameObject.Find("TABLE").transform.position.x, floorHeight, GameObject.Find("TABLE").transform.position.z) + userRight * 0.1f;
+        bar.transform.position = new Vector3(GameObject.Find("SCREEN").transform.position.x, floorHeight, GameObject.Find("SCREEN").transform.position.z);
+        bar.transform.rotation = GameObject.Find("SCREEN").transform.rotation;
+
+        // for standing scenario, the positions are different.
         if (sceneName == "Sitting"){
+            experimentTable = table;
             userPosition = new Vector3(user1Seat.transform.position.x, floorHeight, user1Seat.transform.position.z);
             performerPosition = new Vector3(user2Seat.transform.position.x, floorHeight, user2Seat.transform.position.z);
         }
         else if (sceneName == "Standing"){
-            //raise error
-            System.Diagnostics.Debug.Assert(false, "Standing scenario is not implemented yet.");
+            experimentTable = bar;
+            userPosition = new Vector3(bar.transform.position.x, floorHeight, bar.transform.position.z) - userForward * 0.9f;
+            performerPosition = new Vector3(bar.transform.position.x, floorHeight, bar.transform.position.z) + userForward * 0.9f;
         }
         else {
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
@@ -75,16 +79,27 @@ public class ObjectPlacementInitialization : MonoBehaviour
         
 
         // set robots' initial positions
-        // waiter robot: 5 right + 3 forward
-        robot.transform.position = userPosition + userRight * 5f + userForward * 3f;
+        // sitting: 5 right + 3 forward
+        // standing: 2 right + 4 forward
+        if (sceneName == "Sitting"){
+            robot.transform.position = userPosition + userRight * 5f + userForward * 3f;
+        }
+        else if (sceneName == "Standing"){
+            robot.transform.position = userPosition + userRight * 2f + userForward * 4f;
+        }
+        else{
+            System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
+        }
         if (robot.name == "DroneRobot")
-            robot.transform.position += new Vector3(0, floorHeight + 2f, 0);
+            robot.transform.position += new Vector3(0, 2f, 0);
         robotInitialPosition = robot.transform.position;
 
         if (sceneName == "Sitting")
             tableHeight = table.transform.Find("TableTop").transform.position.y;
         else if (sceneName == "Standing")
             tableHeight = GameObject.Find("SCREEN").transform.position.y;
+        else
+            System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
 
         GameObject.Find("Coffee_user1").transform.position = userPosition - userRight * 2f + userForward * 0.2f;
         GameObject.Find("Coffee_user2").transform.position = userPosition - userRight * 2f;

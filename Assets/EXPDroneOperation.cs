@@ -25,7 +25,7 @@ public class EXPDroneOperation : MonoBehaviour
 
     void Update(){
         if (table == null && globalPositionInfo.GlobalPositionSet){
-            table = globalPositionInfo.table; // this is the 'bottom' position of the table
+            table = globalPositionInfo.experimentTable; // this is the 'bottom' position of the table
             tableTop = table.transform.Find("TableTop").gameObject;
         }
     }

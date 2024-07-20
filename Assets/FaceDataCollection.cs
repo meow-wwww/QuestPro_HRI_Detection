@@ -41,11 +41,7 @@ public class FaceDataCollection : MonoBehaviour
             expressionValueCollection = expressionValueCollection.TrimEnd(',');
             File.AppendAllText(filePath, System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "," + expressionValueCollection + "\n");
         }
-
-
         
-       
-        // Debug.Log("AllFace weight:" + ovrFaceExpressionsScript);
         // if (ovrFaceExpressionsScript.FaceTrackingEnabled){
         //     Debug.Log("JawDrop weight:"+ovrFaceExpressionsScript[OVRFaceExpressions.FaceExpression.JawDrop]);
         // }

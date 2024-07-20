@@ -32,7 +32,7 @@ public class EXPWaiterOperation : MonoBehaviour
 
     void Update(){
         if (table == null && globalPositionInfo.GlobalPositionSet){
-            table = globalPositionInfo.table;
+            table = globalPositionInfo.experimentTable;
             if (table != null){
                 middlePoint = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.7f * globalPositionInfo.userRight;
                 user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight - 1.0f * globalPositionInfo.userForward;
@@ -162,7 +162,6 @@ public class EXPWaiterOperation : MonoBehaviour
     }
 
     public void MoveToTableUser1_Fixed(){
-        Debug.Log("+++++ in function: MoveToTableUser1_Fixed +++++");
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
             new List<Vector3>{
                 middlePoint,

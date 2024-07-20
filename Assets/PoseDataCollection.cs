@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Oculus.Movement.BodyTrackingForFitness;
 using System.IO;
-// using Oculus.Movement.Utils;
-// using Oculus.Interaction.Body.PoseDetection;
-
 
 public class PoseDataCollection : MonoBehaviour
 {

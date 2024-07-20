@@ -115,7 +115,6 @@ public class WaiterCatcherController : MonoBehaviour
             // rescale the forwardArm
             float movedDistance = Vector3.Distance(catcherForwardLocalPositionOnStart[catcher], catcher.transform.Find("CupCatcher").Find("FrontEndpoint").gameObject.transform.position);
             forwardArm.transform.localScale = new Vector3(1, (0.093f + movedDistance)/0.093f*2.2f, 1);
-            Debug.Log("final movedDistance:" + movedDistance);
             yield return null;
         }
         
