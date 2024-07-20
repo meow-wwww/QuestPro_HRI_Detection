@@ -97,6 +97,7 @@ public class QuestServerBehavior : WebSocketBehavior
             else if (e.Data == "Waiter - Send out drink dangerous"){
                 MainThreadDispatcher.Enqueue(() => {
                     GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().SendOutDrink(dangerous: true);
+                    GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(false);
                     Send("Received");
                 });
             }
@@ -162,6 +163,8 @@ public class QuestServerBehavior : WebSocketBehavior
                 string audioClipName = e.Data.Substring(prefix.Length);
                 MainThreadDispatcher.Enqueue(() => {
                     GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SendVoiceRequest(audioClipName);
+                    if (audioClipName == "WhereShouldIPlace")
+                        GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
                     Send("Received");
                 });
             }

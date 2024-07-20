@@ -107,4 +107,8 @@ public class ObjectPlacementInitialization : MonoBehaviour
 
         GlobalPositionSet = true;
     }
+
+    public void SetDrinkPositionIndicator(bool state){
+        experimentTable.transform.Find("DrinkPlaceIndicator").gameObject.SetActive(state);
+    }
 }
