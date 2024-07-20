@@ -38,7 +38,7 @@ public class EXPWaiterOperation : MonoBehaviour
                 user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight - 1.0f * globalPositionInfo.userForward;
                 user2Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight + 1.2f * globalPositionInfo.userForward;
                 user1Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.8f * globalPositionInfo.userRight - 0.7f * globalPositionInfo.userForward;
-                user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.8f * globalPositionInfo.userRight + 0.8f * globalPositionInfo.userForward;
+                user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.7f * globalPositionInfo.userRight + 0.7f * globalPositionInfo.userForward;
                 user1Collision = globalPositionInfo.userPosition + 1f * globalPositionInfo.userRight;
             }
         }
@@ -209,6 +209,16 @@ public class EXPWaiterOperation : MonoBehaviour
         Vector3 targetPosition = globalPositionInfo.userPosition + 1f * globalPositionInfo.userRight;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         StartCoroutine(executor.PlanAndMoveTo(targetPosition, moveSpeed*2, rotateSpeed, true, globalPositionInfo.userPosition));
+    }
+
+    public void MoveToTableUser1FromCollision_Fixed(){
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            new List<Vector3>{
+                user1Peripheral,
+                user1Near
+            }, 
+            moveSpeed, rotateSpeed
+        ));
     }
 
     public void MoveToTableUser1Dangerous_Fixed()

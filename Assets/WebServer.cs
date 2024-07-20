@@ -59,6 +59,12 @@ public class QuestServerBehavior : WebSocketBehavior
                         Send("Received");       
                     });
                 }
+                else if (e.Data == "Waiter - Move to the table user1 from collision"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1FromCollision_Fixed();
+                        Send("Received");       
+                    });
+                }
                 else if (e.Data == "Waiter - Move to the table user2"){
                     MainThreadDispatcher.Enqueue(() => {
                         GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser2_Fixed();
