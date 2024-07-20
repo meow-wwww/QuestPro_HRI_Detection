@@ -32,35 +32,37 @@ public class QuestServerBehavior : WebSocketBehavior
                 MainThreadDispatcher.Enqueue(() => {
                     GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SetScreenImage("CatSleep");
                 });
-                // GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SetScreenImage("CatSleep");
 
                 if (e.Data == "Waiter - Move towards the table (half)"){
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableHalf();
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableHalf_Fixed();
                         Send("Received");
                     });
                 }
                 else if (e.Data == "Waiter - Move to the table user1"){
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1(rigid: true);
+                        // GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1(rigid: true);
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1_Fixed();
                         Send("Received");       
                     });
                 }
                 else if (e.Data == "Waiter - Move to the table user1 collision"){
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1Collision();
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1Collision_Fixed();
                         Send("Received");       
                     });
                 }
                 else if (e.Data == "Waiter - Move to the table user1 dangerous"){
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1Dangerous(rigid: true);
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1Dangerous_Fixed();
+                        // MoveToTableUser2(rigid: true);
                         Send("Received");       
                     });
                 }
                 else if (e.Data == "Waiter - Move to the table user2"){
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser2(rigid: true);
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser2_Fixed();
+                        // MoveToTableUser2(rigid: true);
                         Send("Received");
                     });
                 }

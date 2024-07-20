@@ -15,6 +15,14 @@ public class EXPWaiterOperation : MonoBehaviour
 
     WaiterCatcherController controller;
 
+    [Header("Fixed Positions In Routes")]
+    Vector3 middlePoint; // 1.7 right
+    Vector3 user1Peripheral;
+    Vector3 user2Peripheral;
+    Vector3 user1Near;
+    Vector3 user2Near;
+    Vector3 user1Collision;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +33,14 @@ public class EXPWaiterOperation : MonoBehaviour
     void Update(){
         if (table == null){
             table = GameObject.Find("TABLE");
+            if (table != null){
+                middlePoint = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.7f * globalPositionInfo.userRight;
+                user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight - 1.0f * globalPositionInfo.userForward;
+                user2Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight + 1.2f * globalPositionInfo.userForward;
+                user1Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.8f * globalPositionInfo.userRight - 0.7f * globalPositionInfo.userForward;
+                user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.8f * globalPositionInfo.userRight + 0.8f * globalPositionInfo.userForward;
+                user1Collision = globalPositionInfo.userPosition + 1f * globalPositionInfo.userRight;
+            }
         }
     }
 
@@ -128,10 +144,32 @@ public class EXPWaiterOperation : MonoBehaviour
         );
     }
 
+    public void MoveToTableHalf_Fixed(){
+        Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f;
+        targetPosition = new Vector3(targetPosition.x, globalPositionInfo.floorHeight, targetPosition.z);
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            new List<Vector3>{
+                targetPosition
+            }, 
+            moveSpeed, rotateSpeed
+        ));
+    }
+
     public void MoveToTableHalf(){
         Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f;
         targetPosition = new Vector3(targetPosition.x, globalPositionInfo.floorHeight, targetPosition.z);
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().PlanAndMoveTo(targetPosition, moveSpeed, rotateSpeed));
+    }
+
+    public void MoveToTableUser1_Fixed(){
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            new List<Vector3>{
+                middlePoint,
+                user1Peripheral,
+                user1Near
+            }, 
+            moveSpeed, rotateSpeed
+        ));
     }
 
     public void MoveToTableUser1(bool rigid=false)
@@ -155,13 +193,36 @@ public class EXPWaiterOperation : MonoBehaviour
         }
     }
 
+    public void MoveToTableUser1Collision_Fixed()
+    {
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            new List<Vector3>{
+                user1Collision
+            }, 
+            moveSpeed*2, rotateSpeed,
+            true, globalPositionInfo.userPosition
+        ));
+    }
+
     public void MoveToTableUser1Collision()
     {
         Vector3 targetPosition = globalPositionInfo.userPosition + 1f * globalPositionInfo.userRight;
-        // table.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         StartCoroutine(executor.PlanAndMoveTo(targetPosition, moveSpeed*2, rotateSpeed, true, globalPositionInfo.userPosition));
     }
+
+    public void MoveToTableUser1Dangerous_Fixed()
+    {
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            new List<Vector3>{
+                user1Peripheral,
+                user1Near
+            }, 
+            moveSpeed, rotateSpeed
+        ));
+        currentDrink.GetComponent<DrinkAction>().Dangerous();
+    }
+
     public void MoveToTableUser1Dangerous(bool rigid=false)
     {
         Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
@@ -182,6 +243,18 @@ public class EXPWaiterOperation : MonoBehaviour
             );
         }
         currentDrink.GetComponent<DrinkAction>().Dangerous();
+    }
+
+    public void MoveToTableUser2_Fixed(){
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            new List<Vector3>{
+                user1Peripheral,
+                middlePoint,
+                user2Peripheral,
+                user2Near
+            }, 
+            moveSpeed, rotateSpeed
+        ));
     }
 
     public void MoveToTableUser2(bool rigid=false)
@@ -229,7 +302,6 @@ public class EXPWaiterOperation : MonoBehaviour
                 }
             )
         );
-        // StartCoroutine(executor.MoveAlongPath(wanderPath, moveSpeed, rotateSpeed, false, new Vector3(0,0,0), loop: true));
     }
 
     public void StopWandering(){
