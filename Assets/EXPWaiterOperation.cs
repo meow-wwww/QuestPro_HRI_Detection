@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EXPWaiterOperation : MonoBehaviour
 {
-    public GameObject table;
+    public GameObject table = null;
     public float moveSpeed = 0.5f;
     public float rotateSpeed = 30f;
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
@@ -16,12 +16,12 @@ public class EXPWaiterOperation : MonoBehaviour
     WaiterCatcherController controller;
 
     [Header("Fixed Positions In Routes")]
-    Vector3 middlePoint; // 1.7 right
-    Vector3 user1Peripheral;
-    Vector3 user2Peripheral;
-    Vector3 user1Near;
-    Vector3 user2Near;
-    Vector3 user1Collision;
+    public Vector3 middlePoint; // 1.7 right
+    public Vector3 user1Peripheral;
+    public Vector3 user2Peripheral;
+    public Vector3 user1Near;
+    public Vector3 user2Near;
+    public Vector3 user1Collision;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +31,8 @@ public class EXPWaiterOperation : MonoBehaviour
     }
 
     void Update(){
-        if (table == null){
-            table = GameObject.Find("TABLE");
+        if (table == null && globalPositionInfo.GlobalPositionSet){
+            table = globalPositionInfo.table;
             if (table != null){
                 middlePoint = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.7f * globalPositionInfo.userRight;
                 user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight - 1.0f * globalPositionInfo.userForward;
@@ -162,6 +162,7 @@ public class EXPWaiterOperation : MonoBehaviour
     }
 
     public void MoveToTableUser1_Fixed(){
+        Debug.Log("+++++ in function: MoveToTableUser1_Fixed +++++");
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
             new List<Vector3>{
                 middlePoint,
@@ -261,7 +262,6 @@ public class EXPWaiterOperation : MonoBehaviour
     {
         
         Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
-        // GameObject.Find("TargetDebug").transform.position = targetPosition;
         
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         if (!rigid) {

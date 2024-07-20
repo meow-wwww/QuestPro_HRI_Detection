@@ -5,6 +5,7 @@ using UnityEngine;
 public class EXPDroneOperation : MonoBehaviour
 {
     public GameObject table;
+    GameObject tableTop;
     public float moveSpeed = 0.5f;
     public float rotateSpeed = 30f;
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
@@ -23,8 +24,9 @@ public class EXPDroneOperation : MonoBehaviour
     }
 
     void Update(){
-        if (table == null){
-            table = GameObject.Find("table").transform.Find("TableTop").gameObject;
+        if (table == null && globalPositionInfo.GlobalPositionSet){
+            table = globalPositionInfo.table; // this is the 'bottom' position of the table
+            tableTop = table.transform.Find("TableTop").gameObject;
         }
     }
 
@@ -106,7 +108,7 @@ public class EXPDroneOperation : MonoBehaviour
 
     public void MoveToTableUser1(bool above=false)
     {
-        Vector3 targetPosition = table.transform.position + 0f * globalPositionInfo.userRight - 0.1f * globalPositionInfo.userForward;
+        Vector3 targetPosition = tableTop.transform.position + 0f * globalPositionInfo.userRight - 0.1f * globalPositionInfo.userForward;
         if (above)
             targetPosition += new Vector3(0f,0.4f,0f);
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
@@ -115,13 +117,13 @@ public class EXPDroneOperation : MonoBehaviour
 
     public void MoveToTableUser1Collision()
     {
-        Vector3 targetPosition = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
+        Vector3 targetPosition = tableTop.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         executor.FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed*2, rotateSpeed, true, new Vector3(globalPositionInfo.userPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, globalPositionInfo.userPosition.z));
     }
 
     public void MoveToTableUser1Dangerous(){
-        Vector3 targetPosition = table.transform.position + 0.3f * globalPositionInfo.userRight - 0.1f * globalPositionInfo.userForward;
+        Vector3 targetPosition = tableTop.transform.position + 0.3f * globalPositionInfo.userRight - 0.1f * globalPositionInfo.userForward;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         executor.FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed, rotateSpeed, true, targetPosition - 0.1f * globalPositionInfo.userForward);
         System.Diagnostics.Debug.Assert(currentDrink.name == "Coffee_user1", "Error: now the coffee is not Coffee_user1");
@@ -136,7 +138,7 @@ public class EXPDroneOperation : MonoBehaviour
 
     public void MoveToTableUser2()
     {
-        Vector3 targetPosition = table.transform.position + 0f * globalPositionInfo.userRight + 0.1f * globalPositionInfo.userForward;
+        Vector3 targetPosition = tableTop.transform.position + 0f * globalPositionInfo.userRight + 0.1f * globalPositionInfo.userForward;
         ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
         executor.FlyAlongPath(new List<Vector3>{targetPosition}, moveSpeed, rotateSpeed, true, targetPosition + 0.1f * globalPositionInfo.userForward);
     }

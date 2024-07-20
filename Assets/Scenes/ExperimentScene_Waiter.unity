@@ -3484,6 +3484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f8763be1b0f9142bfc7d9f542e8434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneName: Sitting
+  GlobalPositionSet: 0
   userForward: {x: 0, y: 0, z: 0}
   userRight: {x: 0, y: 0, z: 0}
   userPosition: {x: 0, y: 0, z: 0}
@@ -3491,7 +3493,6 @@ MonoBehaviour:
   robotInitialPosition: {x: 0, y: 0, z: 0}
   floorHeight: 0
   tableHeight: 0
-  barHeight: 0
   robot: {fileID: 919132149148628983}
   table: {fileID: 211764427}
   bar: {fileID: 2048122829}
@@ -6633,6 +6634,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 788009872}
+  - {fileID: 2073428676}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &2055368593
@@ -6657,6 +6659,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8498892977365060043, guid: e96f78dcca8bcf94fbaaff971beb3b48, type: 3}
+--- !u!1 &2073428675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2073428676}
+  m_Layer: 0
+  m_Name: TableTop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2073428676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073428675}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.20000076}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2048122830}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2106722233 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2483171112401766336, guid: f54012181eacade4ea242c65f804720f, type: 3}
@@ -7081,6 +7114,12 @@ MonoBehaviour:
   globalPositionInfo: {fileID: 881603515}
   currentDrink: {fileID: 0}
   cupCatcher: {fileID: 130877131}
+  middlePoint: {x: 0, y: 0, z: 0}
+  user1Peripheral: {x: 0, y: 0, z: 0}
+  user2Peripheral: {x: 0, y: 0, z: 0}
+  user1Near: {x: 0, y: 0, z: 0}
+  user2Near: {x: 0, y: 0, z: 0}
+  user1Collision: {x: 0, y: 0, z: 0}
 --- !u!1 &1092920701938776188
 GameObject:
   m_ObjectHideFlags: 0
