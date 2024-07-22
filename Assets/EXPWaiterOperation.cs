@@ -120,15 +120,15 @@ public class EXPWaiterOperation : MonoBehaviour
         if (!dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-                    controller.LiftCatcher(0.03f),
+                    controller.LiftCatcher(0.1f),
                     controller.ForwardCatcher(sendOutDrinkDistance),
-                    controller.LowerCatcher(0.03f),
+                    controller.LowerCatcher(0.1f),
                     CurrentDrinkDetach(),
                     controller.OpenCatcher(),
-                    controller.LiftCatcher(0.03f),
+                    controller.LiftCatcher(0.1f),
                     controller.CloseCatcher(),
                     controller.BackwardCatcher(sendOutDrinkDistance),
-                    controller.LowerCatcher(0.03f)
+                    controller.LowerCatcher(0.1f)
                 })
             );
         }

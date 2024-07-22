@@ -307,6 +307,8 @@ public class QuestServerBehavior : WebSocketBehavior
                 string audioClipName = e.Data.Substring(prefix.Length);
                 MainThreadDispatcher.Enqueue(() => {
                     GameObject.Find("DroneRobot").transform.Find("DroneBody").GetComponent<AudioPlayer>().PlayAudio("Audio/" + audioClipName);
+                    if (audioClipName == "WhereShouldIPlace")
+                        GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
                     Send("Received");
                 });
             }
@@ -351,7 +353,7 @@ public class QuestServerBehavior : WebSocketBehavior
         }
         else if (e.Data.StartsWith("Instruction - ")){
             MainThreadDispatcher.Enqueue(() => {
-                GameObject.Find("Instruction").GetComponent<SetInstruction>().SetText(e.Data.Substring("Instruction - ".Length));
+                GameObject.Find("InstructionManager").GetComponent<InstructionManager>().SetText(e.Data.Substring("Instruction - ".Length));
                 Send("Received");
             });
         }

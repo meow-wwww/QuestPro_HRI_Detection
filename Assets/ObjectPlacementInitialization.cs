@@ -24,16 +24,19 @@ public class ObjectPlacementInitialization : MonoBehaviour
     public GameObject robot;
     public GameObject table;
     public GameObject bar;
+    public GameObject instruction;
 
     public GameObject experimentTable;
 
     // Start is called before the first frame update
     void Start()
     {
+        sceneName = PlayerPrefs.GetString("mode");
         System.Diagnostics.Debug.Assert(sceneName != "", "Scene name is not assigned in Unity Inspector");
         System.Diagnostics.Debug.Assert(robot != null, "Robot is not assigned in Unity Inspector");
         System.Diagnostics.Debug.Assert(table != null, "Table is not assigned in Unity Inspector");
         System.Diagnostics.Debug.Assert(bar != null, "Bar is not assigned in Unity Inspector");
+        System.Diagnostics.Debug.Assert(instruction != null, "Instruction is not assigned in Unity Inspector");
     }
 
     // Update is called once per frame
@@ -62,6 +65,8 @@ public class ObjectPlacementInitialization : MonoBehaviour
         bar.transform.position = new Vector3(GameObject.Find("SCREEN").transform.position.x, floorHeight, GameObject.Find("SCREEN").transform.position.z);
         bar.transform.rotation = GameObject.Find("SCREEN").transform.rotation;
 
+        
+
         // for standing scenario, the positions are different.
         if (sceneName == "Sitting"){
             experimentTable = table;
@@ -76,7 +81,6 @@ public class ObjectPlacementInitialization : MonoBehaviour
         else {
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
         }
-        
 
         // set robots' initial positions
         // sitting: 5 right + 3 forward
@@ -90,25 +94,36 @@ public class ObjectPlacementInitialization : MonoBehaviour
         else{
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
         }
+
         if (robot.name == "DroneRobot")
             robot.transform.position += new Vector3(0, 2f, 0);
         robotInitialPosition = robot.transform.position;
 
-        if (sceneName == "Sitting")
+        if (sceneName == "Sitting"){
             tableHeight = table.transform.Find("TableTop").transform.position.y;
-        else if (sceneName == "Standing")
+            instruction.transform.position = new Vector3(experimentTable.transform.position.x, tableHeight + 0.15f, experimentTable.transform.position.z);
+        }
+        else if (sceneName == "Standing"){
             tableHeight = GameObject.Find("SCREEN").transform.position.y;
+            instruction.transform.position = new Vector3(experimentTable.transform.position.x, tableHeight + 0.5f, experimentTable.transform.position.z) + userRight * 0.25f;
+        }
         else
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
 
-        GameObject.Find("Coffee_user1").transform.position = userPosition - userRight * 2f + userForward * 0.2f;
-        GameObject.Find("Coffee_user2").transform.position = userPosition - userRight * 2f;
-        GameObject.Find("Coffee_wrong").transform.position = userPosition - userRight * 2f - userForward * 0.2f;
+        
+        instruction.transform.rotation = Quaternion.LookRotation(userForward, Vector3.up);
+
+        GameObject.Find("Coffee_user1").transform.position = userPosition - userRight * 2000f + userForward * 0.2f;
+        GameObject.Find("Coffee_user2").transform.position = userPosition - userRight * 2000f;
+        GameObject.Find("Coffee_wrong").transform.position = userPosition - userRight * 2000f - userForward * 0.2f;
 
         GlobalPositionSet = true;
     }
 
     public void SetDrinkPositionIndicator(bool state){
         experimentTable.transform.Find("DrinkPlaceIndicator").gameObject.SetActive(state);
+        if (sceneName == "Sitting"){
+            experimentTable.transform.Find("DrinkPlaceIndicator").position = new Vector3(experimentTable.transform.position.x, tableHeight, experimentTable.transform.position.z) + 0.15f * userRight - 0.15f * userForward;
+        }
     }
 }

@@ -12,8 +12,11 @@ public class SceneManagerBehavior : WebSocketBehavior
         
         if (e.Data.StartsWith("Change to scene: ")) {
             string prefix = "Change to scene: ";
-            string sceneName = e.Data.Substring(prefix.Length);
+            string sceneNameAndMode = e.Data.Substring(prefix.Length);
+            string sceneName = sceneNameAndMode.Split(' ')[0];
+            string mode = sceneNameAndMode.Split(' ')[1];
             MainThreadDispatcher.Enqueue(() => {
+                PlayerPrefs.SetString("mode", mode); // pass the mode (Standing/Sitting) to specific scene
                 UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
                 Send("Received");
             });

@@ -9,16 +9,18 @@ public class SetInstruction : MonoBehaviour
 
     void Start()
     {
-        tmp = GetComponent<TextMeshPro>();
+        tmp = transform.Find("Text").GetComponent<TextMeshPro>();
     }
 
-    public void SetText(string text)
-    {
-        tmp.text = text;
-    }
+    // public void SetText(string text)
+    // {
+    //     gameObject.SetActive(true);
+    //     tmp.text = text;
+    //     Invoke("Disappear", 5f);
+    // }
 
-    void ClearText()
+    void Disappear()
     {
-        tmp.text = "";
+        gameObject.SetActive(false);
     }
 }
