@@ -42,7 +42,7 @@ public class EyeTracking : MonoBehaviour
         
         Vector3 crossS1 = Vector3.Cross(sourceVec, dir2);
         Vector3 crossS2 = Vector3.Cross(dir1, dir2);
-        float intersectionDis1 = crossS1 / crossS2;
+        float intersectionDis1 = crossS1.magnitude / crossS2.magnitude;
         Vector3 intersectionPoint = source1 + intersectionDis1 * dir1;
 
         return intersectionPoint;

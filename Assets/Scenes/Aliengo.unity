@@ -448,7 +448,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &83205799
 MonoBehaviour:
@@ -1113,7 +1113,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &195997507
 MonoBehaviour:
@@ -1592,7 +1592,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &286892532
 MonoBehaviour:
@@ -2175,7 +2175,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &381512020
 MonoBehaviour:
@@ -2371,7 +2371,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &420180872
 MonoBehaviour:
@@ -3002,7 +3002,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &476109023
 MonoBehaviour:
@@ -3152,7 +3152,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &482097402
 MonoBehaviour:
@@ -3414,7 +3414,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &508082188
 MonoBehaviour:
@@ -3746,7 +3746,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &546058900
 MonoBehaviour:
@@ -4078,7 +4078,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &597431793
 MonoBehaviour:
@@ -4491,7 +4491,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &668829176
 MonoBehaviour:
@@ -4945,7 +4945,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &687219044
 MonoBehaviour:
@@ -5187,7 +5187,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &703887453
 MonoBehaviour:
@@ -5483,6 +5483,112 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   geometryType: 0
+--- !u!1 &784611075
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 784611079}
+  - component: {fileID: 784611078}
+  - component: {fileID: 784611077}
+  - component: {fileID: 784611076}
+  m_Layer: 0
+  m_Name: floor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &784611076
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784611075}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &784611077
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784611075}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &784611078
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784611075}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &784611079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784611075}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &794503412
 GameObject:
   m_ObjectHideFlags: 0
@@ -5821,7 +5927,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &821468556
 MonoBehaviour:
@@ -6119,7 +6225,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &860826442
 MonoBehaviour:
@@ -6314,7 +6420,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &888999315
 MonoBehaviour:
@@ -6558,7 +6664,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &904637182
 MonoBehaviour:
@@ -7178,7 +7284,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &998952282
 MonoBehaviour:
@@ -7520,7 +7626,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1058772113
 MonoBehaviour:
@@ -7807,7 +7913,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1092822564
 MonoBehaviour:
@@ -8307,7 +8413,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1136399691
 MonoBehaviour:
@@ -8864,7 +8970,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1190305343
 MonoBehaviour:
@@ -9093,7 +9199,7 @@ Transform:
   m_GameObject: {fileID: 1210827571}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.527, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10693,7 +10799,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1365167859
 MonoBehaviour:
@@ -11796,7 +11902,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1574403348
 MonoBehaviour:
@@ -11996,7 +12102,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1610708078
 MonoBehaviour:
@@ -12489,7 +12595,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1721532373
 MonoBehaviour:
@@ -12895,7 +13001,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1776626407
 MonoBehaviour:
@@ -13922,7 +14028,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1927876185
 MonoBehaviour:
@@ -14421,7 +14527,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &1966171613
 MonoBehaviour:
@@ -14662,7 +14768,7 @@ ArticulationBody:
   m_ImplicitCom: 0
   m_ImplicitTensor: 0
   m_Immovable: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_CollisionDetectionMode: 0
 --- !u!114 &2035997765
 MonoBehaviour:
@@ -15176,3 +15282,4 @@ SceneRoots:
   - {fileID: 1875581684}
   - {fileID: 1103612913}
   - {fileID: 1210827574}
+  - {fileID: 784611079}
