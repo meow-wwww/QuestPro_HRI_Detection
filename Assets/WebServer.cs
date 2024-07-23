@@ -204,6 +204,7 @@ public class QuestServerBehavior : WebSocketBehavior
                 else if (e.Data == "Drone - Move to the table user1 dangerous"){
                     MainThreadDispatcher.Enqueue(() => {
                         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveToTableUser1Dangerous();
+                        GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(false);
                         Send("Received");
                     });
                 }
@@ -332,10 +333,19 @@ public class QuestServerBehavior : WebSocketBehavior
             });
         }
         ////////////////////////// system control
+        else if (e.Data == "Start recording"){
+            MainThreadDispatcher.Enqueue(() => {
+                GameObject.Find("PoseCamera").GetComponent<CameraRecord>().StartRecording();
+                GameObject.Find("AvatarRelated").transform.Find("AvatarCamera").GetComponent<CameraRecord>().StartRecording();
+                GameObject.Find("MainCameraRecord").GetComponent<CameraRecord>().StartRecording();
+                Send("Received");
+            });
+        }
         else if (e.Data == "Stop recording"){
             MainThreadDispatcher.Enqueue(() => {
                 GameObject.Find("PoseCamera").GetComponent<CameraRecord>().StopRecordingInterface();
                 GameObject.Find("AvatarRelated").transform.Find("AvatarCamera").GetComponent<CameraRecord>().StopRecordingInterface();
+                GameObject.Find("MainCameraRecord").GetComponent<CameraRecord>().StopRecordingInterface();
                 Send("Received");
             });
         }

@@ -14,9 +14,11 @@ public class SceneManagerBehavior : WebSocketBehavior
             string prefix = "Change to scene: ";
             string sceneNameAndMode = e.Data.Substring(prefix.Length);
             string sceneName = sceneNameAndMode.Split(' ')[0];
-            string mode = sceneNameAndMode.Split(' ')[1];
+            string robot = sceneNameAndMode.Split(' ')[1];
+            string mode = sceneNameAndMode.Split(' ')[2];
             MainThreadDispatcher.Enqueue(() => {
                 PlayerPrefs.SetString("mode", mode); // pass the mode (Standing/Sitting) to specific scene
+                PlayerPrefs.SetString("robot", robot); // pass the robot (Waiter/Drone/...) to specific scene
                 UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
                 Send("Received");
             });

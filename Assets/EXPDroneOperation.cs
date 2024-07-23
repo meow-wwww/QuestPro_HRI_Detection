@@ -6,21 +6,21 @@ public class EXPDroneOperation : MonoBehaviour
 {
     public GameObject table;
     GameObject tableTop;
-    public float moveSpeed = 0.5f;
-    public float rotateSpeed = 30f;
+    public float moveSpeed;
+    public float rotateSpeed;
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
 
     [Header("Object references")]
     public GameObject currentDrink = null;
     GameObject plate; // assigned in Unity Inspector
     public GameObject cupCatcher; // assigned in Unity Inspector
-    public SetInstruction instruction; // assigned in Unity Inspector
+    // public SetInstruction instruction; // assigned in Unity Inspector
 
     // Start is called before the first frame update
     void Start()
     {
         System.Diagnostics.Debug.Assert(cupCatcher != null, "CupCatcher is not assigned in Unity Inspector");
-        System.Diagnostics.Debug.Assert(instruction != null, "Instruction is not assigned in Unity Inspector");
+        // System.Diagnostics.Debug.Assert(instruction != null, "Instruction is not assigned in Unity Inspector");
     }
 
     void Update(){
@@ -125,8 +125,8 @@ public class EXPDroneOperation : MonoBehaviour
         Vector3 targetPosition = tableTop.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
         gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
             new List<Vector3>{targetPosition}, 
-            moveSpeed*2, rotateSpeed, 
-            true, new Vector3(globalPositionInfo.userPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, globalPositionInfo.userPosition.z)
+            moveSpeed*2, rotateSpeed
+            // , true, new Vector3(globalPositionInfo.userPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, globalPositionInfo.userPosition.z)
         );
     }
 

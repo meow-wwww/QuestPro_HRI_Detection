@@ -28,10 +28,10 @@ public class CameraRecord : MonoBehaviour
         texture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
 
         // Start recording
-        StartRecording();
+        // StartRecording();
     }
 
-    void StartRecording()
+    public void StartRecording()
     {
         // Create the recorder
         isRecording = true;
