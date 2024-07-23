@@ -30,38 +30,61 @@ public class EyeTracking : MonoBehaviour
         File.AppendAllText(filePath, dataLine);
     }
 
-
     Vector3 FindIntersection(Vector3 source1, Vector3 dir1, Vector3 source2, Vector3 dir2){
         dir1 = dir1.normalized;
         dir2 = dir2.normalized;
 
-        Vector3 crossDir = Vector3.Cross(dir1, dir2);
-        float crossDirLengthSquared = crossDir.sqrMagnitude;
-        if (crossDirLengthSquared < 0.000001f){ // almost parallel
-            float t = Vector3.Dot(source2 - source1, dir1) / Vector3.Dot(dir1, dir1);
-            Vector3 closestPoint1 = source1 + t * dir1;
-            Vector3 closestPoint2 = source2 + t * dir2;
-            // if ((closestPoint1 - closestPoint2).magnitude < 0.000001f){
-                return (closestPoint1 + closestPoint2) / 2f;
-            // }
-            // else{
-            //     return new Vector3(1000f, 1000f, 1000f);
-            // }
+        if (Vector3.Dot(dir1, dir2) > 0.999999f){ // parallel
+            return (source1 + source2) / 2f;
         }
-        else {
-            Vector3 r = source2 - source1;
-            float t1 = (Vector3.Dot(Vector3.Cross(r, dir2), crossDir)) / crossDirLengthSquared;
-            float t2 = (Vector3.Dot(Vector3.Cross(r, dir1), crossDir)) / crossDirLengthSquared;
-            
-            Vector3 intersectionPoint1 = source1 + t1 * dir1;
-            Vector3 intersectionPoint2 = source2 + t2 * dir2;
 
-            // if ((intersectionPoint1 - intersectionPoint2).magnitude < 0.000001f){
-                return (intersectionPoint1 + intersectionPoint2) / 2f;
-            // }
-            // else{
-            //     return new Vector3(1000f, 1000f, 1000f);
-            // }
-        }
+        Vector3 sourceVec = source2 - source1;
+        
+        Vector3 crossS1 = Vector3.Cross(sourceVec, dir2);
+        Vector3 crossS2 = Vector3.Cross(dir1, dir2);
+        float intersectionDis1 = crossS1 / crossS2;
+        Vector3 intersectionPoint = source1 + intersectionDis1 * dir1;
+
+        return intersectionPoint;
     }
+
+    // Vector3 FindIntersection(Vector3 source1, Vector3 dir1, Vector3 source2, Vector3 dir2){
+    //     dir1 = dir1.normalized;
+    //     dir2 = dir2.normalized;
+
+    //     if (Vector3.Dot(dir1, dir2) > 0.999999f){ // parallel
+    //         return (source1 + source2) / 2f;
+    //     }
+
+    //     Vector3 crossDir = Vector3.Cross(dir1, dir2);
+    //     float crossDirLengthSquared = crossDir.sqrMagnitude;
+    //     if (crossDirLengthSquared < 0.000001f){ // almost parallel
+    //         float t = Vector3.Dot(source2 - source1, dir1) / Vector3.Dot(dir1, dir1);
+    //         Vector3 closestPoint1 = source1 + t * dir1;
+    //         Vector3 closestPoint2 = source2 + t * dir2;
+    //         // if ((closestPoint1 - closestPoint2).magnitude < 0.000001f){
+    //             return (closestPoint1 + closestPoint2) / 2f;
+    //         // }
+    //         // else{
+    //         //     return new Vector3(1000f, 1000f, 1000f);
+    //         // }
+    //     }
+    //     else {
+    //         Vector3 r = source2 - source1;
+    //         float t1 = (Vector3.Dot(Vector3.Cross(r, dir2), crossDir)) / crossDirLengthSquared;
+    //         float t2 = (Vector3.Dot(Vector3.Cross(r, dir1), crossDir)) / crossDirLengthSquared;
+            
+    //         Vector3 intersectionPoint1 = source1 + t1 * dir1;
+    //         Vector3 intersectionPoint2 = source2 + t2 * dir2;
+
+    //         // if ((intersectionPoint1 - intersectionPoint2).magnitude < 0.000001f){
+    //             return (intersectionPoint1 + intersectionPoint2) / 2f;
+    //         // }
+    //         // else{
+    //         //     return new Vector3(1000f, 1000f, 1000f);
+    //         // }
+    //     }
+    // }
+
+
 }

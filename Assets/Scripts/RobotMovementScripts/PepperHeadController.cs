@@ -11,19 +11,14 @@ public class PepperHeadController : MonoBehaviour
     ArticulationBody m_HeadYaw;
     ArticulationBody m_HeadPitch;
 
-    // set xDrive limits
-    // yaw: -119.5001, 119.5001
-    // pitch: -40.49998, 36.49999
-    float headYawLowerLimit = -119.5001f;
-    float headYawUpperLimit = 119.5001f;
-    float headPitchLowerLimit = -40.49998f;
-    float headPitchUpperLimit = 36.49999f;
 
     [SerializeField]
     GameObject m_Pepper;
     public GameObject Pepper { get => m_Pepper; set => m_Pepper = value; }
 
-    // xDrive sliders
+    // xDrive sliders with xDrive limits
+    // yaw: -119.5001, 119.5001
+    // pitch: -40.49998, 36.49999
     [Range(-119.5001f, 119.5001f)]
     public float headYawDriveTarget = 0.0f;
     [Range(-40.49998f, 36.49999f)]

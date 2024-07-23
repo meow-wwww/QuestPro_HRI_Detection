@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c444d6f85828f1b4f9b89c7c387f9ddd, type: 3}
   m_Name: msgbrowser_settings
   m_EditorClassIdentifier: 
-  inputPath: C:/Users/HCI/Documents/Hanfang/Project/ros-moveit-unity-simulation/pepper/ROS/src/pepper_moveit_config
+  inputPath: D:/hlyuag/repos/ros-moveit-unity-simulation/pepper/ROS/pepper_moveit_config
   relativeOutPath: RosMessages

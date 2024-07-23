@@ -191,6 +191,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.DefaultCompany.QuestProHelloWorld
+    Standalone: com.DefaultCompany.QuestProHelloWorld
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -881,7 +882,7 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: 40d2cb21-9d50-4307-83ba-54e1dc026954
   framebufferDepthMemorylessMode: 0
