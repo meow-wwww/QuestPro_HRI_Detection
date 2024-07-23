@@ -7,7 +7,7 @@ public class ResetObjects : MonoBehaviour
 {
     public List<GameObject> objectList;
 
-    public List<TransformData> savedTransform;
+    public List<LogData> savedTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -22,17 +22,30 @@ public class ResetObjects : MonoBehaviour
     }
 
     [System.Serializable]
-    public class TransformData
+    public class LogData
     {
         public Vector3 position;
         public Quaternion rotation;
+        public Transform parent;
+        public bool active;
+        public bool onlySaveLocalScale;
         public Vector3 localScale;
 
-        public TransformData(Vector3 pos, Quaternion rot)
+
+        public LogData(Vector3 pos, Quaternion rot, Transform p, bool a, bool saveLocalScale=false, Vector3 locScale=default(Vector3))
         {
             position = pos;
             rotation = rot;
-            // localScale = scale;
+            parent = p;
+            active = a;
+            if (saveLocalScale){
+                onlySaveLocalScale = true;
+                localScale = locScale;
+            }
+            else{
+                onlySaveLocalScale = false;
+                localScale = Vector3.zero;
+            }
         }
     }
 
@@ -40,7 +53,26 @@ public class ResetObjects : MonoBehaviour
         try{
             savedTransform.Clear();
             for (int i = 0; i < objectList.Count; i++){
-                TransformData data = new TransformData(objectList[i].transform.position, objectList[i].transform.rotation);
+                LogData data = null;
+                if (objectList[i].name == "coffee") {
+                    data = new LogData(
+                        objectList[i].transform.position, 
+                        objectList[i].transform.rotation,
+                        objectList[i].transform.parent,
+                        objectList[i].activeSelf,
+                        saveLocalScale: true,
+                        locScale: objectList[i].transform.localScale
+                    );
+                }
+                else{
+                    data = new LogData(
+                        objectList[i].transform.position, 
+                        objectList[i].transform.rotation,
+                        objectList[i].transform.parent,
+                        objectList[i].activeSelf,
+                        saveLocalScale: false
+                    );
+                }
                 savedTransform.Add(data);
             }
             return true;
@@ -54,9 +86,15 @@ public class ResetObjects : MonoBehaviour
     public bool ResetContext(){
         try{
             for (int i = 0; i < objectList.Count; i++){
-                objectList[i].transform.position = savedTransform[i].position;
-                objectList[i].transform.rotation = savedTransform[i].rotation;
-                // objectList[i].transform.localScale = savedTransform[i].localScale;
+                if (savedTransform[i].onlySaveLocalScale){
+                    objectList[i].transform.localScale = savedTransform[i].localScale;
+                }
+                else{
+                    objectList[i].transform.position = savedTransform[i].position;
+                    objectList[i].transform.rotation = savedTransform[i].rotation;
+                    objectList[i].transform.SetParent(savedTransform[i].parent);
+                    objectList[i].SetActive(savedTransform[i].active);
+                }
             }
             return true;
         }

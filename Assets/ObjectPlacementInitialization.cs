@@ -61,7 +61,10 @@ public class ObjectPlacementInitialization : MonoBehaviour
         userRight = new Vector3(userForward.z, 0, -userForward.x);
 
         // set virtual objects' position (eg. table, bar, ...)
-        table.transform.position = new Vector3(GameObject.Find("TABLE").transform.position.x, floorHeight, GameObject.Find("TABLE").transform.position.z) + userRight * 0.1f;
+        table.transform.position = new Vector3(GameObject.Find("TABLE").transform.position.x, floorHeight, GameObject.Find("TABLE").transform.position.z);// + userRight * 0.1f;
+        // rotate, such that table's forward points to userForward
+        table.transform.rotation = Quaternion.LookRotation(userForward, Vector3.up);
+
         bar.transform.position = new Vector3(GameObject.Find("SCREEN").transform.position.x, floorHeight, GameObject.Find("SCREEN").transform.position.z);
         bar.transform.rotation = GameObject.Find("SCREEN").transform.rotation;
 
@@ -105,7 +108,7 @@ public class ObjectPlacementInitialization : MonoBehaviour
         }
         else if (sceneName == "Standing"){
             tableHeight = GameObject.Find("SCREEN").transform.position.y;
-            instruction.transform.position = new Vector3(experimentTable.transform.position.x, tableHeight + 0.5f, experimentTable.transform.position.z) + userRight * 0.25f;
+            instruction.transform.position = new Vector3(experimentTable.transform.position.x, tableHeight + 0.8f, experimentTable.transform.position.z) + userRight * 0.25f;
         }
         else
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
@@ -122,8 +125,8 @@ public class ObjectPlacementInitialization : MonoBehaviour
 
     public void SetDrinkPositionIndicator(bool state){
         experimentTable.transform.Find("DrinkPlaceIndicator").gameObject.SetActive(state);
-        if (sceneName == "Sitting"){
-            experimentTable.transform.Find("DrinkPlaceIndicator").position = new Vector3(experimentTable.transform.position.x, tableHeight, experimentTable.transform.position.z) + 0.15f * userRight - 0.15f * userForward;
-        }
+        // if (sceneName == "Sitting"){
+        //     experimentTable.transform.Find("DrinkPlaceIndicator").position = new Vector3(experimentTable.transform.position.x, tableHeight, experimentTable.transform.position.z) + 0.15f * userRight - 0.15f * userForward + 0.02f * Vector3.up;
+        // }
     }
 }

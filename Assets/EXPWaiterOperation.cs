@@ -41,9 +41,9 @@ public class EXPWaiterOperation : MonoBehaviour
                 // set key points in robot movement
                 if (globalPositionInfo.sceneName == "Sitting"){
                     middlePoint = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.7f * globalPositionInfo.userRight;
-                    user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight - 1.0f * globalPositionInfo.userForward;
+                    user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight - 0.8f * globalPositionInfo.userForward;
                     user2Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight + 1.2f * globalPositionInfo.userForward;
-                    user1Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.8f * globalPositionInfo.userRight - 0.7f * globalPositionInfo.userForward;
+                    user1Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.7f * globalPositionInfo.userRight - 0.7f * globalPositionInfo.userForward;
                     user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.7f * globalPositionInfo.userRight + 0.7f * globalPositionInfo.userForward;
                     user1Collision = globalPositionInfo.userPosition + 1f * globalPositionInfo.userRight;
                 }
@@ -70,7 +70,7 @@ public class EXPWaiterOperation : MonoBehaviour
         currentDrink = drink;
         if (currentDrink != null){
             currentDrink.transform.position = cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint").position - 0.04f * cupCatcher.transform.parent.right + cupCatcher.transform.parent.forward * 0.003f - new Vector3(0f, 0.02f, 0f);
-            currentDrink.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            // currentDrink.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             currentDrink.transform.SetParent(cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint"), worldPositionStays: true);
         }
         yield return null;
@@ -135,16 +135,16 @@ public class EXPWaiterOperation : MonoBehaviour
         else{
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-                    controller.LiftCatcher(0.03f),
+                    controller.LiftCatcher(0.1f),
                     controller.ForwardCatcher(sendOutDrinkDistance),
                     currentDrink.GetComponent<DrinkAction>().Dangerous_Coroutine(),
-                    controller.LowerCatcher(0.03f),
+                    controller.LowerCatcher(0.1f),
                     CurrentDrinkDetach(),
                     controller.OpenCatcher(),
-                    controller.LiftCatcher(0.03f),
+                    controller.LiftCatcher(0.1f),
                     controller.CloseCatcher(),
                     controller.BackwardCatcher(sendOutDrinkDistance),
-                    controller.LowerCatcher(0.03f)
+                    controller.LowerCatcher(0.1f)
                 })
             );
         }
@@ -166,7 +166,7 @@ public class EXPWaiterOperation : MonoBehaviour
     }
 
     public void MoveToTableHalf_Fixed(){
-        Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f;
+        Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f - 0.5f * globalPositionInfo.userForward;
         targetPosition = new Vector3(targetPosition.x, globalPositionInfo.floorHeight, targetPosition.z);
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
             new List<Vector3>{
@@ -225,21 +225,26 @@ public class EXPWaiterOperation : MonoBehaviour
         ));
     }
 
-    // public void MoveToTableUser1Collision()
-    // {
-    //     Vector3 targetPosition = globalPositionInfo.userPosition + 1f * globalPositionInfo.userRight;
-    //     ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-    //     StartCoroutine(executor.PlanAndMoveTo(targetPosition, moveSpeed*2, rotateSpeed, true, globalPositionInfo.userPosition));
-    // }
-
     public void MoveToTableUser1FromCollision_Fixed(){
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
-            new List<Vector3>{
-                user1Peripheral,
-                user1Near
-            }, 
-            moveSpeed, rotateSpeed
-        ));
+        if (globalPositionInfo.sceneName == "Sitting"){
+            StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+                new List<Vector3>{
+                    user1Peripheral,
+                    user1Near
+                }, 
+                moveSpeed, rotateSpeed,
+                true, table.transform.position
+            ));
+        }
+        else{
+            StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+                new List<Vector3>{
+                    user1Peripheral,
+                    user1Near
+                }, 
+                moveSpeed, rotateSpeed
+            ));
+        }
     }
 
     public void MoveToTableUser1Dangerous_Fixed()
