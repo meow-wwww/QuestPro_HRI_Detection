@@ -10,8 +10,8 @@ public class EXPWaiterOperation : MonoBehaviour
     public GameObject cupCatcher; // assigned in Unity Inspector
 
     [Header("Robot Movement Parameters")]
-    public float moveSpeed = 0.5f;
-    public float rotateSpeed = 30f;
+    public float moveSpeed;
+    public float rotateSpeed;
 
     [Header("Fixed Positions In Routes")]
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
@@ -45,15 +45,15 @@ public class EXPWaiterOperation : MonoBehaviour
                     user2Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight + 1.2f * globalPositionInfo.userForward;
                     user1Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.7f * globalPositionInfo.userRight - 0.7f * globalPositionInfo.userForward;
                     user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.7f * globalPositionInfo.userRight + 0.7f * globalPositionInfo.userForward;
-                    user1Collision = globalPositionInfo.userPosition + 1f * globalPositionInfo.userRight;
+                    user1Collision = globalPositionInfo.userPosition + 0.85f * globalPositionInfo.userRight + 0.15f * globalPositionInfo.userForward;
                 }
                 else if (globalPositionInfo.sceneName == "Standing"){
-                    middlePoint = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.7f * globalPositionInfo.userRight;
-                    user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.0f * globalPositionInfo.userRight - 0.8f * globalPositionInfo.userForward;
-                    user2Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.0f * globalPositionInfo.userRight + 0.8f * globalPositionInfo.userForward;
+                    middlePoint = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.3f * globalPositionInfo.userRight;
+                    user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.9f * globalPositionInfo.userRight - 0.8f * globalPositionInfo.userForward;
+                    user2Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.9f * globalPositionInfo.userRight + 0.8f * globalPositionInfo.userForward;
                     user1Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.65f * globalPositionInfo.userRight - 0.6f * globalPositionInfo.userForward;
                     user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.65f * globalPositionInfo.userRight + 0.6f * globalPositionInfo.userForward;
-                    user1Collision = globalPositionInfo.userPosition + 1f * globalPositionInfo.userRight;
+                    user1Collision = globalPositionInfo.userPosition + 0.85f * globalPositionInfo.userRight;
                 }
             }
         }
@@ -220,8 +220,7 @@ public class EXPWaiterOperation : MonoBehaviour
             new List<Vector3>{
                 user1Collision
             }, 
-            moveSpeed*2, rotateSpeed*2,
-            true, globalPositionInfo.userPosition
+            moveSpeed*2, rotateSpeed*2
         ));
     }
 

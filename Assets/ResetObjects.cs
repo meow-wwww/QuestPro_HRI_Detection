@@ -5,9 +5,13 @@ using System;
 
 public class ResetObjects : MonoBehaviour
 {
+    public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
+
     public List<GameObject> objectList;
 
-    public List<LogData> savedTransform;
+    public List<LogData> savedLogData;
+
+    public GameObject currentDrinkSaved;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +55,7 @@ public class ResetObjects : MonoBehaviour
 
     public bool SaveContext(){
         try{
-            savedTransform.Clear();
+            savedLogData.Clear();
             for (int i = 0; i < objectList.Count; i++){
                 LogData data = null;
                 if (objectList[i].name == "coffee") {
@@ -73,8 +77,20 @@ public class ResetObjects : MonoBehaviour
                         saveLocalScale: false
                     );
                 }
-                savedTransform.Add(data);
+                savedLogData.Add(data);
             }
+
+            // save currentDrink
+            if (globalPositionInfo.robot.name == "WaiterRobot"){
+                currentDrinkSaved = globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().currentDrink;
+            }
+            else if (globalPositionInfo.robot.name == "DroneRobot"){
+                currentDrinkSaved = globalPositionInfo.robot.GetComponent<EXPDroneOperation>().currentDrink;
+            }
+            else{
+                Debug.LogError("Error: Invalid robot name.");
+            }
+
             return true;
         }
         catch (Exception e){
@@ -86,16 +102,28 @@ public class ResetObjects : MonoBehaviour
     public bool ResetContext(){
         try{
             for (int i = 0; i < objectList.Count; i++){
-                if (savedTransform[i].onlySaveLocalScale){
-                    objectList[i].transform.localScale = savedTransform[i].localScale;
+                if (savedLogData[i].onlySaveLocalScale){
+                    objectList[i].transform.localScale = savedLogData[i].localScale;
                 }
                 else{
-                    objectList[i].transform.position = savedTransform[i].position;
-                    objectList[i].transform.rotation = savedTransform[i].rotation;
-                    objectList[i].transform.SetParent(savedTransform[i].parent);
-                    objectList[i].SetActive(savedTransform[i].active);
+                    objectList[i].transform.position = savedLogData[i].position;
+                    objectList[i].transform.rotation = savedLogData[i].rotation;
+                    objectList[i].transform.SetParent(savedLogData[i].parent);
+                    objectList[i].SetActive(savedLogData[i].active);
                 }
             }
+
+            // recover currentDrink
+            if (globalPositionInfo.robot.name == "WaiterRobot"){
+                globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().currentDrink = currentDrinkSaved;
+            }
+            else if (globalPositionInfo.robot.name == "DroneRobot"){
+                globalPositionInfo.robot.GetComponent<EXPDroneOperation>().currentDrink = currentDrinkSaved;
+            }
+            else{
+                Debug.LogError("Error: Invalid robot name.");
+            }
+
             return true;
         }
         catch (Exception e){

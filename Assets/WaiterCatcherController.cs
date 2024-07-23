@@ -60,15 +60,15 @@ public class WaiterCatcherController : MonoBehaviour
     }
 
     public IEnumerator ForwardCatcher(float distance){
-        Coroutine leftCoroutine = StartCoroutine(Forward_Move_Catcher_Coroutine(leftCatcher, moveSpeed, distance, direction: 1));
-        Coroutine rightCoroutine = StartCoroutine(Forward_Move_Catcher_Coroutine(rightCatcher, moveSpeed, distance, direction: 1));
+        Coroutine leftCoroutine = StartCoroutine(Forward_Move_Catcher_Coroutine(leftCatcher, moveSpeed*1.5f, distance, direction: 1));
+        Coroutine rightCoroutine = StartCoroutine(Forward_Move_Catcher_Coroutine(rightCatcher, moveSpeed*1.5f, distance, direction: 1));
         yield return leftCoroutine;
         yield return rightCoroutine;
     }
 
     public IEnumerator BackwardCatcher(float distance){
-        Coroutine leftCoroutine = StartCoroutine(Forward_Move_Catcher_Coroutine(leftCatcher, moveSpeed, distance, direction: -1));
-        Coroutine rightCoroutine = StartCoroutine(Forward_Move_Catcher_Coroutine(rightCatcher, moveSpeed, distance, direction: -1));
+        Coroutine leftCoroutine = StartCoroutine(Forward_Move_Catcher_Coroutine(leftCatcher, moveSpeed*1.5f, distance, direction: -1));
+        Coroutine rightCoroutine = StartCoroutine(Forward_Move_Catcher_Coroutine(rightCatcher, moveSpeed*1.5f, distance, direction: -1));
         yield return leftCoroutine;
         yield return rightCoroutine;
     }
