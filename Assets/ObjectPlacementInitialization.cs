@@ -38,7 +38,6 @@ public class ObjectPlacementInitialization : MonoBehaviour
     {
         sceneName = PlayerPrefs.GetString("mode");
         robotName = PlayerPrefs.GetString("robot");
-        Debug.Log("++++ RobotName:" + robotName);
         //get robot reference
         robot = GameObject.Find(robotName);
         // disable all other robots

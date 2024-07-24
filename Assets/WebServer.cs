@@ -144,19 +144,6 @@ public class QuestServerBehavior : WebSocketBehavior
                     Send("Received");
                 });
             }
-            else if (e.Data == "Waiter - Current drink: attach"){
-                MainThreadDispatcher.Enqueue(() => {
-                    GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().currentDrink.GetComponent<FollowPlate>().SetFollowPlate(true);
-                    Send("Received");
-                });
-            }
-            else if (e.Data == "Waiter - Current drink: detach"){
-                MainThreadDispatcher.Enqueue(() => {
-                    GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().currentDrink.GetComponent<FollowPlate>().SetFollowPlate(false);
-                    GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().currentDrink = null;
-                    Send("Received");
-                });
-            }
             //// All audios
             else if (e.Data.StartsWith("Waiter - Audio: ")){
                 string prefix = "Waiter - Audio: ";
