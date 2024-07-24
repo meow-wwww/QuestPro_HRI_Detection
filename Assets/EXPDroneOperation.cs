@@ -14,7 +14,6 @@ public class EXPDroneOperation : MonoBehaviour
     public GameObject currentDrink = null;
     GameObject plate; // assigned in Unity Inspector
     public GameObject cupCatcher; // assigned in Unity Inspector
-    // public SetInstruction instruction; // assigned in Unity Inspector
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +42,7 @@ public class EXPDroneOperation : MonoBehaviour
         }
         currentDrink = drink;
         if (currentDrink != null){
-            currentDrink.transform.position = cupCatcher.transform.position - new Vector3(0f, 0.17f, 0f);
+            currentDrink.transform.position = cupCatcher.transform.position - new Vector3(0f, 0.19f, 0f);
             currentDrink.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             currentDrink.transform.SetParent(cupCatcher.transform, worldPositionStays: true);
         }
@@ -123,17 +122,25 @@ public class EXPDroneOperation : MonoBehaviour
     public void MoveToTableUser1Collision()
     {
         Vector3 targetPosition = tableTop.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
+        targetPosition.y = globalPositionInfo.floorHeight + 1.2f;
         gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            new List<Vector3>{targetPosition}, 
-            moveSpeed*2, rotateSpeed
+            new List<Vector3>{
+                targetPosition + 1f * globalPositionInfo.userForward + 1f * globalPositionInfo.userRight,
+                targetPosition
+            }, 
+            moveSpeed*2, rotateSpeed,
             // , true, new Vector3(globalPositionInfo.userPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, globalPositionInfo.userPosition.z)
+            false, new Vector3(0,0,0),
+            flyInStableHeight: true, stableHeight: globalPositionInfo.floorHeight + 1.2f
         );
     }
 
     public void MoveToTableUser1Dangerous(){
         Vector3 targetPosition = tableTop.transform.position + 0.3f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward;
         gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            new List<Vector3>{targetPosition},
+            new List<Vector3>{
+                targetPosition
+            },
             moveSpeed, rotateSpeed, 
             true, targetPosition - globalPositionInfo.userForward
         );

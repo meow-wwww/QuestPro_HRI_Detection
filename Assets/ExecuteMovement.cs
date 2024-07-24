@@ -144,17 +144,17 @@ public class ExecuteMovement : MonoBehaviour
         }
     }
 
-    public void FlyAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false)
+    public void FlyAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false, bool flyInStableHeight=false, float stableHeight=0f)
     {
         if (loop)
             StartCoroutine(FlyAlongPath_Loop_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
         else
-            StartCoroutine(FlyAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
+            StartCoroutine(FlyAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards, flyInStableHeight, stableHeight));
     }
 
     public float flightHeight = 2f;
 
-    private IEnumerator FlyAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
+    private IEnumerator FlyAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards, bool flyInStableHeight=false, float stableHeight=0f)
     {
         // start to play the movement sound effect just before moving
         gameObject.GetComponent<AudioSource>().Play();
@@ -164,10 +164,16 @@ public class ExecuteMovement : MonoBehaviour
             // Before start, check the distance in x-z plane between the robot and the target, and using this to decide the flight height.
             // (if the distance is too small, the robot will fly lower)
             float realFlightHeight;
-            if (Vector3.Distance(transform.position, target) < 0.5f)
-                realFlightHeight = globalPositionInfo.tableHeight + 0.4f;
-            else
-                realFlightHeight = globalPositionInfo.floorHeight + flightHeight;
+            if (flyInStableHeight){
+                realFlightHeight = stableHeight;
+            }
+            else{
+                if (Vector3.Distance(transform.position, target) < 0.5f)
+                    realFlightHeight = globalPositionInfo.tableHeight + 0.4f;
+                else
+                    realFlightHeight = globalPositionInfo.floorHeight + flightHeight;
+            }
+            
             // first lift up to the flight height
             Vector3 robotInFlightHeight = new Vector3(transform.position.x, realFlightHeight, transform.position.z);
            

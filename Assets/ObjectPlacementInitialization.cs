@@ -50,8 +50,8 @@ public class ObjectPlacementInitialization : MonoBehaviour
         // add the robot to reset management list (to the first element)
         resetManager.objectList.Insert(0, robot);
         if (robotName == "DroneRobot"){
-            resetManager.objectList.Insert(0, robot.transform.Find("CupCatcher").Find("Catcher1").gameObject);
-            resetManager.objectList.Insert(0, robot.transform.Find("CupCatcher").Find("Catcher2").gameObject);
+            resetManager.objectList.Add(robot.transform.Find("CupCatcher").Find("Catcher1").gameObject);
+            resetManager.objectList.Add(robot.transform.Find("CupCatcher").Find("Catcher2").gameObject);
         }
         
         System.Diagnostics.Debug.Assert(sceneName != "", "Scene name is not set");
