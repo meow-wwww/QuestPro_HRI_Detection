@@ -149,7 +149,7 @@ public class ObjectPlacementInitialization : MonoBehaviour
             tableHeight = table.transform.Find("TableTop").transform.position.y;
         }
         else if (sceneName == "Standing"){
-            tableHeight = GameObject.Find("SCREEN").transform.position.y;
+            tableHeight = bar.transform.Find("TableTop").transform.position.y;
         }
         else
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");

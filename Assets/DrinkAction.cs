@@ -5,6 +5,7 @@ using UnityEngine;
 public class DrinkAction : MonoBehaviour
 {
     GameObject coffee;
+    public GameObject interactable; // assigned in Unity Inspector
 
     void Start()
     {
@@ -32,6 +33,21 @@ public class DrinkAction : MonoBehaviour
                 gameObject.transform.localRotation = gameObject.transform.localRotation * Quaternion.Euler(rotateSpeed * Time.deltaTime * -1, 0, 0);
             }
             yield return null;
+        }
+        SetInteractionMode(true);
+        yield return null;
+    }
+
+    public bool SetInteractionMode(bool isInteractable)
+    {
+        // return: bool, operation successful or not
+        if (interactable != null){
+            interactable.SetActive(isInteractable);
+            Debug.Log("+++++ Coffee cup interaction enabled.");
+            return true;
+        }
+        else{
+            return false;
         }
     }
 }

@@ -332,6 +332,12 @@ public class QuestServerBehavior : WebSocketBehavior
                 Send("Received");
             });
         }
+        else if (e.Data == "Coffee1 - Enable interaction"){
+            MainThreadDispatcher.Enqueue(() => {
+                GameObject.Find("Coffee_user1").GetComponent<DrinkAction>().SetInteractionMode(true);
+                Send("Received");
+            });
+        }
         ////////////////////////// system control
         else if (e.Data == "Start recording"){
             MainThreadDispatcher.Enqueue(() => {

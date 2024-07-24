@@ -69,7 +69,7 @@ public class EXPWaiterOperation : MonoBehaviour
         }
         currentDrink = drink;
         if (currentDrink != null){
-            currentDrink.transform.position = cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint").position - 0.04f * cupCatcher.transform.parent.right + cupCatcher.transform.parent.forward * 0.003f - new Vector3(0f, 0.02f, 0f);
+            currentDrink.transform.position = cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint").position - 0.04f * cupCatcher.transform.parent.right + cupCatcher.transform.parent.forward * 0.003f - new Vector3(0f, 0.04f, 0f);
             // currentDrink.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             currentDrink.transform.SetParent(cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint"), worldPositionStays: true);
         }
@@ -87,8 +87,8 @@ public class EXPWaiterOperation : MonoBehaviour
         }
         currentDrink = drink;
         if (currentDrink != null){
-            currentDrink.transform.position = cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint").position - 0.04f * cupCatcher.transform.parent.right + cupCatcher.transform.parent.forward * 0.003f - new Vector3(0f, 0.02f, 0f);
-            currentDrink.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            currentDrink.transform.position = cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint").position - 0.04f * cupCatcher.transform.parent.right + cupCatcher.transform.parent.forward * 0.003f - new Vector3(0f, 0.04f, 0f);
+            // currentDrink.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             currentDrink.transform.SetParent(cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint"), worldPositionStays: true);
         }
     }
@@ -110,41 +110,50 @@ public class EXPWaiterOperation : MonoBehaviour
 
     public void SendOutDrink(bool dangerous=false){
         gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SetScreenImage("CatAwake");
-        float sendOutDrinkDistance = 0.5f;
-        if (globalPositionInfo.sceneName == "Sitting")
+        float sendOutDrinkDistance = 0f;
+        float cupToTableHeight = 0f;
+        float additionalHeight = 0f;
+        if (globalPositionInfo.sceneName == "Sitting"){
             sendOutDrinkDistance = 0.5f;
-        else if (globalPositionInfo.sceneName == "Standing")
-            sendOutDrinkDistance = 0.57f;
-        else 
+            cupToTableHeight = 0f;
+            additionalHeight = 0.1f;
+        }
+        else if (globalPositionInfo.sceneName == "Standing"){
+            sendOutDrinkDistance = 0.55f;
+            cupToTableHeight = globalPositionInfo.tableHeight - gameObject.transform.Find("CupCatcher").Find("CupHeight").position.y;
+            additionalHeight = 0.1f;
+        }
+        else{
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
+        }
         if (!dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-                    controller.LiftCatcher(0.1f),
+                    controller.LiftCatcher(cupToTableHeight + additionalHeight),
                     controller.ForwardCatcher(sendOutDrinkDistance),
-                    controller.LowerCatcher(0.1f),
+                    controller.LowerCatcher(additionalHeight),
                     CurrentDrinkDetach(),
                     controller.OpenCatcher(),
-                    controller.LiftCatcher(0.1f),
+                    controller.LiftCatcher(additionalHeight),
                     controller.CloseCatcher(),
                     controller.BackwardCatcher(sendOutDrinkDistance),
-                    controller.LowerCatcher(0.1f)
+                    controller.LowerCatcher(cupToTableHeight + additionalHeight)
                 })
             );
         }
-        else{
+        else if (dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-                    controller.LiftCatcher(0.1f),
+                    controller.LiftCatcher(cupToTableHeight + additionalHeight),
                     controller.ForwardCatcher(sendOutDrinkDistance),
                     currentDrink.GetComponent<DrinkAction>().Dangerous_Coroutine(),
-                    controller.LowerCatcher(0.1f),
+                    controller.LowerCatcher(additionalHeight),
                     CurrentDrinkDetach(),
                     controller.OpenCatcher(),
-                    controller.LiftCatcher(0.1f),
+                    controller.LiftCatcher(additionalHeight),
                     controller.CloseCatcher(),
                     controller.BackwardCatcher(sendOutDrinkDistance),
-                    controller.LowerCatcher(0.1f)
+                    controller.LowerCatcher(cupToTableHeight + additionalHeight)
                 })
             );
         }
@@ -200,7 +209,7 @@ public class EXPWaiterOperation : MonoBehaviour
         }
         else if (globalPositionInfo.sceneName == "Standing"){
             collisionPath = new List<Vector3>{
-                user1Collision + globalPositionInfo.userRight * 1.5f,
+                user1Collision + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 1.5f,
                 user1Collision
             };
         }
@@ -253,7 +262,7 @@ public class EXPWaiterOperation : MonoBehaviour
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
             new List<Vector3>{
                 user1Peripheral,
-                middlePoint,
+                // middlePoint,
                 user2Peripheral,
                 user2Near
             }, 
