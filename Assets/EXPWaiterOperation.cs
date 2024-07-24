@@ -49,10 +49,10 @@ public class EXPWaiterOperation : MonoBehaviour
                 }
                 else if (globalPositionInfo.sceneName == "Standing"){
                     middlePoint = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.3f * globalPositionInfo.userRight;
-                    user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.9f * globalPositionInfo.userRight - 0.8f * globalPositionInfo.userForward;
-                    user2Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.9f * globalPositionInfo.userRight + 0.8f * globalPositionInfo.userForward;
-                    user1Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.65f * globalPositionInfo.userRight - 0.6f * globalPositionInfo.userForward;
-                    user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.65f * globalPositionInfo.userRight + 0.6f * globalPositionInfo.userForward;
+                    user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.5f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward;
+                    user2Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.1f * globalPositionInfo.userRight + 1.1f * globalPositionInfo.userForward;
+                    user1Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.7f * globalPositionInfo.userRight - 0.4f * globalPositionInfo.userForward;
+                    user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0f * globalPositionInfo.userRight + 1.1f * globalPositionInfo.userForward;
                     user1Collision = globalPositionInfo.userPosition + 0.85f * globalPositionInfo.userRight;
                 }
             }
@@ -168,6 +168,9 @@ public class EXPWaiterOperation : MonoBehaviour
     public void MoveToTableHalf_Fixed(){
         Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f - 0.5f * globalPositionInfo.userForward;
         targetPosition = new Vector3(targetPosition.x, globalPositionInfo.floorHeight, targetPosition.z);
+        if (globalPositionInfo.sceneName == "Standing"){
+            targetPosition += 0.5f * globalPositionInfo.userRight;
+        }
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
             new List<Vector3>{
                 targetPosition
@@ -176,16 +179,10 @@ public class EXPWaiterOperation : MonoBehaviour
         ));
     }
 
-    // public void MoveToTableHalf(){
-    //     Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f;
-    //     targetPosition = new Vector3(targetPosition.x, globalPositionInfo.floorHeight, targetPosition.z);
-    //     StartCoroutine(gameObject.GetComponent<ExecuteMovement>().PlanAndMoveTo(targetPosition, moveSpeed, rotateSpeed));
-    // }
-
     public void MoveToTableUser1_Fixed(){
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
             new List<Vector3>{
-                middlePoint,
+                // middlePoint,
                 user1Peripheral,
                 user1Near
             }, 
@@ -193,33 +190,26 @@ public class EXPWaiterOperation : MonoBehaviour
         ));
     }
 
-    // public void MoveToTableUser1(bool rigid=false)
-    // {
-    //     Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
-    //     ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-    //     if (!rigid){
-    //         Vector3 targetPosition = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.7f * globalPositionInfo.userForward;
-    //         executor.PlanAndMoveTo(targetPosition, moveSpeed, rotateSpeed, true, tablePosition2d - 0.1f * globalPositionInfo.userForward);
-    //     }
-    //     else{
-    //         Vector3 targetPosition = table.transform.position + 1.2f * globalPositionInfo.userRight - 1.0f * globalPositionInfo.userForward;
-    //         StartCoroutine(
-    //             controller.WaitForCoroutinesToEnd(
-    //                 new List<IEnumerator>(){
-    //                     executor.PlanAndMoveTo(targetPosition, moveSpeed, rotateSpeed, true, tablePosition2d),
-    //                     executor.MoveAlongPath(new List<Vector3>{tablePosition2d + 0.8f * globalPositionInfo.userRight - 0.8f * globalPositionInfo.userForward}, moveSpeed, rotateSpeed, true, tablePosition2d) // - 0.1f * globalPositionInfo.userForward)
-    //                 }
-    //             )
-    //         );
-    //     }
-    // }
-
     public void MoveToTableUser1Collision_Fixed()
     {
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
-            new List<Vector3>{
+        List<Vector3> collisionPath;
+        if (globalPositionInfo.sceneName == "Sitting"){
+            collisionPath = new List<Vector3>{
                 user1Collision
-            }, 
+            };
+        }
+        else if (globalPositionInfo.sceneName == "Standing"){
+            collisionPath = new List<Vector3>{
+                user1Collision + globalPositionInfo.userRight * 1.5f,
+                user1Collision
+            };
+        }
+        else {
+            System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
+            collisionPath = new List<Vector3>();
+        }
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            collisionPath,
             moveSpeed*2, rotateSpeed*2
         ));
     }
@@ -235,13 +225,14 @@ public class EXPWaiterOperation : MonoBehaviour
                 true, table.transform.position
             ));
         }
-        else{
+        else{ // Standing
             StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
                 new List<Vector3>{
                     user1Peripheral,
                     user1Near
                 }, 
-                moveSpeed, rotateSpeed
+                moveSpeed, rotateSpeed,
+                true, user1Near - globalPositionInfo.userRight
             ));
         }
     }
@@ -258,28 +249,6 @@ public class EXPWaiterOperation : MonoBehaviour
         currentDrink.GetComponent<DrinkAction>().Dangerous();
     }
 
-    // public void MoveToTableUser1Dangerous(bool rigid=false)
-    // {
-    //     Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
-    //     ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-    //     if (!rigid){
-    //         Vector3 targetPosition = table.transform.position + 0.8f * globalPositionInfo.userRight - 0.7f * globalPositionInfo.userForward;
-    //         executor.PlanAndMoveTo(targetPosition, moveSpeed, rotateSpeed, true, tablePosition2d - 0.1f * globalPositionInfo.userForward);
-    //     }
-    //     else{
-    //         Vector3 targetPosition = table.transform.position + 1.2f * globalPositionInfo.userRight - 1.0f * globalPositionInfo.userForward;
-    //         StartCoroutine(
-    //             controller.WaitForCoroutinesToEnd(
-    //                 new List<IEnumerator>(){
-    //                     executor.PlanAndMoveTo(targetPosition, moveSpeed, rotateSpeed, true, tablePosition2d), // - 0.1f * globalPositionInfo.userForward),
-    //                     executor.MoveAlongPath(new List<Vector3>{tablePosition2d + 0.8f * globalPositionInfo.userRight - 0.8f * globalPositionInfo.userForward}, moveSpeed, rotateSpeed, true, tablePosition2d) // - 0.1f * globalPositionInfo.userForward)
-    //                 }
-    //             )
-    //         );
-    //     }
-    //     currentDrink.GetComponent<DrinkAction>().Dangerous();
-    // }
-
     public void MoveToTableUser2_Fixed(){
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
             new List<Vector3>{
@@ -288,34 +257,10 @@ public class EXPWaiterOperation : MonoBehaviour
                 user2Peripheral,
                 user2Near
             }, 
-            moveSpeed, rotateSpeed
+            moveSpeed, rotateSpeed,
+            true, table.transform.position
         ));
     }
-
-    // public void MoveToTableUser2(bool rigid=false)
-    // {
-        
-    //     Vector3 tablePosition2d = new Vector3(table.transform.position.x, 0, table.transform.position.z);
-        
-    //     ExecuteMovement executor = gameObject.GetComponent<ExecuteMovement>();
-    //     if (!rigid) {
-    //         Vector3 targetPosition = table.transform.position + 0.9f * globalPositionInfo.userRight + 0.9f * globalPositionInfo.userForward;
-    //         executor.PlanAndMoveTo(targetPosition, moveSpeed, rotateSpeed, true, tablePosition2d + 0.1f * globalPositionInfo.userForward);
-    //     }
-    //     else{
-    //         Vector3 targetPosition = table.transform.position + 1.2f * globalPositionInfo.userRight + 1.2f * globalPositionInfo.userForward;
-    //         StartCoroutine(
-    //             controller.WaitForCoroutinesToEnd(
-    //                 new List<IEnumerator>(){
-    //                     // start position is user1
-    //                     executor.MoveAlongPath(new List<Vector3>{tablePosition2d + 1.2f * globalPositionInfo.userRight - 0.8f * globalPositionInfo.userForward}, moveSpeed, rotateSpeed),
-    //                     executor.PlanAndMoveTo(targetPosition, moveSpeed, rotateSpeed, true, tablePosition2d),
-    //                     executor.MoveAlongPath(new List<Vector3>{tablePosition2d + 0.75f * globalPositionInfo.userRight + 0.75f * globalPositionInfo.userForward}, moveSpeed, rotateSpeed, true, tablePosition2d)
-    //                 }
-    //             )
-    //         );
-    //     }
-    // }
 
     public void GoAway(){
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(

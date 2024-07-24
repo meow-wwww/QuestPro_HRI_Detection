@@ -90,8 +90,17 @@ public class ObjectPlacementInitialization : MonoBehaviour
         floorHeight = GameObject.Find("FLOOR").transform.position.y;
 
         // set up the room's directions
-        userForward = user2Seat.transform.position - user1Seat.transform.position;
-        userForward = new Vector3(userForward.x, 0, userForward.z).normalized;
+        if (sceneName == "Sitting"){
+            userForward = user2Seat.transform.position - user1Seat.transform.position;
+            userForward = new Vector3(userForward.x, 0, userForward.z).normalized;
+        }
+        else if (sceneName == "Standing"){
+            userForward = -GameObject.Find("SCREEN").transform.right;
+        }
+        else{
+            System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
+        }
+        
         userRight = new Vector3(userForward.z, 0, -userForward.x);
 
         // set virtual objects' position (eg. table, bar, ...)
@@ -138,17 +147,12 @@ public class ObjectPlacementInitialization : MonoBehaviour
 
         if (sceneName == "Sitting"){
             tableHeight = table.transform.Find("TableTop").transform.position.y;
-            // instruction.transform.position = new Vector3(experimentTable.transform.position.x, tableHeight + 0.15f, experimentTable.transform.position.z);
         }
         else if (sceneName == "Standing"){
             tableHeight = GameObject.Find("SCREEN").transform.position.y;
-            // instruction.transform.position = new Vector3(experimentTable.transform.position.x, tableHeight + 0.8f, experimentTable.transform.position.z) + userRight * 0.25f;
         }
         else
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
-
-        
-        // instruction.transform.rotation = Quaternion.LookRotation(userForward, Vector3.up);
 
         GameObject.Find("Coffee_user1").transform.position = userPosition - userRight * 2000f + userForward * 0.2f;
         GameObject.Find("Coffee_user2").transform.position = userPosition - userRight * 2000f;
