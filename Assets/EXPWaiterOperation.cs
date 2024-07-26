@@ -121,7 +121,7 @@ public class EXPWaiterOperation : MonoBehaviour
         else if (globalPositionInfo.sceneName == "Standing"){
             sendOutDrinkDistance = 0.55f;
             cupToTableHeight = globalPositionInfo.tableHeight - gameObject.transform.Find("CupCatcher").Find("CupHeight").position.y;
-            additionalHeight = 0.1f;
+            additionalHeight = 0.07f;
         }
         else{
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
@@ -161,15 +161,17 @@ public class EXPWaiterOperation : MonoBehaviour
     }
 
     public void CollectDrink(){
+        float cupToTableHeight = globalPositionInfo.tableHeight - gameObject.transform.Find("CupCatcher").Find("CupHeight").position.y;
+        float additionalHeight = 0.03f;
         StartCoroutine(
             controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-                controller.LiftCatcher(0.03f),
+                controller.LiftCatcher(cupToTableHeight + additionalHeight),
                 controller.OpenCatcher(),
                 controller.ForwardCatcher(0.5f),
                 controller.CloseCatcher(),
                 SetCurrentDrink_Coroutine(GameObject.Find("Coffee_user2")),
                 controller.BackwardCatcher(0.5f),
-                controller.LowerCatcher(0.03f)
+                controller.LowerCatcher(cupToTableHeight + additionalHeight)
             })
         );
     }
