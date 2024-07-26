@@ -48,34 +48,47 @@ public class CameraRecord : MonoBehaviour
         }
     }
 
-    public async void StopRecordingInterface(){
-        await StopRecording();
+    public async void StopRecordingInterface(string filename=""){
+        // await StopRecording(filename);
+        // get the return value
+        string path = await StopRecording(filename);
+        // return path;
     }
 
-    public async Task<string> StopRecording()
+    public async Task<string> StopRecording(string filename)
     {
         if (isRecording){
             isRecording = false;
             // Stop recording
             cameraInput.Dispose();
             var path = await recorder.FinishWriting();
+            var newPath = "";
 
-            Debug.Log($"Saved recording to: {path}");
-            return path;
+            if (filename != ""){
+                // Rename the file in the file system. Add an suffix to the filename, eg. 20230101.mp4 -> 20230101_<suffix>.mp4
+                newPath = path.Replace(".mp4", $"_{filename}.mp4");
+                System.IO.File.Move(path, newPath);
+            }
+            else {
+                newPath = path;
+            }
+
+            Debug.Log($"Saved recording to: {newPath}");
+            return newPath;
         }
         else{
             return "Not recording.";
         }
     }
 
-    private IEnumerator StopRecordingCoroutine(){
-        var stopRecordingTask = StopRecording();
-        yield return new WaitUntil(() => stopRecordingTask.IsCompleted);
-        if (stopRecordingTask.Exception != null){
-            Debug.LogError(stopRecordingTask.Exception);
-        }
-        else{
-            var path = stopRecordingTask.Result;
-        }
-    }
+    // private IEnumerator StopRecordingCoroutine(){
+    //     var stopRecordingTask = StopRecording("");
+    //     yield return new WaitUntil(() => stopRecordingTask.IsCompleted);
+    //     if (stopRecordingTask.Exception != null){
+    //         Debug.LogError(stopRecordingTask.Exception);
+    //     }
+    //     else{
+    //         var path = stopRecordingTask.Result;
+    //     }
+    // }
 }

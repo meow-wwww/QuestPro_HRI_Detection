@@ -278,18 +278,6 @@ public class QuestServerBehavior : WebSocketBehavior
                     Send("Received");
                 });
             }
-            // else if (e.Data == "Drone - Open lifters"){
-            //     MainThreadDispatcher.Enqueue(() => {
-            //         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().OpenLifter();
-            //         Send("Received");
-            //     });
-            // }
-            // else if (e.Data == "Drone - Close lifters"){
-            //     MainThreadDispatcher.Enqueue(() => {
-            //         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().CloseLifter(true);
-            //         Send("Received");
-            //     });
-            // }
             else if (e.Data.StartsWith("Drone - Audio: ")){
                 string prefix = "Drone - Audio: ";
                 string audioClipName = e.Data.Substring(prefix.Length);
@@ -334,23 +322,26 @@ public class QuestServerBehavior : WebSocketBehavior
                 Send("Received");
             });
         }
-        else if (e.Data == "Stop recording"){
+        else if (e.Data.StartsWith("Stop recording - ")){
             MainThreadDispatcher.Enqueue(() => {
-                GameObject.Find("PoseCamera").GetComponent<CameraRecord>().StopRecordingInterface();
-                GameObject.Find("AvatarRelated").transform.Find("AvatarCamera").GetComponent<CameraRecord>().StopRecordingInterface();
-                GameObject.Find("MainCameraRecord").GetComponent<CameraRecord>().StopRecordingInterface();
-                Send("Received");
+                string newFilename = e.Data.Substring("Stop recording - ".Length);
+                GameObject.Find("PoseCamera").GetComponent<CameraRecord>().StopRecordingInterface(newFilename);
+                GameObject.Find("AvatarRelated").transform.Find("AvatarCamera").GetComponent<CameraRecord>().StopRecordingInterface(newFilename);
+                GameObject.Find("MainCameraRecord").GetComponent<CameraRecord>().StopRecordingInterface(newFilename);
+                Send("Received"); // +f1+"\n"+f2+"\n"+f3);
             });
         }
-        else if (e.Data == "Save context"){
+        else if (e.Data.StartsWith("Save context - ")){
             MainThreadDispatcher.Enqueue(() => {
-                bool result = GameObject.Find("ResetManager").GetComponent<ResetObjects>().SaveContext();
+                int trial_id = int.Parse(e.Data.Substring("Save context - ".Length));
+                int result = GameObject.Find("ResetManager").GetComponent<ResetObjects>().SaveContext(trial_id);
                 Send("Received; " + result);
             });
         }
-        else if (e.Data == "Reset context"){
+        else if (e.Data.StartsWith("Reset context - ")){
             MainThreadDispatcher.Enqueue(() => {
-                bool result = GameObject.Find("ResetManager").GetComponent<ResetObjects>().ResetContext();
+                int trial_id = int.Parse(e.Data.Substring("Reset context - ".Length));
+                int result = GameObject.Find("ResetManager").GetComponent<ResetObjects>().ResetContext(trial_id);
                 Send("Received; " + result);
             });        
         }

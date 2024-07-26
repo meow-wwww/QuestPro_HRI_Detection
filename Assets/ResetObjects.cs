@@ -9,9 +9,11 @@ public class ResetObjects : MonoBehaviour
 
     public List<GameObject> objectList;
 
-    public List<LogData> savedLogData;
+    public List<LogData> savedLogData; // corresponding to the 'context' for one trial
+    public Dictionary<int, List<LogData>> globalSavedLogData = new Dictionary<int, List<LogData>>(); // corresponding to the 'context' for all trials
 
     public GameObject currentDrinkSaved;
+    public Dictionary<int, GameObject> globalCurrentDrinkSaved = new Dictionary<int, GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +37,6 @@ public class ResetObjects : MonoBehaviour
         public bool onlySaveLocalScale;
         public Vector3 localScale;
 
-
         public LogData(Vector3 pos, Quaternion rot, Transform p, bool a, bool saveLocalScale=false, Vector3 locScale=default(Vector3))
         {
             position = pos;
@@ -53,8 +54,13 @@ public class ResetObjects : MonoBehaviour
         }
     }
 
-    public bool SaveContext(){
+    public int SaveContext(int trial_id){
         try{
+            // if trial_id already exists, return 1
+            if (globalSavedLogData.ContainsKey(trial_id)){
+                return 1;
+            }
+
             savedLogData.Clear();
             for (int i = 0; i < objectList.Count; i++){
                 LogData data = null;
@@ -79,6 +85,7 @@ public class ResetObjects : MonoBehaviour
                 }
                 savedLogData.Add(data);
             }
+            globalSavedLogData[trial_id] = new List<LogData>(savedLogData);
 
             // save currentDrink
             if (globalPositionInfo.robot.name == "WaiterRobot"){
@@ -90,45 +97,59 @@ public class ResetObjects : MonoBehaviour
             else{
                 Debug.LogError("Error: Invalid robot name.");
             }
+            globalCurrentDrinkSaved[trial_id] = currentDrinkSaved;
 
-            return true;
+            // print the content of globalCurrentDrinkSaved
+            foreach (KeyValuePair<int, GameObject> kvp in globalCurrentDrinkSaved){
+                Debug.Log("Key = " + kvp.Key + ", Value = " + kvp.Value);
+            }
+            Debug.Log("=============================");
+
+            return 0;
         }
         catch (Exception e){
             Debug.LogError("Error: " + e.Message);
-            return false;
+            return -1;
         }
     }
 
-    public bool ResetContext(){
+    public int ResetContext(int trial_id){
         try{
+            if (!globalSavedLogData.ContainsKey(trial_id)){
+                return 1;
+            }
+
+            List<LogData> savedLogDataForThisStep = globalSavedLogData[trial_id];
+
             for (int i = 0; i < objectList.Count; i++){
-                if (savedLogData[i].onlySaveLocalScale){
-                    objectList[i].transform.localScale = savedLogData[i].localScale;
+                if (savedLogDataForThisStep[i].onlySaveLocalScale){
+                    objectList[i].transform.localScale = savedLogDataForThisStep[i].localScale;
                 }
                 else{
-                    objectList[i].transform.position = savedLogData[i].position;
-                    objectList[i].transform.rotation = savedLogData[i].rotation;
-                    objectList[i].transform.SetParent(savedLogData[i].parent);
-                    objectList[i].SetActive(savedLogData[i].active);
+                    objectList[i].transform.position = savedLogDataForThisStep[i].position;
+                    objectList[i].transform.rotation = savedLogDataForThisStep[i].rotation;
+                    objectList[i].transform.SetParent(savedLogDataForThisStep[i].parent);
+                    objectList[i].SetActive(savedLogDataForThisStep[i].active);
                 }
             }
 
             // recover currentDrink
+            GameObject currentDrinkSavedForThisStep = globalCurrentDrinkSaved[trial_id];
             if (globalPositionInfo.robot.name == "WaiterRobot"){
-                globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().currentDrink = currentDrinkSaved;
+                globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().currentDrink = currentDrinkSavedForThisStep;
             }
             else if (globalPositionInfo.robot.name == "DroneRobot"){
-                globalPositionInfo.robot.GetComponent<EXPDroneOperation>().currentDrink = currentDrinkSaved;
+                globalPositionInfo.robot.GetComponent<EXPDroneOperation>().currentDrink = currentDrinkSavedForThisStep;
             }
             else{
                 Debug.LogError("Error: Invalid robot name.");
             }
 
-            return true;
+            return 0;
         }
         catch (Exception e){
             Debug.LogError("Error: " + e.Message);
-            return false;
+            return -1;
         }
     }
 }

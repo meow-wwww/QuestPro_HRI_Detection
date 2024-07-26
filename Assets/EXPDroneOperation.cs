@@ -125,7 +125,7 @@ public class EXPDroneOperation : MonoBehaviour
         targetPosition.y = globalPositionInfo.floorHeight + 1.2f;
         gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
             new List<Vector3>{
-                targetPosition + 1f * globalPositionInfo.userForward + 1f * globalPositionInfo.userRight,
+                targetPosition + 1f * globalPositionInfo.userForward + 1.5f * globalPositionInfo.userRight,
                 targetPosition
             }, 
             moveSpeed*2, rotateSpeed,

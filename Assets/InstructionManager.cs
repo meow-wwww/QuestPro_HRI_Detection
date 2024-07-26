@@ -16,7 +16,7 @@ public class InstructionManager : MonoBehaviour
     {
         instruction.SetActive(true);
         instruction.transform.Find("Text").GetComponent<TMPro.TextMeshPro>().text = text;
-        Invoke("Disappear", 5f);
+        Invoke("Disappear", 8f);
     }
 
     void Disappear()
