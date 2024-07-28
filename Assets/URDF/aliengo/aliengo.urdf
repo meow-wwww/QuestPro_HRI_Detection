@@ -4,7 +4,7 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="aliengo">
-  <material name="black">
+  <material name="Default">
     <color rgba="0.0 0.0 0.0 1.0"/>
   </material>
   <material name="blue">
@@ -19,7 +19,7 @@
   <material name="silver">
     <color rgba="0.9137254901960784 0.9137254901960784 0.8470588235294118 1.0"/>
   </material>
-  <material name="black">
+  <material name="Default">
     <color rgba="1.0 0.4235294117647059 0.0392156862745098 1.0"/>
   </material>
   <material name="brown">
@@ -28,7 +28,7 @@
   <material name="red">
     <color rgba="0.8 0.0 0.0 1.0"/>
   </material>
-  <material name="white">
+  <material name="Default">
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
   <!-- ros_control plugin -->
@@ -164,7 +164,7 @@
   <gazebo reference="stick_link">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
-    <material>Gazebo/White</material>
+    <material>Gazebo/Default</material>
   </gazebo>
   <gazebo reference="imu_link">
     <mu1>0.2</mu1>
@@ -309,7 +309,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/trunk.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -373,7 +373,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/hip.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="1.5707963267948966 0 0" xyz="0 -0.083 0"/>
@@ -426,7 +426,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/thigh_mirror.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 0" xyz="0 0 -0.125"/>
@@ -479,7 +479,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/calf.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 0" xyz="0 0 -0.125"/>
@@ -586,7 +586,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/hip.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="1.5707963267948966 0 0" xyz="0 0.083 0"/>
@@ -639,7 +639,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/thigh.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 0" xyz="0 0 -0.125"/>
@@ -692,7 +692,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/calf.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 0" xyz="0 0 -0.125"/>
@@ -799,7 +799,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/hip.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="1.5707963267948966 0 0" xyz="0 -0.083 0"/>
@@ -852,7 +852,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/thigh_mirror.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 0" xyz="0 0 -0.125"/>
@@ -905,7 +905,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/calf.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 0" xyz="0 0 -0.125"/>
@@ -1012,7 +1012,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/hip.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="1.5707963267948966 0 0" xyz="0 0.083 0"/>
@@ -1065,7 +1065,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/thigh.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 0" xyz="0 0 -0.125"/>
@@ -1118,7 +1118,7 @@
       <geometry>
         <mesh filename="package://aliengo_description/meshes/calf.dae" scale="1 1 1"/>
       </geometry>
-      <material name="black"/>
+      <material name="Default"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707963267948966 0" xyz="0 0 -0.125"/>
