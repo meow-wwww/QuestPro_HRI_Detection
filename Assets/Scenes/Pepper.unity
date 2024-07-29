@@ -3577,8 +3577,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: -104.50005
-    upperLimit: 104.50005
+    lowerLimit: -104.5
+    upperLimit: 104.5
     stiffness: 0
     damping: 0
     forceLimit: 0.2014
@@ -3971,13 +3971,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203535544}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.078459024, y: 0, z: 0, w: 0.99691737}
+  m_LocalRotation: {x: -0.078459024, y: -0, z: -0, w: 0.99691737}
   m_LocalPosition: {x: 0.16474, y: 0.11041507, z: 0.2723533}
   m_LocalScale: {x: 0.0009999999, y: 0.0009999999, z: 0.001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 324002375}
-  m_Father: {fileID: 1193451117}
+  m_Father: {fileID: 1545444074}
   m_LocalEulerAnglesHint: {x: -9, y: 0, z: 0}
 --- !u!1 &208812643
 GameObject:
@@ -11229,8 +11229,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: -89.50002
-    upperLimit: -0.50000024
+    lowerLimit: -89.5
+    upperLimit: -0.5
     stiffness: 0
     damping: 0
     forceLimit: 2.666
@@ -11380,8 +11380,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: -119.50009
-    upperLimit: 119.50009
+    lowerLimit: -119.5
+    upperLimit: 119.5
     stiffness: 0
     damping: 0
     forceLimit: 5.428
@@ -13138,8 +13138,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: -89.50002
-    upperLimit: -0.50000024
+    lowerLimit: -89.5
+    upperLimit: -0.5
     stiffness: 0
     damping: 0
     forceLimit: 2.666
@@ -15308,8 +15308,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: -104.50005
-    upperLimit: 104.50005
+    lowerLimit: -104.5
+    upperLimit: 104.5
     stiffness: 0
     damping: 0
     forceLimit: 0.2014
@@ -17379,8 +17379,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: -119.50009
-    upperLimit: 119.50009
+    lowerLimit: -119.5
+    upperLimit: 119.5
     stiffness: 0
     damping: 0
     forceLimit: 5.428
@@ -17805,8 +17805,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: 0.50000024
-    upperLimit: 89.50002
+    lowerLimit: 0.5
+    upperLimit: 89.5
     stiffness: 0
     damping: 0
     forceLimit: 2.666
@@ -23576,8 +23576,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1569801990}
-  - {fileID: 203535545}
+  - {fileID: 1545444074}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1193451118
@@ -23604,14 +23603,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1193451116}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29da812722cfcbc47a71fbba50fc4d54, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f8ab422cab2cb348a46fd405801e60c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fps: 20
-  m_RosSubscriberName: /pepper_moveit_config/left_arm/joints
-  m_RosPublisherName: /pepper_moveit_config/left_arm/hand_pose
   m_Pepper: {fileID: 2109255709}
-  m_LeftHandTargetPose: {fileID: 1569801989}
+  controlGroup: both_arms
+  shoulderTarget: 0.5
+  bicepTarget: 0.5
+  elbowTarget: 0.5
+  foreArmTarget: 0.5
+  wristTarget: 0
 --- !u!1001 &1199127247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36243,6 +36244,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9090ae501ff9cd459bec5271d40249c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1545444073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1545444074}
+  - component: {fileID: 1545444075}
+  m_Layer: 0
+  m_Name: ROSControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1545444074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545444073}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1569801990}
+  - {fileID: 203535545}
+  m_Father: {fileID: 1193451117}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1545444075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545444073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29da812722cfcbc47a71fbba50fc4d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fps: 20
+  m_RosSubscriberName: /pepper_moveit_config/left_arm/joints
+  m_RosPublisherName: /pepper_moveit_config/left_arm/hand_pose
+  m_Pepper: {fileID: 2109255709}
+  m_LeftHandTargetPose: {fileID: 1569801989}
 --- !u!1 &1547693185
 GameObject:
   m_ObjectHideFlags: 8
@@ -36402,13 +36454,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569801989}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.078459024, y: 0, z: 0, w: 0.99691737}
+  m_LocalRotation: {x: -0.078459024, y: -0, z: -0, w: 0.99691737}
   m_LocalPosition: {x: -0.16474, y: 0.11041507, z: 0.2723533}
   m_LocalScale: {x: 0.0009999998, y: 0.001, z: 0.0009999998}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1881163698}
-  m_Father: {fileID: 1193451117}
+  m_Father: {fileID: 1545444074}
   m_LocalEulerAnglesHint: {x: -9, y: 0, z: 0}
 --- !u!1 &1572147486
 GameObject:
@@ -38238,8 +38290,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: -119.50009
-    upperLimit: 119.50009
+    lowerLimit: -119.5
+    upperLimit: 119.5
     stiffness: 0
     damping: 0
     forceLimit: 5.428
@@ -39345,8 +39397,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: -119.50009
-    upperLimit: 119.50009
+    lowerLimit: -119.5
+    upperLimit: 119.5
     stiffness: 0
     damping: 0
     forceLimit: 5.428
@@ -40907,8 +40959,8 @@ ArticulationBody:
   m_SwingZ: 2
   m_Twist: 1
   m_XDrive:
-    lowerLimit: 0.50000024
-    upperLimit: 89.50002
+    lowerLimit: 0.5
+    upperLimit: 89.5
     stiffness: 0
     damping: 0
     forceLimit: 2.666

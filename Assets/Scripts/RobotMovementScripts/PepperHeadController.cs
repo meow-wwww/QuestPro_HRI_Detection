@@ -20,9 +20,11 @@ public class PepperHeadController : MonoBehaviour
     // yaw: -119.5001, 119.5001
     // pitch: -40.49998, 36.49999
     [Range(-119.5001f, 119.5001f)]
-    public float headYawDriveTarget = 0.0f;
+    [SerializeField]
+    private float headYawDriveTarget = 0.0f;
     [Range(-40.49998f, 36.49999f)]
-    public float headPitchDriveTarget = 0.0f;
+    [SerializeField]
+    private float headPitchDriveTarget = 0.0f;
 
 
     // Start is called before the first frame update
@@ -46,7 +48,7 @@ public class PepperHeadController : MonoBehaviour
             setHeadTarget(headYawDriveTarget, headPitchDriveTarget);
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             resetHeadTarget();
         }
