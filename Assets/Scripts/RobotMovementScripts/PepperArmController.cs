@@ -192,7 +192,7 @@ public class PepperArmController : MonoBehaviour
         }
         else
         {
-            throw new System.ArgumentException("Invalid arm name: " + armName);
+            Debug.Log("Invalid arm name: " + armName);
         }
     }
 }

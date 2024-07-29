@@ -23607,7 +23607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Pepper: {fileID: 2109255709}
-  controlGroup: both_arms
+  controlGroup: right_arm
   shoulderTarget: 0.5
   bicepTarget: 0.5
   elbowTarget: 0.5
