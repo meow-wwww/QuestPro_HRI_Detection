@@ -13,7 +13,7 @@ public class PepperArmController : MonoBehaviour
     const float k_PoseAssignmentWait = 0.5f;
 
     static readonly List<float> initialJointValues = new List<float>(
-        new float[] { 30f, 15f, 45f, 60f, 104.5f }
+        new float[] { 30f,6.3f, 36f, 55.1f, 104.5f }
     );
 
     // - name: fake_right_arm_controller
