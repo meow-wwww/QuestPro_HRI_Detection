@@ -14,12 +14,21 @@ public class EXPDroneOperation : MonoBehaviour
     public GameObject currentDrink = null;
     GameObject plate; // assigned in Unity Inspector
     public GameObject cupCatcher; // assigned in Unity Inspector
+    InstructionManager instructionManager;
+
+    private IEnumerator WaitForCoroutinesToEnd(List<IEnumerator> coroutines)
+    {
+        foreach (IEnumerator coroutine in coroutines)
+        {
+            yield return StartCoroutine(coroutine);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         System.Diagnostics.Debug.Assert(cupCatcher != null, "CupCatcher is not assigned in Unity Inspector");
-        // System.Diagnostics.Debug.Assert(instruction != null, "Instruction is not assigned in Unity Inspector");
+        instructionManager = GameObject.Find("InstructionManager").GetComponent<InstructionManager>();
     }
 
     void Update(){
@@ -102,21 +111,42 @@ public class EXPDroneOperation : MonoBehaviour
     public void MoveToTableHalf(){
         Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f;
         targetPosition = new Vector3(targetPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight + globalPositionInfo.floorHeight, targetPosition.z);
-        gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            new List<Vector3>{targetPosition}, 
-            moveSpeed, rotateSpeed
-        );
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            // gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
+            //     new List<Vector3>{targetPosition}, 
+            //     moveSpeed, rotateSpeed
+            // ),
+            gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                new List<Vector3>{targetPosition}, 
+                moveSpeed, rotateSpeed,
+                finalRotate: false,
+                finalFaceTowards: default(Vector3),
+                flyInStableHeight: false,
+                stableHeight: 0f
+            ),
+            instructionManager.SetText_Coroutine("Signal awareness")
+        }));
     }
 
-    public void MoveToTableUser1(bool above=false)
+    public void MoveToTableUser1(bool above=false, string instructionText="")
     {
         Vector3 targetPosition = tableTop.transform.position + 0.1f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward;
         if (above)
             targetPosition += new Vector3(0f,0.4f,0f);
-        gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            new List<Vector3>{targetPosition}, 
-            moveSpeed, rotateSpeed, true, targetPosition - globalPositionInfo.userForward
-        );
+        
+        List<IEnumerator> coroutineList = new List<IEnumerator>{
+            gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                new List<Vector3>{targetPosition}, 
+                moveSpeed, rotateSpeed, true, targetPosition - globalPositionInfo.userForward
+            )
+        };
+        if (instructionText != "" && instructionText != null){
+            coroutineList.Add(instructionManager.SetText_Coroutine(instructionText));
+        }
+        
+        StartCoroutine(WaitForCoroutinesToEnd(
+            coroutineList
+        ));
     }
 
     public void MoveToTableUser1Collision()

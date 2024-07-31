@@ -24,6 +24,7 @@ public class EXPWaiterOperation : MonoBehaviour
     public Vector3 user1Collision;
 
     WaiterCatcherController controller;
+    InstructionManager instructionManager;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,7 @@ public class EXPWaiterOperation : MonoBehaviour
         System.Diagnostics.Debug.Assert(cupCatcher != null, "CupCatcher is not assigned in Unity Inspector");
 
         controller = gameObject.transform.Find("CupCatcher").gameObject.GetComponent<WaiterCatcherController>();
+        instructionManager = GameObject.Find("InstructionManager").GetComponent<InstructionManager>();
     }
 
     void Update(){
@@ -144,6 +146,7 @@ public class EXPWaiterOperation : MonoBehaviour
         else if (dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+                    instructionManager.SetText_Coroutine("Correct the robot"),
                     controller.LiftCatcher(cupToTableHeight + additionalHeight),
                     controller.ForwardCatcher(sendOutDrinkDistance),
                     currentDrink.GetComponent<DrinkAction>().Dangerous_Coroutine(),
@@ -182,23 +185,39 @@ public class EXPWaiterOperation : MonoBehaviour
         if (globalPositionInfo.sceneName == "Standing"){
             targetPosition += 0.5f * globalPositionInfo.userRight;
         }
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
-            new List<Vector3>{
-                targetPosition
-            }, 
-            moveSpeed, rotateSpeed
-        ));
+        StartCoroutine(
+            controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+                gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+                    new List<Vector3>{
+                        targetPosition
+                    }, 
+                    moveSpeed, rotateSpeed
+                ),
+                instructionManager.SetText_Coroutine("Signal awareness")
+            })
+        );
     }
 
-    public void MoveToTableUser1_Fixed(){
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
-            new List<Vector3>{
-                // middlePoint,
-                user1Peripheral,
-                user1Near
-            }, 
+    public void MoveToTableUser1_Fixed(string instructionText){
+        List<IEnumerator> coroutineList = new List<IEnumerator>(){
+            gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+                new List<Vector3>{
+                    // middlePoint,
+                    user1Peripheral,
+                    user1Near
+                }, 
             moveSpeed, rotateSpeed
-        ));
+            )
+        };
+        if (instructionText != "") {
+            coroutineList.Add(instructionManager.SetText_Coroutine(instructionText));
+        }
+
+        StartCoroutine(
+            controller.WaitForCoroutinesToEnd(
+                coroutineList
+            )
+        );
     }
 
     public void MoveToTableUser1Collision_Fixed()

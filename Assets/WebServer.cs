@@ -39,10 +39,10 @@ public class QuestServerBehavior : WebSocketBehavior
                         Send("Received");
                     });
                 }
-                else if (e.Data == "Waiter - Move to the table user1"){
+                else if (e.Data.StartsWith("Waiter - Move to the table user1#")){
+                    string instructionText = e.Data.Substring("Waiter - Move to the table user1#".Length);
                     MainThreadDispatcher.Enqueue(() => {
-                        // GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1(rigid: true);
-                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1_Fixed();
+                        GameObject.Find("WaiterRobot").GetComponent<EXPWaiterOperation>().MoveToTableUser1_Fixed(instructionText);
                         Send("Received");       
                     });
                 }
@@ -147,13 +147,26 @@ public class QuestServerBehavior : WebSocketBehavior
             //// All audios
             else if (e.Data.StartsWith("Waiter - Audio: ")){
                 string prefix = "Waiter - Audio: ";
-                string audioClipName = e.Data.Substring(prefix.Length);
-                MainThreadDispatcher.Enqueue(() => {
-                    GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SendVoiceRequest(audioClipName);
-                    if (audioClipName == "WhereShouldIPlace")
-                        GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
-                    Send("Received");
-                });
+                string audioClipName_Instruction = e.Data.Substring(prefix.Length);
+                // if "#" in audioClipName_Instruction, then the string after "#" is the instruction text, before is the audio clip name
+                if (audioClipName_Instruction.Contains("#")){
+                    string audioClipName = audioClipName_Instruction.Split('#')[0];
+                    string instructionText = audioClipName_Instruction.Split('#')[1];
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SendVoiceRequestWithInstruction(audioClipName, instructionText);
+                        if (audioClipName == "WhereShouldIPlace")
+                            GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
+                        Send("Received");
+                    });
+                }
+                else{
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SendVoiceRequest(audioClipName_Instruction);
+                        if (audioClipName_Instruction == "WhereShouldIPlace")
+                            GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
+                        Send("Received");
+                    });
+                }
             }
             else if (e.Data == "Waiter - Audio info stop"){
                 MainThreadDispatcher.Enqueue(() => {
@@ -170,15 +183,17 @@ public class QuestServerBehavior : WebSocketBehavior
                         Send("Received");
                     });
                 }
-                else if (e.Data == "Drone - Move to the table user1"){
+                else if (e.Data.StartsWith("Drone - Move to the table user1#")){
+                    string instructionText = e.Data.Substring("Drone - Move to the table user1#".Length);
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveToTableUser1();
+                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveToTableUser1(instructionText: instructionText);
                         Send("Received");
                     });
                 }
-                else if (e.Data == "Drone - Move to the table user1 above"){
+                else if (e.Data.StartsWith("Drone - Move to the table user1 above#")){
+                    string instructionText = e.Data.Substring("Drone - Move to the table user1 above#".Length);
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveToTableUser1(above: true);
+                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveToTableUser1(above: true, instructionText: instructionText);
                         Send("Received");
                     });
                 }
@@ -280,13 +295,28 @@ public class QuestServerBehavior : WebSocketBehavior
             }
             else if (e.Data.StartsWith("Drone - Audio: ")){
                 string prefix = "Drone - Audio: ";
-                string audioClipName = e.Data.Substring(prefix.Length);
-                MainThreadDispatcher.Enqueue(() => {
-                    GameObject.Find("DroneRobot").transform.Find("DroneBody").GetComponent<AudioPlayer>().PlayAudio("Audio/" + audioClipName);
-                    if (audioClipName == "WhereShouldIPlace")
-                        GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
-                    Send("Received");
-                });
+                // string audioClipName = e.Data.Substring(prefix.Length);
+                string audioClipName_Instruction = e.Data.Substring(prefix.Length);
+                if (audioClipName_Instruction.Contains("#")){
+                    string audioClipName = audioClipName_Instruction.Split('#')[0];
+                    string instructionText = audioClipName_Instruction.Split('#')[1];
+                    MainThreadDispatcher.Enqueue(() => {
+                        // GameObject.Find("DroneRobot").transform.Find("DroneBody").GetComponent<AudioPlayer>().PlayAudio("Audio/" + audioClipName);
+                        GameObject.Find("DroneRobot").GetComponent<DroneNotification>().SendVoiceRequestWithInstruction(audioClipName, instructionText);
+                        if (audioClipName == "WhereShouldIPlace")
+                            GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
+                        Send("Received");
+                    });
+                }
+                else{
+                    MainThreadDispatcher.Enqueue(() => {
+                        // GameObject.Find("DroneRobot").transform.Find("DroneBody").GetComponent<AudioPlayer>().PlayAudio("Audio/" + audioClipName_Instruction);
+                        GameObject.Find("DroneRobot").GetComponent<DroneNotification>().SendVoiceRequest(audioClipName_Instruction);
+                        if (audioClipName_Instruction == "WhereShouldIPlace")
+                            GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
+                        Send("Received");
+                    });
+                }
             }
             else if (e.Data == "Drone - Audio info stop"){
                 MainThreadDispatcher.Enqueue(() => {

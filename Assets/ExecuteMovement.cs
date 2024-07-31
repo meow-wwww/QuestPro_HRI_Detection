@@ -154,7 +154,7 @@ public class ExecuteMovement : MonoBehaviour
 
     public float flightHeight = 2f;
 
-    private IEnumerator FlyAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards, bool flyInStableHeight=false, float stableHeight=0f)
+    public IEnumerator FlyAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool flyInStableHeight=false, float stableHeight=0f)
     {
         // start to play the movement sound effect just before moving
         gameObject.GetComponent<AudioSource>().Play();

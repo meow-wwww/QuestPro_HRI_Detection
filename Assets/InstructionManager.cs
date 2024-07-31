@@ -5,6 +5,7 @@ using UnityEngine;
 public class InstructionManager : MonoBehaviour
 {
     public GameObject instruction; // assigned in Unity Inspector
+    public float instructionShowTime;
 
     // Start is called before the first frame update
     void Start()
@@ -14,9 +15,16 @@ public class InstructionManager : MonoBehaviour
 
     public void SetText(string text)
     {
+        StartCoroutine(SetText_Coroutine(text));
+    }
+
+    public IEnumerator SetText_Coroutine(string text)
+    {
         instruction.SetActive(true);
         instruction.transform.Find("Text").GetComponent<TMPro.TextMeshPro>().text = text;
-        Invoke("Disappear", 8f);
+        Invoke("Disappear", instructionShowTime);
+        // sleep for 4 seconds then return
+        yield return new WaitForSeconds(instructionShowTime);
     }
 
     void Disappear()
