@@ -166,7 +166,7 @@ public class EXPDroneOperation : MonoBehaviour
     }
 
     public void MoveToTableUser1Dangerous(){
-        Vector3 targetPosition = tableTop.transform.position + 0.3f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward;
+        Vector3 targetPosition = tableTop.transform.position + 0.25f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward;
         gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
             new List<Vector3>{
                 targetPosition

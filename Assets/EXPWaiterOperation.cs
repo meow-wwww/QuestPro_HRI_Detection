@@ -146,7 +146,7 @@ public class EXPWaiterOperation : MonoBehaviour
         else if (dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-                    instructionManager.SetText_Coroutine("Correct the robot"),
+                    instructionManager.SetText_Coroutine("The drink's spilling! Correct the robot"),
                     controller.LiftCatcher(cupToTableHeight + additionalHeight),
                     controller.ForwardCatcher(sendOutDrinkDistance),
                     currentDrink.GetComponent<DrinkAction>().Dangerous_Coroutine(),
