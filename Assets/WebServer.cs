@@ -218,7 +218,7 @@ public class QuestServerBehavior : WebSocketBehavior
                 }
                 else if (e.Data == "Drone - Move up"){
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveUp(height: 0.4f);
+                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveUp(height: 0.55f);
                         Send("Received");
                     });
                 }

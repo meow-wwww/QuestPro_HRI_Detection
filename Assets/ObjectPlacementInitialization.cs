@@ -34,7 +34,7 @@ public class ObjectPlacementInitialization : MonoBehaviour
     public GameObject experimentTable;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         sceneName = PlayerPrefs.GetString("mode");
         robotName = PlayerPrefs.GetString("robot");

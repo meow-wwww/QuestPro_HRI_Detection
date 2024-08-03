@@ -169,7 +169,7 @@ public class ExecuteMovement : MonoBehaviour
             }
             else{
                 if (Vector3.Distance(transform.position, target) < 0.5f)
-                    realFlightHeight = globalPositionInfo.tableHeight + 0.4f;
+                    realFlightHeight = globalPositionInfo.tableHeight + 0.55f;
                 else
                     realFlightHeight = globalPositionInfo.floorHeight + flightHeight;
             }
@@ -236,7 +236,7 @@ public class ExecuteMovement : MonoBehaviour
                 // (if the distance is too small, the robot will fly lower)
                 float realFlightHeight;
                 if (Vector3.Distance(transform.position, target) < 0.5f)
-                    realFlightHeight = globalPositionInfo.tableHeight + 0.4f;
+                    realFlightHeight = globalPositionInfo.tableHeight + 0.55f;
                 else
                     realFlightHeight = flightHeight;
 

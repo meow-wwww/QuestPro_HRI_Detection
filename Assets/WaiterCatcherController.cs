@@ -11,6 +11,11 @@ public class WaiterCatcherController : MonoBehaviour
     public float moveSpeed = 0.15f;
     public float openWidth = 0.05f;
 
+    float HigherArmParentHorizontalLength;
+    float HigherArmParentHorizontalLocalScaleY;
+    float HigherArmParentForwardLength;
+    float HigherArmParentForwardLocalScaleY;
+
     Vector3 catcherHorizontalLocalPositionOnStart = new Vector3(10000f, 10000f, 10000f);
     Dictionary<GameObject, Vector3> catcherForwardLocalPositionOnStart = new Dictionary<GameObject, Vector3>();
 
@@ -21,6 +26,18 @@ public class WaiterCatcherController : MonoBehaviour
         rightCatcher = transform.Find("Catcher2").gameObject;
         catcherForwardLocalPositionOnStart[leftCatcher] = new Vector3(10000f, 10000f, 10000f);
         catcherForwardLocalPositionOnStart[rightCatcher] = new Vector3(10000f, 10000f, 10000f);
+
+        // compute the arm's original length
+        HigherArmParentHorizontalLength = Vector3.Distance(
+            leftCatcher.transform.Find("CupCatcher").Find("HigherArmParentHorizontal").Find("InnerPoint").position,
+            leftCatcher.transform.Find("CupCatcher").Find("HigherArmParentHorizontal").Find("OuterPoint").position
+        );
+        HigherArmParentForwardLength = Vector3.Distance(
+            leftCatcher.transform.Find("CupCatcher").Find("FrontEndpoint").Find("FrontPoint").position,
+            leftCatcher.transform.Find("CupCatcher").Find("HigherArmParentForward").Find("BackPoint").position
+        );
+        HigherArmParentHorizontalLocalScaleY = leftCatcher.transform.Find("CupCatcher").Find("HigherArmParentHorizontal").localScale.y;
+        HigherArmParentForwardLocalScaleY = leftCatcher.transform.Find("CupCatcher").Find("HigherArmParentForward").localScale.y;
     }
 
     public IEnumerator WaitForCoroutinesToEnd(List<IEnumerator> coroutines)
@@ -93,7 +110,7 @@ public class WaiterCatcherController : MonoBehaviour
             catcher.transform.Find("CupCatcher").gameObject.transform.localPosition = Vector3.MoveTowards(catcher.transform.Find("CupCatcher").gameObject.transform.localPosition, targetPosition, moveSpeed*Time.deltaTime);
             // rescale the horizontalArm
             float movedDistance = Mathf.Abs(catcherHorizontalLocalPositionOnStart.z - catcher.transform.Find("CupCatcher").gameObject.transform.localPosition.z);
-            horizontalArm.transform.localScale = new Vector3(1, (0.13f - movedDistance)/0.13f*3f, 1);
+            horizontalArm.transform.localScale = new Vector3(1, (HigherArmParentHorizontalLength - movedDistance)/HigherArmParentHorizontalLength*3f, 1);
             yield return null;
         }
     }
@@ -104,7 +121,7 @@ public class WaiterCatcherController : MonoBehaviour
             catcherForwardLocalPositionOnStart[catcher] = catcher.transform.Find("CupCatcher").Find("FrontEndpoint").gameObject.transform.position;
         // direction = 1: forward; lengthen;
         // direction = -1: backward; shorten;
-        GameObject forwardArm = catcher.transform.Find("CupCatcher").Find("HigherArmParentForward").gameObject; // original length: 0.093; scale y: 2.2
+        GameObject forwardArm = catcher.transform.Find("CupCatcher").Find("HigherArmParentForward").gameObject;
 
         Vector3 initialPosition = catcher.transform.Find("CupCatcher").Find("FrontEndpoint").gameObject.transform.position;
         Vector3 targetPosition = initialPosition - catcher.transform.Find("CupCatcher").Find("FrontEndpoint").gameObject.transform.right * length*direction;
@@ -114,7 +131,7 @@ public class WaiterCatcherController : MonoBehaviour
             catcher.transform.Find("CupCatcher").Find("FrontEndpoint").gameObject.transform.position = Vector3.MoveTowards(catcher.transform.Find("CupCatcher").Find("FrontEndpoint").gameObject.transform.position, targetPosition, moveSpeed*Time.deltaTime);
             // rescale the forwardArm
             float movedDistance = Vector3.Distance(catcherForwardLocalPositionOnStart[catcher], catcher.transform.Find("CupCatcher").Find("FrontEndpoint").gameObject.transform.position);
-            forwardArm.transform.localScale = new Vector3(1, (0.093f + movedDistance)/0.093f*2.2f, 1);
+            forwardArm.transform.localScale = new Vector3(1, (HigherArmParentForwardLength + movedDistance)/HigherArmParentForwardLength*2.2f, 1);
             yield return null;
         }
         

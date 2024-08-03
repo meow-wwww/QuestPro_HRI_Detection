@@ -132,7 +132,7 @@ public class EXPDroneOperation : MonoBehaviour
     {
         Vector3 targetPosition = tableTop.transform.position + 0.1f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward;
         if (above)
-            targetPosition += new Vector3(0f,0.4f,0f);
+            targetPosition += new Vector3(0f,0.55f,0f);
         
         List<IEnumerator> coroutineList = new List<IEnumerator>{
             gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
@@ -151,11 +151,17 @@ public class EXPDroneOperation : MonoBehaviour
 
     public void MoveToTableUser1Collision()
     {
-        Vector3 targetPosition = tableTop.transform.position + 0.8f * globalPositionInfo.userRight - 0.5f * globalPositionInfo.userForward;
+        Vector3 targetPosition = tableTop.transform.position + 0f * globalPositionInfo.userRight - 0.1f * globalPositionInfo.userForward;
+        Vector3 prePosition = new Vector3(0f,0f,0f);
+        if (globalPositionInfo.sceneName == "Sitting")
+            prePosition = targetPosition + 2.5f * globalPositionInfo.userForward + 1.3f * globalPositionInfo.userRight;
+        else if (globalPositionInfo.sceneName == "Standing")
+            prePosition = targetPosition + 2.5f * globalPositionInfo.userForward;
         targetPosition.y = globalPositionInfo.floorHeight + 1.2f;
         gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
             new List<Vector3>{
-                targetPosition + 1f * globalPositionInfo.userForward + 1.5f * globalPositionInfo.userRight,
+                // targetPosition + 2.5f * globalPositionInfo.userForward + 1.3f * globalPositionInfo.userRight,
+                prePosition,
                 targetPosition
             }, 
             moveSpeed*2, rotateSpeed,
