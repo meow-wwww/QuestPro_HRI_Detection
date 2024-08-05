@@ -187,7 +187,7 @@ public class EXPWaiterOperation : MonoBehaviour
         }
         StartCoroutine(
             controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-                gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+                gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
                     new List<Vector3>{
                         targetPosition
                     }, 
@@ -200,7 +200,7 @@ public class EXPWaiterOperation : MonoBehaviour
 
     public void MoveToTableUser1_Fixed(string instructionText){
         List<IEnumerator> coroutineList = new List<IEnumerator>(){
-            gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
                 new List<Vector3>{
                     // middlePoint,
                     user1Peripheral,
@@ -239,7 +239,7 @@ public class EXPWaiterOperation : MonoBehaviour
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
             collisionPath = new List<Vector3>();
         }
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
             collisionPath,
             moveSpeed*2, rotateSpeed*2,
             accelerate: true
@@ -248,7 +248,7 @@ public class EXPWaiterOperation : MonoBehaviour
 
     public void MoveToTableUser1FromCollision_Fixed(){
         if (globalPositionInfo.sceneName == "Sitting"){
-            StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
                 new List<Vector3>{
                     user1Peripheral,
                     user1Near
@@ -258,7 +258,7 @@ public class EXPWaiterOperation : MonoBehaviour
             ));
         }
         else{ // Standing
-            StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+            StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
                 new List<Vector3>{
                     user1Peripheral,
                     user1Near
@@ -271,7 +271,7 @@ public class EXPWaiterOperation : MonoBehaviour
 
     public void MoveToTableUser1Dangerous_Fixed()
     {
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
             new List<Vector3>{
                 user1Peripheral,
                 user1Near
@@ -282,7 +282,7 @@ public class EXPWaiterOperation : MonoBehaviour
     }
 
     public void MoveToTableUser2_Fixed(){
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
             new List<Vector3>{
                 user1Peripheral,
                 // middlePoint,
@@ -295,7 +295,7 @@ public class EXPWaiterOperation : MonoBehaviour
     }
 
     public void GoAway(){
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
+        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
             new List<Vector3>{
                 new Vector3(globalPositionInfo.robotInitialPosition.x, 0, globalPositionInfo.robotInitialPosition.z)
             }, 
@@ -308,13 +308,18 @@ public class EXPWaiterOperation : MonoBehaviour
         StartCoroutine(
             controller.WaitForCoroutinesToEnd(
                 new List<IEnumerator>(){
-                    executor.MoveAlongPath(new List<Vector3>{gameObject.transform.position - gameObject.transform.forward}, moveSpeed, rotateSpeed),
-                    executor.MoveAlongPath(
+                    executor.MoveAlongPath_Coroutine(
+                        new List<Vector3>{
+                            gameObject.transform.position - gameObject.transform.forward
+                        }, 
+                        moveSpeed, rotateSpeed
+                    ),
+                    executor.MoveAlongPath_Loop_Coroutine(
                         new List<Vector3>{
                             globalPositionInfo.userPosition + globalPositionInfo.userRight * 2.0f + globalPositionInfo.userForward * 1.9f,
                             globalPositionInfo.userPosition + globalPositionInfo.userRight * 2.0f + globalPositionInfo.userForward * 0.5f
                         }, 
-                        moveSpeed, rotateSpeed, false, new Vector3(0,0,0), loop: true
+                        moveSpeed, rotateSpeed //, false, new Vector3(0,0,0)
                     )
                 }
             )

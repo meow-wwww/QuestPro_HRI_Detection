@@ -16,28 +16,30 @@ public class ExecuteMovement : MonoBehaviour
         System.Diagnostics.Debug.Assert(globalPositionInfo != null, "globalPositionInfo is not assigned in Unity Inspector");
     }
 
-    public IEnumerator MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false, bool accelerate=false)
-    {   
-        for (int i = 0; i < targetList.Count; i++)
-        {
-            targetList[i] = new Vector3(targetList[i].x, globalPositionInfo.floorHeight, targetList[i].z);
-        }
+    // public IEnumerator MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false, bool accelerate=false)
+    // {   
+    //     for (int i = 0; i < targetList.Count; i++)
+    //     {
+    //         targetList[i] = new Vector3(targetList[i].x, globalPositionInfo.floorHeight, targetList[i].z);
+    //     }
         
-        // move gameObject to target position
-        // moveSpeed: length per second
-        // rotateSpeed: degrees per second
-        if (loop)
-            yield return StartCoroutine(MoveAlongPath_Loop_Coroutine(targetList, moveSpeed, rotateSpeed));
-        else
-            yield return StartCoroutine(MoveAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards, accelerate));
-    }
+    //     // move gameObject to target position
+    //     // moveSpeed: length per second
+    //     // rotateSpeed: degrees per second
+    //     if (loop)
+    //         yield return StartCoroutine(MoveAlongPath_Loop_Coroutine(targetList, moveSpeed, rotateSpeed));
+    //     else
+    //         yield return StartCoroutine(MoveAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards, accelerate));
+    // }
 
-    private IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards, bool accelerate=false)
+    public IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool accelerate=false)
     {
         // start to play the movement sound effect just before moving
         AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
         movementAudioSource.loop = true;
         movementAudioSource.Play();
+
+        float accelerateRate = 1.0f;
 
         foreach (Vector3 target in targetList)
         {
@@ -52,7 +54,6 @@ public class ExecuteMovement : MonoBehaviour
             }
 
             // then move to target position
-            float accelerateRate = 1.0f;
             while (Vector3.Distance(transform.position, target) > 0.02f)
             {
                 Vector3 direction = (target - transform.position).normalized;
@@ -78,7 +79,7 @@ public class ExecuteMovement : MonoBehaviour
 
     public bool loopInterrupted;
 
-    private IEnumerator MoveAlongPath_Loop_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed)
+    public IEnumerator MoveAlongPath_Loop_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed)
     {
         // start to play the movement sound effect just before moving
         AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
@@ -128,6 +129,7 @@ public class ExecuteMovement : MonoBehaviour
     {
         // start to play the movement sound effect just before moving
         gameObject.GetComponent<AudioSource>().Play();
+        float accelerateRate = 1.0f;
 
         foreach (Vector3 target in targetList)
         {
@@ -165,11 +167,11 @@ public class ExecuteMovement : MonoBehaviour
                 yield return null;
             }
             // then fly to target position (keep the flight height)
-            float accelerateRate = 1.0f;
             while (Vector3.Distance(transform.position, targetInFlightHeight) > 0.02f)
             {
                 Vector3 direction = (targetInFlightHeight - transform.position).normalized;
-                accelerateRate *= 1.005f;
+                if (accelerate)
+                    accelerateRate *= 1.01f;
                 transform.position = Vector3.MoveTowards(transform.position, targetInFlightHeight, moveSpeed * Time.deltaTime * accelerateRate);
                 yield return null;
             }
@@ -184,11 +186,13 @@ public class ExecuteMovement : MonoBehaviour
                 }
             }
             // finally lower down to the target position
-            while ((transform.position.y - target.y) > 0.02f)
-            {
-                Vector3 direction = new Vector3(0, -1, 0);
-                transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
-                yield return null;
+            if (!flyInStableHeight){
+                while ((transform.position.y - target.y) > 0.02f)
+                {
+                    Vector3 direction = new Vector3(0, -1, 0);
+                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
+                    yield return null;
+                }
             }
         }
         gameObject.GetComponent<AudioSource>().Stop();
