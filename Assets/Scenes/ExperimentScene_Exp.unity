@@ -2343,7 +2343,7 @@ PrefabInstance:
     - target: {fileID: 2296141232796561049, guid: cee191920b8eb41b0960b1082a393a3e, type: 3}
       propertyPath: MeshMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 00dd1a29f740ecc4eaf44199fda740bf, type: 2}
+      objectReference: {fileID: 2100000, guid: 0f42a68b88513d14fbb84319e309aaa2, type: 2}
     - target: {fileID: 5456522116536683058, guid: cee191920b8eb41b0960b1082a393a3e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2578,110 +2578,6 @@ MonoBehaviour:
   topPlate: {fileID: 7297668804704621135}
   plateMoveSpeed: 0.2
   plateMoveDistance: 0.5
---- !u!120 &128453303
-LineRenderer:
-  serializedVersion: 2
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149148628983}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 0
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
-  m_Parameters:
-    serializedVersion: 3
-    widthMultiplier: 0.03
-    widthCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    colorGradient:
-      serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
-      key4: {r: 0, g: 0, b: 0, a: 0}
-      key5: {r: 0, g: 0, b: 0, a: 0}
-      key6: {r: 0, g: 0, b: 0, a: 0}
-      key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
-      ctime4: 0
-      ctime5: 0
-      ctime6: 0
-      ctime7: 0
-      atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
-      atime4: 0
-      atime5: 0
-      atime6: 0
-      atime7: 0
-      m_Mode: 0
-      m_ColorSpace: -1
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
-    numCornerVertices: 0
-    numCapVertices: 0
-    alignment: 0
-    textureMode: 0
-    textureScale: {x: 1, y: 1}
-    shadowBias: 0.5
-    generateLightingData: 0
-  m_MaskInteraction: 0
-  m_UseWorldSpace: 1
-  m_Loop: 0
-  m_ApplyActiveColorSpace: 1
 --- !u!1 &128584057
 GameObject:
   m_ObjectHideFlags: 0
@@ -27303,6 +27199,7 @@ GameObject:
   - component: {fileID: 1104368214}
   - component: {fileID: 1104368213}
   - component: {fileID: 1104368217}
+  - component: {fileID: 1104368218}
   m_Layer: 0
   m_Name: DroneRobot
   m_TagString: Untagged
@@ -27472,6 +27369,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec9b46053e84ede44a405aec5fd332b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1104368218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104368212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acaafebf7f3ca1d45be406c428cc2301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1111749000
@@ -30025,6 +29934,7 @@ GameObject:
   - component: {fileID: 1267672769}
   - component: {fileID: 1267672768}
   - component: {fileID: 1267672767}
+  - component: {fileID: 1267672773}
   m_Layer: 0
   m_Name: DroneBody
   m_TagString: Untagged
@@ -30245,6 +30155,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267672765}
   m_Mesh: {fileID: 2403283451262950110, guid: 77ec979c4a1053f4fb90fee3d17b240c, type: 3}
+--- !u!114 &1267672773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267672765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acaafebf7f3ca1d45be406c428cc2301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1272027266
 GameObject:
   m_ObjectHideFlags: 0
@@ -58358,10 +58280,10 @@ GameObject:
   - component: {fileID: 543450653605064013}
   - component: {fileID: 128453290}
   - component: {fileID: 128453291}
+  - component: {fileID: 919132149148628986}
   - component: {fileID: 128453292}
   - component: {fileID: 128453295}
   - component: {fileID: 128453300}
-  - component: {fileID: 128453303}
   - component: {fileID: 919132149148628984}
   - component: {fileID: 919132149148628985}
   m_Layer: 0
@@ -58422,6 +58344,18 @@ MonoBehaviour:
   user1Near: {x: 0, y: 0, z: 0}
   user2Near: {x: 0, y: 0, z: 0}
   user1Collision: {x: 0, y: 0, z: 0}
+--- !u!114 &919132149148628986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149148628983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acaafebf7f3ca1d45be406c428cc2301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1092920701938776188
 GameObject:
   m_ObjectHideFlags: 0
@@ -58435,6 +58369,7 @@ GameObject:
   - component: {fileID: 3381527769931022342}
   - component: {fileID: 387815682}
   - component: {fileID: 6866131672659592041}
+  - component: {fileID: 6866131672659592044}
   - component: {fileID: 6866131672659592042}
   - component: {fileID: 6866131672659592043}
   m_Layer: 0
@@ -59500,6 +59435,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quad: {fileID: 158547338}
   instructionManager: {fileID: 0}
+--- !u!114 &6866131672659592044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092920701938776188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acaafebf7f3ca1d45be406c428cc2301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6885250527617057269
 GameObject:
   m_ObjectHideFlags: 0
