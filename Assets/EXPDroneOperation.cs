@@ -112,10 +112,6 @@ public class EXPDroneOperation : MonoBehaviour
         Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f;
         targetPosition = new Vector3(targetPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight + globalPositionInfo.floorHeight, targetPosition.z);
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
-            // gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            //     new List<Vector3>{targetPosition}, 
-            //     moveSpeed, rotateSpeed
-            // ),
             gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
                 new List<Vector3>{targetPosition}, 
                 moveSpeed, rotateSpeed,
@@ -158,55 +154,62 @@ public class EXPDroneOperation : MonoBehaviour
         else if (globalPositionInfo.sceneName == "Standing")
             prePosition = targetPosition + 2.5f * globalPositionInfo.userForward;
         targetPosition.y = globalPositionInfo.floorHeight + 1.2f;
-        gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            new List<Vector3>{
-                // targetPosition + 2.5f * globalPositionInfo.userForward + 1.3f * globalPositionInfo.userRight,
-                prePosition,
-                targetPosition
-            }, 
-            moveSpeed*2, rotateSpeed,
-            // , true, new Vector3(globalPositionInfo.userPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight, globalPositionInfo.userPosition.z)
-            false, new Vector3(0,0,0),
-            flyInStableHeight: true, stableHeight: globalPositionInfo.floorHeight + 1.2f
-        );
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                new List<Vector3>{
+                    prePosition,
+                    targetPosition
+                }, 
+                moveSpeed*2, rotateSpeed,
+                false, new Vector3(0,0,0),
+                flyInStableHeight: true, stableHeight: globalPositionInfo.floorHeight + 1.2f,
+                accelerate: true
+            )
+        }));
     }
 
     public void MoveToTableUser1Dangerous(){
         Vector3 targetPosition = tableTop.transform.position + 0.25f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward;
-        gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            new List<Vector3>{
-                targetPosition
-            },
-            moveSpeed, rotateSpeed, 
-            true, targetPosition - globalPositionInfo.userForward
-        );
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                new List<Vector3>{targetPosition}, 
+                moveSpeed, rotateSpeed, 
+                true, targetPosition - globalPositionInfo.userForward
+            )
+        }));
         System.Diagnostics.Debug.Assert(currentDrink.name == "Coffee_user1", "Error: now the coffee is not Coffee_user1");
         currentDrink.GetComponent<DrinkAction>().Dangerous();
     }
 
     public void MoveUp(float height){
         Vector3 targetPosition = gameObject.transform.position + new Vector3(0, height, 0);
-        gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            new List<Vector3>{targetPosition}, 
-            moveSpeed, rotateSpeed
-        );
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                new List<Vector3>{targetPosition}, 
+                moveSpeed, rotateSpeed
+            )
+        }));
     }
 
     public void MoveToTableUser2()
     {
         Vector3 targetPosition = tableTop.transform.position + 0.1f * globalPositionInfo.userRight + 0.2f * globalPositionInfo.userForward;
-        gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            new List<Vector3>{targetPosition}, 
-            moveSpeed, rotateSpeed, 
-            true, targetPosition + globalPositionInfo.userForward
-        );
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                new List<Vector3>{targetPosition}, 
+                moveSpeed, rotateSpeed, 
+                true, targetPosition - globalPositionInfo.userForward
+            )
+        }));
     }
 
     public void GoAway(){
-        gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            new List<Vector3>{globalPositionInfo.robotInitialPosition}, 
-            moveSpeed, rotateSpeed
-        );
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                new List<Vector3>{globalPositionInfo.robotInitialPosition},
+                moveSpeed, rotateSpeed
+            )
+        }));
     }
 
     public void WanderAround(){
@@ -216,12 +219,14 @@ public class EXPDroneOperation : MonoBehaviour
         };
         for (int i = 0; i < wanderPath.Count; i++)
             wanderPath[i] = new Vector3(wanderPath[i].x, gameObject.GetComponent<ExecuteMovement>().flightHeight, wanderPath[i].z);
-        gameObject.GetComponent<ExecuteMovement>().FlyAlongPath(
-            wanderPath, 
-            moveSpeed, rotateSpeed, 
-            false, new Vector3(0,0,0), 
-            loop: true
-        );
+
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Loop_Coroutine(
+                wanderPath, 
+                moveSpeed, rotateSpeed, 
+                finalRotate: false, finalFaceTowards: new Vector3(0,0,0)
+            )
+        }));
     }
 
     public void StopWandering(){
