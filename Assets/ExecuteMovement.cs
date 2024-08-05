@@ -16,33 +16,33 @@ public class ExecuteMovement : MonoBehaviour
         System.Diagnostics.Debug.Assert(globalPositionInfo != null, "globalPositionInfo is not assigned in Unity Inspector");
     }
 
-    public IEnumerator PlanAndMoveTo(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3))
-    {
-        yield return StartCoroutine(PlanAndMoveTo_Coroutine(destination, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
-    }
+    // public IEnumerator PlanAndMoveTo(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3))
+    // {
+    //     yield return StartCoroutine(PlanAndMoveTo_Coroutine(destination, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
+    // }
 
-    private IEnumerator PlanAndMoveTo_Coroutine(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
-    {
-        // first plan the route
-        // then move there
-        float robotWidth = gameObject.GetComponent<BoxCollider>().bounds.size.x;
+    // private IEnumerator PlanAndMoveTo_Coroutine(Vector3 destination, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
+    // {
+    //     // first plan the route
+    //     // then move there
+    //     float robotWidth = gameObject.GetComponent<BoxCollider>().bounds.size.x;
 
-        List<Vector3> foundPath = routePlanner.FindPath(transform.position, destination, robotWidth, 0.05f);
-        if (foundPath.Count == 0)
-        {
-            Debug.Log("No Path Found");
-            yield return null;
-        }
-        for (int i = 0; i < foundPath.Count; i++)
-        {
-            Vector3 target = foundPath[i];
-            foundPath[i] = new Vector3(target.x, globalPositionInfo.floorHeight, target.z);
-        }
-        yield return MoveAlongPath_Coroutine(foundPath, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards); 
-        // it will wait for the coroutine to finish
-    }
+    //     List<Vector3> foundPath = routePlanner.FindPath(transform.position, destination, robotWidth, 0.05f);
+    //     if (foundPath.Count == 0)
+    //     {
+    //         Debug.Log("No Path Found");
+    //         yield return null;
+    //     }
+    //     for (int i = 0; i < foundPath.Count; i++)
+    //     {
+    //         Vector3 target = foundPath[i];
+    //         foundPath[i] = new Vector3(target.x, globalPositionInfo.floorHeight, target.z);
+    //     }
+    //     yield return MoveAlongPath_Coroutine(foundPath, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards); 
+    //     // it will wait for the coroutine to finish
+    // }
 
-    public IEnumerator MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false)
+    public IEnumerator MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false, bool accelerate=false)
     {   
         for (int i = 0; i < targetList.Count; i++)
         {
@@ -55,10 +55,10 @@ public class ExecuteMovement : MonoBehaviour
         if (loop)
             yield return StartCoroutine(MoveAlongPath_Loop_Coroutine(targetList, moveSpeed, rotateSpeed));
         else
-            yield return StartCoroutine(MoveAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards));
+            yield return StartCoroutine(MoveAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards, accelerate));
     }
 
-    private IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards)
+    private IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate, Vector3 finalFaceTowards, bool accelerate=false)
     {
         // start to play the movement sound effect just before moving
         AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
@@ -78,10 +78,15 @@ public class ExecuteMovement : MonoBehaviour
             }
 
             // then move to target position
+            float accelerateRate = 1.0f;
             while (Vector3.Distance(transform.position, target) > 0.02f)
             {
                 Vector3 direction = (target - transform.position).normalized;
-                float step = moveSpeed * Time.deltaTime;
+                if (accelerate){
+                    accelerateRate *= 1.005f;
+                    Debug.Log("accelerate: " + accelerateRate);
+                }
+                float step = moveSpeed * Time.deltaTime * accelerateRate;
                 transform.position = Vector3.MoveTowards(transform.position, target, step);
 
                 yield return null;

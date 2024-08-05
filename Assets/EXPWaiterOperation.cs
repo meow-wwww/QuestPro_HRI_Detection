@@ -241,7 +241,8 @@ public class EXPWaiterOperation : MonoBehaviour
         }
         StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath(
             collisionPath,
-            moveSpeed*2, rotateSpeed*2
+            moveSpeed*2, rotateSpeed*2,
+            accelerate: true
         ));
     }
 
