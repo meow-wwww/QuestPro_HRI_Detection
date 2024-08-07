@@ -94,6 +94,9 @@ public class ResetObjects : MonoBehaviour
             else if (globalPositionInfo.robot.name == "DroneRobot"){
                 currentDrinkSaved = globalPositionInfo.robot.GetComponent<EXPDroneOperation>().currentDrink;
             }
+            else if (globalPositionInfo.robot.name == "HumanoidRobot"){
+                currentDrinkSaved = globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().currentDrink;
+            }
             else{
                 Debug.LogError("Error: Invalid robot name.");
             }
@@ -140,6 +143,9 @@ public class ResetObjects : MonoBehaviour
             }
             else if (globalPositionInfo.robot.name == "DroneRobot"){
                 globalPositionInfo.robot.GetComponent<EXPDroneOperation>().currentDrink = currentDrinkSavedForThisStep;
+            }
+            else if (globalPositionInfo.robot.name == "HumanoidRobot"){
+                globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().currentDrink = currentDrinkSavedForThisStep;
             }
             else{
                 Debug.LogError("Error: Invalid robot name.");

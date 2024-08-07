@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneNotification : MonoBehaviour
+public class HumanoidNotification : MonoBehaviour
 {
     InstructionManager instructionManager;
     AudioPlayer requestAudioPlayer;
@@ -11,7 +11,7 @@ public class DroneNotification : MonoBehaviour
     void Start()
     {
         instructionManager = GameObject.Find("InstructionManager").GetComponent<InstructionManager>();
-        requestAudioPlayer = gameObject.transform.Find("DroneBody").GetComponent<AudioPlayer>();
+        requestAudioPlayer = gameObject.transform.Find("JulietteY20MP").GetComponent<AudioPlayer>();
     }
 
     public void SendVoiceRequestWithInstruction(string audioClipName, string instructionText){
@@ -31,12 +31,8 @@ public class DroneNotification : MonoBehaviour
         yield return null;
     }
 
-
-
-    private IEnumerator WaitForCoroutinesToEnd(List<IEnumerator> coroutines)
-    {
-        foreach (IEnumerator coroutine in coroutines)
-        {
+    private IEnumerator WaitForCoroutinesToEnd(List<IEnumerator> coroutines){
+        foreach (IEnumerator coroutine in coroutines){
             yield return StartCoroutine(coroutine);
         }
     }

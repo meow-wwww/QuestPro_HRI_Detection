@@ -16,22 +16,6 @@ public class ExecuteMovement : MonoBehaviour
         System.Diagnostics.Debug.Assert(globalPositionInfo != null, "globalPositionInfo is not assigned in Unity Inspector");
     }
 
-    // public IEnumerator MoveAlongPath(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool loop=false, bool accelerate=false)
-    // {   
-    //     for (int i = 0; i < targetList.Count; i++)
-    //     {
-    //         targetList[i] = new Vector3(targetList[i].x, globalPositionInfo.floorHeight, targetList[i].z);
-    //     }
-        
-    //     // move gameObject to target position
-    //     // moveSpeed: length per second
-    //     // rotateSpeed: degrees per second
-    //     if (loop)
-    //         yield return StartCoroutine(MoveAlongPath_Loop_Coroutine(targetList, moveSpeed, rotateSpeed));
-    //     else
-    //         yield return StartCoroutine(MoveAlongPath_Coroutine(targetList, moveSpeed, rotateSpeed, finalRotate, finalFaceTowards, accelerate));
-    // }
-
     public IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool accelerate=false)
     {
         // start to play the movement sound effect just before moving
@@ -43,15 +27,16 @@ public class ExecuteMovement : MonoBehaviour
 
         foreach (Vector3 target in targetList)
         {
-            // first rotate to face target
-            while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
-            {
-                // ensure that the rotation degree is less than 180
-                Quaternion targetRotation = Quaternion.LookRotation((target - transform.position).normalized);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-                
-                yield return null;
-            }
+            // first rotate to face target (only when the moving distance in this step is large enough)
+            if (Vector3.Distance(transform.position, target) > 0.5f)
+                while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
+                {
+                    // ensure that the rotation degree is less than 180
+                    Quaternion targetRotation = Quaternion.LookRotation((target - transform.position).normalized);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                    
+                    yield return null;
+                }
 
             // then move to target position
             while (Vector3.Distance(transform.position, target) > 0.02f)

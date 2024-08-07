@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class EXPWaiterOperation : MonoBehaviour
+public class EXPHumanoidOperation : MonoBehaviour
 {
     [Header("Object references")]
     public GameObject table = null;
     public GameObject currentDrink = null;
     public GameObject cupCatcher; // assigned in Unity Inspector
+    public GameObject drinkBottomIndicator; // assigned in Unity Inspector
 
     [Header("Robot Movement Parameters")]
     public float moveSpeed;
@@ -16,23 +18,24 @@ public class EXPWaiterOperation : MonoBehaviour
     [Header("Fixed Positions In Routes")]
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
 
-    public Vector3 middlePoint; // 1.7 right
+    public Vector3 middlePoint;
     public Vector3 user1Peripheral;
     public Vector3 user2Peripheral;
     public Vector3 user1Near;
     public Vector3 user2Near;
     public Vector3 user1Collision;
 
-    WaiterCatcherController controller;
+    HumanoidCatcherController controller;
     InstructionManager instructionManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        System.Diagnostics.Debug.Assert(drinkBottomIndicator != null, "DrinkBottomIndicator is not assigned in Unity Inspector");
         System.Diagnostics.Debug.Assert(globalPositionInfo != null, "GlobalPositionInfo is not assigned in Unity Inspector");
         System.Diagnostics.Debug.Assert(cupCatcher != null, "CupCatcher is not assigned in Unity Inspector");
 
-        controller = gameObject.transform.Find("CupCatcher").gameObject.GetComponent<WaiterCatcherController>();
+        controller = cupCatcher.GetComponent<HumanoidCatcherController>();
         instructionManager = GameObject.Find("InstructionManager").GetComponent<InstructionManager>();
     }
 
@@ -71,17 +74,15 @@ public class EXPWaiterOperation : MonoBehaviour
         }
         currentDrink = drink;
         if (currentDrink != null){
-            currentDrink.transform.position = cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint").position - 0.04f * cupCatcher.transform.parent.right + cupCatcher.transform.parent.forward * 0.003f - new Vector3(0f, 0.04f, 0f);
-            // currentDrink.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            currentDrink.transform.SetParent(cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint"), worldPositionStays: true);
+            // currentDrink.transform.position = cupCatcher.transform.Find("DrinkBottomIndicator").position;
+            currentDrink.transform.position = drinkBottomIndicator.transform.position;
+            currentDrink.transform.SetParent(cupCatcher.transform.Find("Catcher1").Find("Arm1Move").Find("Corner1").Find("Arm2Move").Find("FrontEndpoint"), worldPositionStays: true);
         }
         yield return null;
     }
 
     public void SetCurrentDrink(GameObject drink){
-        StartCoroutine(controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-            SetCurrentDrink_Coroutine(drink)
-        }));
+        StartCoroutine(SetCurrentDrink_Coroutine(drink));
     }
 
     private IEnumerator CurrentDrinkDetach(){
@@ -100,35 +101,34 @@ public class EXPWaiterOperation : MonoBehaviour
     }
 
     public void SendOutDrink(bool dangerous=false){
-        gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SetScreenImage("CatAwake");
         float sendOutDrinkDistance = 0f;
-        float cupToTableHeight = 0f;
+        // float cupToTableHeight = Math.Abs(globalPositionInfo.tableHeight - cupCatcher.transform.Find("DrinkBottomIndicator").position.y);
+        float cupToTableHeight = Math.Abs(globalPositionInfo.tableHeight - drinkBottomIndicator.transform.position.y);
         float additionalHeight = 0f;
         if (globalPositionInfo.sceneName == "Sitting"){
             sendOutDrinkDistance = 0.5f;
-            cupToTableHeight = 0f;
-            additionalHeight = 0.1f;
+            additionalHeight = 0.04f;
         }
         else if (globalPositionInfo.sceneName == "Standing"){
             sendOutDrinkDistance = 0.55f;
-            cupToTableHeight = globalPositionInfo.tableHeight - gameObject.transform.Find("CupCatcher").Find("CupHeight").position.y;
-            additionalHeight = 0.07f;
+            additionalHeight = 0.04f;
         }
         else{
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
         }
+
         if (!dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-                    controller.LiftCatcher(cupToTableHeight + additionalHeight),
-                    controller.ForwardCatcher(sendOutDrinkDistance),
-                    controller.LowerCatcher(additionalHeight),
+                    controller.Arm2LengthChange(additionalHeight, -1), // lift a little bit
+                    controller.Arm1LengthChange(sendOutDrinkDistance, 1),
+                    controller.Arm2LengthChange(cupToTableHeight + additionalHeight, 1), // lower to table height
                     CurrentDrinkDetach(),
                     controller.OpenCatcher(),
-                    controller.LiftCatcher(additionalHeight),
+                    controller.Arm2LengthChange(cupToTableHeight + additionalHeight, -1),
                     controller.CloseCatcher(),
-                    controller.BackwardCatcher(sendOutDrinkDistance),
-                    controller.LowerCatcher(cupToTableHeight + additionalHeight)
+                    controller.Arm1LengthChange(sendOutDrinkDistance, -1),
+                    controller.Arm2LengthChange(additionalHeight, 1)
                 })
             );
         }
@@ -136,34 +136,48 @@ public class EXPWaiterOperation : MonoBehaviour
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
                     instructionManager.SetText_Coroutine("The drink's spilling! Correct the robot"),
-                    controller.LiftCatcher(cupToTableHeight + additionalHeight),
-                    controller.ForwardCatcher(sendOutDrinkDistance),
+                    controller.Arm2LengthChange(additionalHeight, -1), // lift a little bit
+                    controller.Arm1LengthChange(sendOutDrinkDistance, 1),
+                    controller.Arm2LengthChange(cupToTableHeight + additionalHeight, 1), // lower to table height
                     currentDrink.GetComponent<DrinkAction>().Dangerous_Coroutine(),
-                    controller.LowerCatcher(additionalHeight),
                     CurrentDrinkDetach(),
                     controller.OpenCatcher(),
-                    controller.LiftCatcher(additionalHeight),
+                    controller.Arm2LengthChange(cupToTableHeight + additionalHeight, -1),
                     controller.CloseCatcher(),
-                    controller.BackwardCatcher(sendOutDrinkDistance),
-                    controller.LowerCatcher(cupToTableHeight + additionalHeight)
+                    controller.Arm1LengthChange(sendOutDrinkDistance, -1),
+                    controller.Arm2LengthChange(additionalHeight, 1)
                 })
             );
         }
-        gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().DrinkReady();
     }
 
     public void CollectDrink(){
-        float cupToTableHeight = globalPositionInfo.tableHeight - gameObject.transform.Find("CupCatcher").Find("CupHeight").position.y;
-        float additionalHeight = 0.03f;
+        // float cupToTableHeight = Math.Abs(globalPositionInfo.tableHeight - cupCatcher.transform.Find("DrinkBottomIndicator").position.y);
+        float cupToTableHeight = Math.Abs(globalPositionInfo.tableHeight - drinkBottomIndicator.transform.position.y);
+        float additionalHeight = 0f, sendOutDrinkDistance = 0f;
+        if (globalPositionInfo.sceneName == "Sitting"){
+            sendOutDrinkDistance = 0.5f;
+            additionalHeight = 0.04f;
+        }
+        else if (globalPositionInfo.sceneName == "Standing"){
+            sendOutDrinkDistance = 0.55f;
+            additionalHeight = 0.04f;
+        }
+        else{
+            System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
+        }
+
         StartCoroutine(
             controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
-                controller.LiftCatcher(cupToTableHeight + additionalHeight),
+                controller.Arm2LengthChange(additionalHeight, -1), // lift a little bit
                 controller.OpenCatcher(),
-                controller.ForwardCatcher(0.5f),
+                controller.Arm1LengthChange(sendOutDrinkDistance, 1),
+                controller.Arm2LengthChange(cupToTableHeight + additionalHeight, 1), // lower to table height
                 controller.CloseCatcher(),
                 SetCurrentDrink_Coroutine(GameObject.Find("Coffee_user2")),
-                controller.BackwardCatcher(0.5f),
-                controller.LowerCatcher(cupToTableHeight + additionalHeight)
+                controller.Arm2LengthChange(cupToTableHeight + additionalHeight, -1),
+                controller.Arm1LengthChange(sendOutDrinkDistance, -1),
+                controller.Arm2LengthChange(additionalHeight, 1)
             })
         );
     }
@@ -228,11 +242,20 @@ public class EXPWaiterOperation : MonoBehaviour
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
             collisionPath = new List<Vector3>();
         }
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
-            collisionPath,
-            moveSpeed*2, rotateSpeed*2,
-            accelerate: true
-        ));
+        gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/Warning");
+        StartCoroutine(
+            controller.WaitForCoroutinesToEnd(
+                new List<IEnumerator>(){
+                    gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                        collisionPath,
+                        moveSpeed*2, rotateSpeed*2,
+                        accelerate: true
+                    )
+                }
+            )
+        );
+        Debug.Log("++++++++ finish collide coroutine");
+        // gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/RobotMoving");
     }
 
     public void MoveToTableUser1FromCollision_Fixed(){

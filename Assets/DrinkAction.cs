@@ -23,7 +23,7 @@ public class DrinkAction : MonoBehaviour
 
     public IEnumerator Dangerous_Coroutine(float moveSpeed=0.1f, float rotateSpeed=20f)
     {
-        Quaternion targetRotation = gameObject.transform.localRotation * Quaternion.Euler(-20f, 0f, 0f);
+        Quaternion targetRotation = gameObject.transform.localRotation * Quaternion.Euler(-27f, 0f, 0f);
         Vector3 targetPosition = gameObject.transform.localPosition - new Vector3(0.012f, 0.005f, 0f);
         while (Vector3.Distance(gameObject.transform.localPosition, targetPosition) > 0.005f || Quaternion.Angle(gameObject.transform.localRotation, targetRotation) > 1f){
             if (Vector3.Distance(gameObject.transform.localPosition, targetPosition) > 0.005f){

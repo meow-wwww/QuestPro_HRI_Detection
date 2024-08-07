@@ -78,33 +78,6 @@ public class EXPDroneOperation : MonoBehaviour
     public void CollectDrink(){
         currentDrink.transform.SetParent(cupCatcher.transform, worldPositionStays: true);
     }
-    
-
-    // public void OpenLifter(){
-    //     gameObject.transform.Find("Lifters").GetComponent<DroneLifterController>().OpenLifter();
-    //     TryReleasePlate();
-    // }
-
-    // public void CloseLifter(bool collectPlate){
-    //     gameObject.transform.Find("Lifters").GetComponent<DroneLifterController>().CloseLifter();
-    //     if (collectPlate){
-    //         CollectPlate();
-    //     }
-    // }
-
-    // void TryReleasePlate(){
-    //     if (plate.transform.IsChildOf(gameObject.transform)){
-    //         plate.transform.SetParent(null, worldPositionStays: true);
-    //     }
-    //     if (currentDrink != null && currentDrink.transform.IsChildOf(plate.transform)){
-    //         transform.Find("DroneBody").GetComponent<AudioPlayer>().PlayAudio("Audio/Ding");
-    //     }
-    // }
-
-    // void CollectPlate(){
-    //     plate.transform.SetParent(gameObject.transform, worldPositionStays: true);
-    // }
-
 
     // movement
 
@@ -214,8 +187,8 @@ public class EXPDroneOperation : MonoBehaviour
 
     public void WanderAround(){
         List<Vector3> wanderPath = new List<Vector3>{
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 1.9f,
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 0.1f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 0.7f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 0.0f,
         };
         for (int i = 0; i < wanderPath.Count; i++)
             wanderPath[i] = new Vector3(wanderPath[i].x, gameObject.GetComponent<ExecuteMovement>().flightHeight, wanderPath[i].z);
