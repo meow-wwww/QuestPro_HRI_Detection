@@ -242,15 +242,17 @@ public class EXPHumanoidOperation : MonoBehaviour
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
             collisionPath = new List<Vector3>();
         }
-        gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/Warning");
+        // gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/Warning");
         StartCoroutine(
             controller.WaitForCoroutinesToEnd(
                 new List<IEnumerator>(){
+                    gameObject.GetComponent<ExecuteMovement>().CollisionMode(),
                     gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
                         collisionPath,
                         moveSpeed*2, rotateSpeed*2,
                         accelerate: true
-                    )
+                    ),
+                    gameObject.GetComponent<ExecuteMovement>().NormalMode()
                 }
             )
         );

@@ -228,11 +228,15 @@ public class EXPWaiterOperation : MonoBehaviour
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
             collisionPath = new List<Vector3>();
         }
-        StartCoroutine(gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
-            collisionPath,
-            moveSpeed*2, rotateSpeed*2,
-            accelerate: true
-        ));
+        StartCoroutine(controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+            gameObject.GetComponent<ExecuteMovement>().CollisionMode(),
+            gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                collisionPath,
+                moveSpeed*2, rotateSpeed*2,
+                accelerate: true
+            ),
+            gameObject.GetComponent<ExecuteMovement>().NormalMode()
+        }));
     }
 
     public void MoveToTableUser1FromCollision_Fixed(){

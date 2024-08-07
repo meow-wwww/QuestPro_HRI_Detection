@@ -144,11 +144,13 @@ public class EXPDroneOperation : MonoBehaviour
     public void MoveToTableUser1Dangerous(){
         Vector3 targetPosition = tableTop.transform.position + 0.25f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward;
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            gameObject.GetComponent<ExecuteMovement>().CollisionMode(),
             gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
                 new List<Vector3>{targetPosition}, 
                 moveSpeed, rotateSpeed, 
                 true, targetPosition - globalPositionInfo.userForward
-            )
+            ),
+            gameObject.GetComponent<ExecuteMovement>().NormalMode()
         }));
         System.Diagnostics.Debug.Assert(currentDrink.name == "Coffee_user1", "Error: now the coffee is not Coffee_user1");
         currentDrink.GetComponent<DrinkAction>().Dangerous();

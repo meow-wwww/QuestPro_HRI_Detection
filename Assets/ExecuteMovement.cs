@@ -7,13 +7,28 @@ public class ExecuteMovement : MonoBehaviour
     RoutePlanning routePlanner;
     Rigidbody rigidbody;
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
+
+    string initialMovingSoundEffect = "";
     
     void Start()
     {
         routePlanner = GameObject.Find("MRUK").GetComponent<RoutePlanning>();
         rigidbody = gameObject.GetComponent<Rigidbody>();
+        initialMovingSoundEffect = gameObject.GetComponent<AudioSource>().clip.name;
 
         System.Diagnostics.Debug.Assert(globalPositionInfo != null, "globalPositionInfo is not assigned in Unity Inspector");
+    }
+
+    public IEnumerator CollisionMode(){
+        gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/Warning");
+        gameObject.GetComponent<AudioVolumeAdjustor>().volumeMode = "fixed";
+        yield return null;
+    }
+
+    public IEnumerator NormalMode(){
+        gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/" + initialMovingSoundEffect);
+        gameObject.GetComponent<AudioVolumeAdjustor>().volumeMode = "distance";
+        yield return null;
     }
 
     public IEnumerator MoveAlongPath_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool accelerate=false)
