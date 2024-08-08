@@ -120,6 +120,12 @@ public class EXPWaiterOperation : MonoBehaviour
         if (!dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+                    gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                        new List<Vector3>{},
+                        moveSpeed, rotateSpeed,
+                        finalRotate: true, 
+                        finalFaceTowards: table.transform.position
+                    ),
                     controller.LiftCatcher(cupToTableHeight + additionalHeight),
                     controller.ForwardCatcher(sendOutDrinkDistance),
                     controller.LowerCatcher(additionalHeight),
@@ -135,6 +141,12 @@ public class EXPWaiterOperation : MonoBehaviour
         else if (dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+                    gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                        new List<Vector3>{},
+                        moveSpeed, rotateSpeed,
+                        finalRotate: true, 
+                        finalFaceTowards: table.transform.position
+                    ),
                     instructionManager.SetText_Coroutine("The drink's spilling! Correct the robot"),
                     controller.LiftCatcher(cupToTableHeight + additionalHeight),
                     controller.ForwardCatcher(sendOutDrinkDistance),

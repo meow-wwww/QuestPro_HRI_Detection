@@ -119,6 +119,12 @@ public class EXPHumanoidOperation : MonoBehaviour
         if (!dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+                    gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                        new List<Vector3>{}, // gameObject.transform.position},
+                        moveSpeed, rotateSpeed,
+                        finalRotate: true,
+                        finalFaceTowards: table.transform.position
+                    ), // face the table
                     gameObject.GetComponent<HumanoidNotification>().SendVoiceRequest_Coroutine("Ding"),
                     controller.Arm2LengthChange(additionalHeight, -1), // lift a little bit
                     controller.Arm1LengthChange(sendOutDrinkDistance, 1),
@@ -135,6 +141,12 @@ public class EXPHumanoidOperation : MonoBehaviour
         else if (dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+                    gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                        new List<Vector3>{}, // gameObject.transform.position},
+                        moveSpeed, rotateSpeed,
+                        finalRotate: true,
+                        finalFaceTowards: table.transform.position
+                    ), // face the table
                     gameObject.GetComponent<HumanoidNotification>().SendVoiceRequest_Coroutine("Ding"),
                     instructionManager.SetText_Coroutine("The drink's spilling! Correct the robot"),
                     controller.Arm2LengthChange(additionalHeight, -1), // lift a little bit

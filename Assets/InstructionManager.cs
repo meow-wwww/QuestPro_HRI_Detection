@@ -18,13 +18,18 @@ public class InstructionManager : MonoBehaviour
         StartCoroutine(SetText_Coroutine(text));
     }
 
-    public IEnumerator SetText_Coroutine(string text)
+    public IEnumerator SetText_Coroutine(string text, bool returnImmediately=false)
     {
         instruction.SetActive(true);
         instruction.transform.Find("Text").GetComponent<TMPro.TextMeshPro>().text = text;
         Invoke("Disappear", instructionShowTime);
-        // sleep for 4 seconds then return
-        yield return new WaitForSeconds(instructionShowTime);
+        if (!returnImmediately){
+            // sleep for 4 seconds then return
+            yield return new WaitForSeconds(instructionShowTime);
+        }
+        else{
+            yield return null;
+        }
     }
 
     void Disappear()
