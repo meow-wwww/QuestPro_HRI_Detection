@@ -43,7 +43,7 @@ public class HumanoidNotification : MonoBehaviour
         }));
     }
 
-    private IEnumerator SendVoiceRequest_Coroutine(string audioClipName){
+    public IEnumerator SendVoiceRequest_Coroutine(string audioClipName){
         // change screen image for specific audios
         requestAudioPlayer.PlayAudio("Audio/"+audioClipName);
         yield return null;

@@ -43,7 +43,7 @@ public class ExecuteMovement : MonoBehaviour
         foreach (Vector3 target in targetList)
         {
             // first rotate to face target (only when the moving distance in this step is large enough)
-            if (Vector3.Distance(transform.position, target) > 0.5f)
+            if (Vector3.Distance(transform.position, target) > 0.3f)
                 while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
                 {
                     // ensure that the rotation degree is less than 180

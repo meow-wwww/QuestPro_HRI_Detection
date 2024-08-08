@@ -74,7 +74,6 @@ public class EXPHumanoidOperation : MonoBehaviour
         }
         currentDrink = drink;
         if (currentDrink != null){
-            // currentDrink.transform.position = cupCatcher.transform.Find("DrinkBottomIndicator").position;
             currentDrink.transform.position = drinkBottomIndicator.transform.position;
             currentDrink.transform.SetParent(cupCatcher.transform.Find("Catcher1").Find("Arm1Move").Find("Corner1").Find("Arm2Move").Find("FrontEndpoint"), worldPositionStays: true);
         }
@@ -120,6 +119,7 @@ public class EXPHumanoidOperation : MonoBehaviour
         if (!dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+                    gameObject.GetComponent<HumanoidNotification>().SendVoiceRequest_Coroutine("Ding"),
                     controller.Arm2LengthChange(additionalHeight, -1), // lift a little bit
                     controller.Arm1LengthChange(sendOutDrinkDistance, 1),
                     controller.Arm2LengthChange(cupToTableHeight + additionalHeight, 1), // lower to table height
@@ -135,6 +135,7 @@ public class EXPHumanoidOperation : MonoBehaviour
         else if (dangerous){
             StartCoroutine(
                 controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+                    gameObject.GetComponent<HumanoidNotification>().SendVoiceRequest_Coroutine("Ding"),
                     instructionManager.SetText_Coroutine("The drink's spilling! Correct the robot"),
                     controller.Arm2LengthChange(additionalHeight, -1), // lift a little bit
                     controller.Arm1LengthChange(sendOutDrinkDistance, 1),
@@ -152,7 +153,6 @@ public class EXPHumanoidOperation : MonoBehaviour
     }
 
     public void CollectDrink(){
-        // float cupToTableHeight = Math.Abs(globalPositionInfo.tableHeight - cupCatcher.transform.Find("DrinkBottomIndicator").position.y);
         float cupToTableHeight = Math.Abs(globalPositionInfo.tableHeight - drinkBottomIndicator.transform.position.y);
         float additionalHeight = 0f, sendOutDrinkDistance = 0f;
         if (globalPositionInfo.sceneName == "Sitting"){
