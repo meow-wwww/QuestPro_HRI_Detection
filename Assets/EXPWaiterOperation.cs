@@ -322,4 +322,28 @@ public class EXPWaiterOperation : MonoBehaviour
     public void StopWandering(){
         gameObject.GetComponent<ExecuteMovement>().loopInterrupted = true;
     }
+
+    // public void PlayAudio(string audioClipName_Instruction){
+    //     string audioClipName, instructionText;
+    //     if (audioClipName_Instruction.Contains("#")){
+    //         audioClipName = audioClipName_Instruction.Split('#')[0];
+    //         instructionText = audioClipName_Instruction.Split('#')[1];
+    //         // MainThreadDispatcher.Enqueue(() => {
+    //         //     GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SendVoiceRequestWithInstruction(audioClipName, instructionText);
+    //         //     if (audioClipName == "WhereShouldIPlace")
+    //         //         GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
+    //         //     Send("Received");
+    //         // });
+    //     }
+    //     else{
+    //         audioClipName = audioClipName_Instruction;
+    //         // MainThreadDispatcher.Enqueue(() => {
+    //         //     GameObject.Find("WaiterRobot").transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SendVoiceRequest(audioClipName_Instruction);
+    //         //     if (audioClipName_Instruction == "WhereShouldIPlace")
+    //         //         GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
+    //         //     Send("Received");
+    //         // });
+    //     }
+        
+    // }
 }

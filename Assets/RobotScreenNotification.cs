@@ -6,7 +6,7 @@ public class RobotScreenNotification : MonoBehaviour
 {
     public GameObject quad; // assigned in Unity inspector
     public InstructionManager instructionManager; 
-
+    public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity inspector
 
     private IEnumerator WaitForCoroutinesToEnd(List<IEnumerator> coroutines)
     {
@@ -38,13 +38,29 @@ public class RobotScreenNotification : MonoBehaviour
 
     public void SendVoiceRequestWithInstruction(string audioClipName, string instructionText){
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator> {
+            globalPositionInfo.robot.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                new List<Vector3> {globalPositionInfo.robot.transform.position},
+                globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().moveSpeed,
+                globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().rotateSpeed,
+                finalRotate: true,
+                finalFaceTowards: globalPositionInfo.userPosition
+            ),
             SendVoiceRequest_Coroutine(audioClipName),
             instructionManager.SetText_Coroutine(instructionText)
         }));
     }
 
     public void SendVoiceRequest(string audioClipName){
-        StartCoroutine(SendVoiceRequest_Coroutine(audioClipName));
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator> {
+            globalPositionInfo.robot.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                new List<Vector3> {globalPositionInfo.robot.transform.position},
+                globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().moveSpeed,
+                globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().rotateSpeed,
+                finalRotate: true,
+                finalFaceTowards: globalPositionInfo.userPosition
+            ),
+            SendVoiceRequest_Coroutine(audioClipName)
+        }));
     }
 
     private IEnumerator SendVoiceRequest_Coroutine(string audioClipName){

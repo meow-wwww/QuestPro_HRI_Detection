@@ -6,6 +6,7 @@ public class HumanoidNotification : MonoBehaviour
 {
     InstructionManager instructionManager;
     AudioPlayer requestAudioPlayer;
+    public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
 
     // Start is called before the first frame update
     void Start()
@@ -15,14 +16,31 @@ public class HumanoidNotification : MonoBehaviour
     }
 
     public void SendVoiceRequestWithInstruction(string audioClipName, string instructionText){
+        // Debug.Log("+++++++ in SendVoiceRequestWithInstruction:" + audioClipName + " " + instructionText);
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator> {
+            gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                new List<Vector3> {globalPositionInfo.robot.transform.position},
+                globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().moveSpeed,
+                globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().rotateSpeed,
+                finalRotate: true,
+                finalFaceTowards: globalPositionInfo.userPosition
+            ),
             SendVoiceRequest_Coroutine(audioClipName),
             instructionManager.SetText_Coroutine(instructionText)
         }));
     }
 
     public void SendVoiceRequest(string audioClipName){
-        StartCoroutine(SendVoiceRequest_Coroutine(audioClipName));
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator> {
+            gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
+                new List<Vector3> {globalPositionInfo.robot.transform.position},
+                globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().moveSpeed,
+                globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().rotateSpeed,
+                finalRotate: true,
+                finalFaceTowards: globalPositionInfo.userPosition
+            ),
+            SendVoiceRequest_Coroutine(audioClipName)
+        }));
     }
 
     private IEnumerator SendVoiceRequest_Coroutine(string audioClipName){

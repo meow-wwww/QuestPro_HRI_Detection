@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class DrinkAction : MonoBehaviour
 {
-    GameObject coffee;
+    // GameObject coffee;
     public GameObject interactable; // assigned in Unity Inspector
 
     void Start()
     {
-        coffee = transform.Find("coffee_cup").Find("coffee").gameObject;
+        // coffee = transform.Find("coffee_cup").Find("coffee").gameObject;
     }
 
     public void DrinkUp()
     {
-        coffee.transform.localScale = new Vector3(coffee.transform.localScale.x, coffee.transform.localScale.y * 0.1f, coffee.transform.localScale.z);
+        // coffee.transform.localScale = new Vector3(coffee.transform.localScale.x, coffee.transform.localScale.y * 0.1f, coffee.transform.localScale.z);
     }
 
     public void Dangerous(){

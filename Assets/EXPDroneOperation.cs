@@ -128,6 +128,7 @@ public class EXPDroneOperation : MonoBehaviour
             prePosition = targetPosition + 2.5f * globalPositionInfo.userForward;
         targetPosition.y = globalPositionInfo.floorHeight + 1.2f;
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            gameObject.GetComponent<ExecuteMovement>().CollisionMode(),
             gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
                 new List<Vector3>{
                     prePosition,
@@ -137,20 +138,19 @@ public class EXPDroneOperation : MonoBehaviour
                 false, new Vector3(0,0,0),
                 flyInStableHeight: true, stableHeight: globalPositionInfo.floorHeight + 1.2f,
                 accelerate: true
-            )
+            ),
+            gameObject.GetComponent<ExecuteMovement>().NormalMode()
         }));
     }
 
     public void MoveToTableUser1Dangerous(){
         Vector3 targetPosition = tableTop.transform.position + 0.25f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward;
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
-            gameObject.GetComponent<ExecuteMovement>().CollisionMode(),
             gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
                 new List<Vector3>{targetPosition}, 
                 moveSpeed, rotateSpeed, 
                 true, targetPosition - globalPositionInfo.userForward
-            ),
-            gameObject.GetComponent<ExecuteMovement>().NormalMode()
+            )
         }));
         System.Diagnostics.Debug.Assert(currentDrink.name == "Coffee_user1", "Error: now the coffee is not Coffee_user1");
         currentDrink.GetComponent<DrinkAction>().Dangerous();
@@ -172,8 +172,8 @@ public class EXPDroneOperation : MonoBehaviour
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
             gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
                 new List<Vector3>{targetPosition}, 
-                moveSpeed, rotateSpeed, 
-                true, targetPosition - globalPositionInfo.userForward
+                moveSpeed, rotateSpeed
+                // true, targetPosition - globalPositionInfo.userForward
             )
         }));
     }
