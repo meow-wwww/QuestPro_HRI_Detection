@@ -150,6 +150,7 @@ public class EXPDroneOperation : MonoBehaviour
         Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f;
         targetPosition = new Vector3(targetPosition.x, gameObject.GetComponent<ExecuteMovement>().flightHeight + globalPositionInfo.floorHeight, targetPosition.z);
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            instructionManager.SetText_Coroutine("Signal awareness", returnImmediately: true),
             gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
                 new List<Vector3>{targetPosition}, 
                 moveSpeed, rotateSpeed,
@@ -157,8 +158,7 @@ public class EXPDroneOperation : MonoBehaviour
                 finalFaceTowards: default(Vector3),
                 flyInStableHeight: false,
                 stableHeight: 0f
-            ),
-            instructionManager.SetText_Coroutine("Signal awareness")
+            )
         }));
     }
 

@@ -188,13 +188,13 @@ public class EXPWaiterOperation : MonoBehaviour
         }
         StartCoroutine(
             controller.WaitForCoroutinesToEnd(new List<IEnumerator>(){
+                instructionManager.SetText_Coroutine("Signal awareness", returnImmediately: true),
                 gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
                     new List<Vector3>{
                         targetPosition
                     }, 
                     moveSpeed, rotateSpeed
-                ),
-                instructionManager.SetText_Coroutine("Signal awareness")
+                )
             })
         );
     }
