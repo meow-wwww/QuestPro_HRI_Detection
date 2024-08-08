@@ -40,7 +40,7 @@ public class EXPDroneOperation : MonoBehaviour
 
     // Drink and plate/cupCatcher related functions
 
-    public void SetCurrentDrink(GameObject drink){
+    public IEnumerator SetCurrentDrink_Coroutine(GameObject drink){
         // here the FollowPlate script is deprecated
         if (currentDrink != null) {
             currentDrink.transform.SetParent(null, worldPositionStays: true);
@@ -55,28 +55,93 @@ public class EXPDroneOperation : MonoBehaviour
             currentDrink.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             currentDrink.transform.SetParent(cupCatcher.transform, worldPositionStays: true);
         }
+        yield return null;
+    }
+
+    public void SetCurrentDrink(GameObject drink){
+        StartCoroutine(SetCurrentDrink_Coroutine(drink));
     }
 
     public void OpenCupCatcher(){
-        cupCatcher.GetComponent<DroneCatcherController>().OpenCatcher();
-        TryReleaseDrink();
+        StartCoroutine(
+            cupCatcher.GetComponent<DroneCatcherController>().OpenCatcher()
+        );
     }
 
-    public void CloseCupCatcher(bool collectDrink){
-        cupCatcher.GetComponent<DroneCatcherController>().CloseCatcher();
-        if (collectDrink){
-            CollectDrink();
-        }
-    }
+    // public void CloseCupCatcher(bool collectDrink){
+    //     cupCatcher.GetComponent<DroneCatcherController>().CloseCatcher();
+    //     if (collectDrink){
+    //         CollectDrink();
+    //     }
+    // }
 
-    public void TryReleaseDrink(){
+    private IEnumerator TryReleaseDrink(){
         if (currentDrink != null && currentDrink.transform.IsChildOf(cupCatcher.transform)){
             currentDrink.transform.SetParent(null, worldPositionStays: true);
+        }
+        yield return null;
+    }
+
+    // public void CollectDrink(){
+    //     currentDrink.transform.SetParent(cupCatcher.transform, worldPositionStays: true);
+    // }
+
+    public void SendOutDrink(bool dangerous=false){
+        if (!dangerous){
+            StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+                cupCatcher.GetComponent<DroneCatcherController>().OpenCatcher(),
+                TryReleaseDrink(),
+                SetCurrentDrink_Coroutine(null),
+                gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                    new List<Vector3>{
+                        gameObject.transform.position + new Vector3(0, 0.55f, 0)
+                    },
+                    moveSpeed, rotateSpeed
+                ),
+                cupCatcher.GetComponent<DroneCatcherController>().CloseCatcher()
+            }));
+        }
+        else{
+            StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+                gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                    new List<Vector3>{
+                        tableTop.transform.position + 0.25f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward
+                    },
+                    moveSpeed, rotateSpeed,
+                    finalRotate: true,
+                    finalFaceTowards: tableTop.transform.position + 0.25f * globalPositionInfo.userRight - 0.2f * globalPositionInfo.userForward - globalPositionInfo.userForward
+                ),
+                instructionManager.SetText_Coroutine("The drink's spilling! Correct the robot"),
+                cupCatcher.GetComponent<DroneCatcherController>().OpenCatcher(),
+                currentDrink.GetComponent<DrinkAction>().Dangerous_Coroutine(),
+                TryReleaseDrink(),
+                SetCurrentDrink_Coroutine(null),
+                gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                    new List<Vector3>{
+                        gameObject.transform.position + new Vector3(0, 0.55f, 0)
+                    },
+                    moveSpeed, rotateSpeed,
+                    finalRotate: true,
+                    finalFaceTowards: gameObject.transform.position + new Vector3(0, 0.55f, 0) - globalPositionInfo.userForward
+                ),
+                cupCatcher.GetComponent<DroneCatcherController>().CloseCatcher()
+            }));
         }
     }
 
     public void CollectDrink(){
-        currentDrink.transform.SetParent(cupCatcher.transform, worldPositionStays: true);
+        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+            cupCatcher.GetComponent<DroneCatcherController>().CloseCatcher(),
+            SetCurrentDrink_Coroutine(GameObject.Find("Coffee_user2")),
+            gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
+                new List<Vector3>{
+                    tableTop.transform.position + new Vector3(0, 0.55f, 0)
+                },
+                moveSpeed, rotateSpeed,
+                finalRotate: true,
+                finalFaceTowards: tableTop.transform.position + new Vector3(0, 0.55f, 0) - globalPositionInfo.userForward
+            )
+        }));
     }
 
     // movement
@@ -120,7 +185,7 @@ public class EXPDroneOperation : MonoBehaviour
 
     public void MoveToTableUser1Collision()
     {
-        Vector3 targetPosition = tableTop.transform.position + 0f * globalPositionInfo.userRight - 0.1f * globalPositionInfo.userForward;
+        Vector3 targetPosition = tableTop.transform.position + 0f * globalPositionInfo.userRight - 0.6f * globalPositionInfo.userForward;
         Vector3 prePosition = new Vector3(0f,0f,0f);
         if (globalPositionInfo.sceneName == "Sitting")
             prePosition = targetPosition + 2.5f * globalPositionInfo.userForward + 1.3f * globalPositionInfo.userRight;
@@ -156,14 +221,15 @@ public class EXPDroneOperation : MonoBehaviour
         currentDrink.GetComponent<DrinkAction>().Dangerous();
     }
 
-    public void MoveUp(float height){
+    public IEnumerator MoveUp(float height){
         Vector3 targetPosition = gameObject.transform.position + new Vector3(0, height, 0);
-        StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
+        Coroutine move = StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
             gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
                 new List<Vector3>{targetPosition}, 
                 moveSpeed, rotateSpeed
             )
         }));
+        yield return move;
     }
 
     public void MoveToTableUser2()

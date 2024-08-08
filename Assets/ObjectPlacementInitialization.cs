@@ -131,7 +131,7 @@ public class ObjectPlacementInitialization : MonoBehaviour
         // sitting: 4 right + 1.5 forward
         // standing: 2 right + 4 forward
         if (sceneName == "Sitting"){
-            robot.transform.position = userPosition + userRight * 4f + userForward * 1.5f;
+            robot.transform.position = userPosition + userRight * 4f + userForward * 2.5f;
         }
         else if (sceneName == "Standing"){
             robot.transform.position = userPosition + userRight * 2f + userForward * 4f;

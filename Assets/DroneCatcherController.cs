@@ -23,14 +23,18 @@ public class DroneCatcherController : MonoBehaviour
         
     }
 
-    public void OpenCatcher(){
-        StartCoroutine(Rotate_Catcher_Coroutine(leftCatcher.transform.localRotation * Quaternion.Euler(-20f, 0f, 0f), leftCatcher, rotationSpeed));
-        StartCoroutine(Rotate_Catcher_Coroutine(rightCatcher.transform.localRotation * Quaternion.Euler(-20f, 0f, 0f), rightCatcher, rotationSpeed));
+    public IEnumerator OpenCatcher(){
+        Coroutine left = StartCoroutine(Rotate_Catcher_Coroutine(leftCatcher.transform.localRotation * Quaternion.Euler(-20f, 0f, 0f), leftCatcher, rotationSpeed));
+        Coroutine right = StartCoroutine(Rotate_Catcher_Coroutine(rightCatcher.transform.localRotation * Quaternion.Euler(-20f, 0f, 0f), rightCatcher, rotationSpeed));
+        yield return left;
+        yield return right;
     }
 
-    public void CloseCatcher(){
-        StartCoroutine(Rotate_Catcher_Coroutine(leftCatcher.transform.localRotation * Quaternion.Euler(20f, 0f, 0f), leftCatcher, rotationSpeed, direction: -1));
-        StartCoroutine(Rotate_Catcher_Coroutine(rightCatcher.transform.localRotation * Quaternion.Euler(20f, 0f, 0f), rightCatcher, rotationSpeed, direction: -1));
+    public IEnumerator CloseCatcher(){
+        Coroutine left = StartCoroutine(Rotate_Catcher_Coroutine(leftCatcher.transform.localRotation * Quaternion.Euler(20f, 0f, 0f), leftCatcher, rotationSpeed, direction: -1));
+        Coroutine right = StartCoroutine(Rotate_Catcher_Coroutine(rightCatcher.transform.localRotation * Quaternion.Euler(20f, 0f, 0f), rightCatcher, rotationSpeed, direction: -1));
+        yield return left;
+        yield return right;
     }
 
     public void LiftCatcher(float height){

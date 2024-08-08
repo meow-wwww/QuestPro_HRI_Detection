@@ -216,12 +216,12 @@ public class QuestServerBehavior : WebSocketBehavior
                         Send("Received");
                     });
                 }
-                else if (e.Data == "Drone - Move up"){
-                    MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveUp(height: 0.55f);
-                        Send("Received");
-                    });
-                }
+                // else if (e.Data == "Drone - Move up"){
+                //     MainThreadDispatcher.Enqueue(() => {
+                //         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveUp(height: 0.55f);
+                //         Send("Received");
+                //     });
+                // }
                 else if (e.Data == "Drone - Move away"){
                     MainThreadDispatcher.Enqueue(() => {
                         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().GoAway();
@@ -234,6 +234,25 @@ public class QuestServerBehavior : WebSocketBehavior
                         Send("Received");
                     });
                 }
+            }
+            else if (e.Data == "Drone - Send out drink"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().SendOutDrink();
+                    Send("Received");
+                });
+            }
+            else if (e.Data == "Drone - Send out drink dangerous"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().SendOutDrink(dangerous: true);
+                    GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(false);
+                    Send("Received");
+                });
+            }
+            else if (e.Data == "Drone - Collect drink"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().CollectDrink();
+                    Send("Received");
+                });
             }
             else if (e.Data.StartsWith("Drone - Current drink: ")){
                 if (e.Data == "Drone - Current drink: user2"){
@@ -287,12 +306,12 @@ public class QuestServerBehavior : WebSocketBehavior
                     Send("Received");
                 });
             }
-            else if (e.Data == "Drone - Close cup catchers"){
-                MainThreadDispatcher.Enqueue(() => {
-                    GameObject.Find("DroneRobot").transform.Find("CupCatcher").gameObject.GetComponent<DroneCatcherController>().CloseCatcher();
-                    Send("Received");
-                });
-            }
+            // else if (e.Data == "Drone - Close cup catchers"){
+            //     MainThreadDispatcher.Enqueue(() => {
+            //         GameObject.Find("DroneRobot").transform.Find("CupCatcher").gameObject.GetComponent<DroneCatcherController>().CloseCatcher();
+            //         Send("Received");
+            //     });
+            // }
             else if (e.Data.StartsWith("Drone - Audio: ")){
                 string prefix = "Drone - Audio: ";
                 // string audioClipName = e.Data.Substring(prefix.Length);
@@ -309,7 +328,6 @@ public class QuestServerBehavior : WebSocketBehavior
                 }
                 else{
                     MainThreadDispatcher.Enqueue(() => {
-                        // GameObject.Find("DroneRobot").transform.Find("DroneBody").GetComponent<AudioPlayer>().PlayAudio("Audio/" + audioClipName_Instruction);
                         GameObject.Find("DroneRobot").GetComponent<DroneNotification>().SendVoiceRequest(audioClipName_Instruction);
                         if (audioClipName_Instruction == "WhereShouldIPlace")
                             GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);

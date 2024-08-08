@@ -46,7 +46,7 @@ public class EXPWaiterOperation : MonoBehaviour
                     user1Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight - 0.8f * globalPositionInfo.userForward;
                     user2Peripheral = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 1.2f * globalPositionInfo.userRight + 1.2f * globalPositionInfo.userForward;
                     user1Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.7f * globalPositionInfo.userRight - 0.7f * globalPositionInfo.userForward;
-                    user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.7f * globalPositionInfo.userRight + 0.7f * globalPositionInfo.userForward;
+                    user2Near = new Vector3(table.transform.position.x, globalPositionInfo.floorHeight, table.transform.position.z) + 0.6f * globalPositionInfo.userRight + 0.7f * globalPositionInfo.userForward;
                     user1Collision = globalPositionInfo.userPosition + 0.55f * globalPositionInfo.userRight + 0.1f * globalPositionInfo.userForward;
                 }
                 else if (globalPositionInfo.sceneName == "Standing"){
