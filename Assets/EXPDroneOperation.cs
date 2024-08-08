@@ -248,7 +248,9 @@ public class EXPDroneOperation : MonoBehaviour
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator>{
             gameObject.GetComponent<ExecuteMovement>().FlyAlongPath_Coroutine(
                 new List<Vector3>{globalPositionInfo.robotInitialPosition},
-                moveSpeed, rotateSpeed
+                moveSpeed, rotateSpeed,
+                finalRotate: true,
+                finalFaceTowards: new Vector3(globalPositionInfo.userPosition.x, globalPositionInfo.robotInitialPosition.y, globalPositionInfo.userPosition.z)
             )
         }));
     }

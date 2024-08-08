@@ -325,7 +325,9 @@ public class EXPHumanoidOperation : MonoBehaviour
             new List<Vector3>{
                 new Vector3(globalPositionInfo.robotInitialPosition.x, 0, globalPositionInfo.robotInitialPosition.z)
             }, 
-            moveSpeed, rotateSpeed
+            moveSpeed, rotateSpeed,
+            finalRotate: true,
+            finalFaceTowards: globalPositionInfo.userPosition
         ));
     }
 
