@@ -92,13 +92,6 @@ public class EXPHumanoidOperation : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator CurrentDrinkAttach(){
-        if (currentDrink != null){
-            currentDrink.transform.SetParent(cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint"), worldPositionStays: true);
-        }
-        yield return null;
-    }
-
     public void SendOutDrink(bool dangerous=false){
         float sendOutDrinkDistance = 0f;
         // float cupToTableHeight = Math.Abs(globalPositionInfo.tableHeight - cupCatcher.transform.Find("DrinkBottomIndicator").position.y);

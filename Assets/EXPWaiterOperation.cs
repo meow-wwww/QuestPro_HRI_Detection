@@ -92,13 +92,6 @@ public class EXPWaiterOperation : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator CurrentDrinkAttach(){
-        if (currentDrink != null){
-            currentDrink.transform.SetParent(cupCatcher.transform.Find("Catcher1").Find("CupCatcher").Find("FrontEndpoint"), worldPositionStays: true);
-        }
-        yield return null;
-    }
-
     public void SendOutDrink(bool dangerous=false){
         gameObject.transform.Find("Body").Find("screen").GetComponent<RobotScreenNotification>().SetScreenImage("CatAwake");
         float sendOutDrinkDistance = 0f;

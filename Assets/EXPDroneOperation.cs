@@ -68,23 +68,12 @@ public class EXPDroneOperation : MonoBehaviour
         );
     }
 
-    // public void CloseCupCatcher(bool collectDrink){
-    //     cupCatcher.GetComponent<DroneCatcherController>().CloseCatcher();
-    //     if (collectDrink){
-    //         CollectDrink();
-    //     }
-    // }
-
     private IEnumerator TryReleaseDrink(){
         if (currentDrink != null && currentDrink.transform.IsChildOf(cupCatcher.transform)){
             currentDrink.transform.SetParent(null, worldPositionStays: true);
         }
         yield return null;
     }
-
-    // public void CollectDrink(){
-    //     currentDrink.transform.SetParent(cupCatcher.transform, worldPositionStays: true);
-    // }
 
     public void SendOutDrink(bool dangerous=false){
         if (!dangerous){

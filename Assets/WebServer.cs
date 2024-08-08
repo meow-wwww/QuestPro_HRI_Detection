@@ -306,12 +306,6 @@ public class QuestServerBehavior : WebSocketBehavior
                     Send("Received");
                 });
             }
-            // else if (e.Data == "Drone - Close cup catchers"){
-            //     MainThreadDispatcher.Enqueue(() => {
-            //         GameObject.Find("DroneRobot").transform.Find("CupCatcher").gameObject.GetComponent<DroneCatcherController>().CloseCatcher();
-            //         Send("Received");
-            //     });
-            // }
             else if (e.Data.StartsWith("Drone - Audio: ")){
                 string prefix = "Drone - Audio: ";
                 // string audioClipName = e.Data.Substring(prefix.Length);
