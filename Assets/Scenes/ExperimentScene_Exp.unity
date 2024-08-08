@@ -28662,7 +28662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acaafebf7f3ca1d45be406c428cc2301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeMode: distance
+  volumeMode: distance_half
 --- !u!1 &1111749000
 GameObject:
   m_ObjectHideFlags: 8
@@ -56011,7 +56011,6 @@ GameObject:
   - component: {fileID: 1998741746}
   - component: {fileID: 1998741749}
   - component: {fileID: 1998741748}
-  - component: {fileID: 1998741747}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -56034,27 +56033,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1692376869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1998741747
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998741745}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1998741748
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58757,7 +58735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acaafebf7f3ca1d45be406c428cc2301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeMode: distance
+  volumeMode: distance_half
 --- !u!114 &2064815796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61084,7 +61062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acaafebf7f3ca1d45be406c428cc2301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeMode: distance
+  volumeMode: distance_half
 --- !u!1 &1092920701938776188
 GameObject:
   m_ObjectHideFlags: 0

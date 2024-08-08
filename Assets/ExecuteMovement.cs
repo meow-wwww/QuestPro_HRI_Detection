@@ -21,13 +21,13 @@ public class ExecuteMovement : MonoBehaviour
 
     public IEnumerator CollisionMode(){
         gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/Warning");
-        gameObject.GetComponent<AudioVolumeAdjustor>().volumeMode = "fixed";
+        gameObject.GetComponent<AudioVolumeAdjustor>().volumeMode = "distance_full";
         yield return null;
     }
 
     public IEnumerator NormalMode(){
         gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/" + initialMovingSoundEffect);
-        gameObject.GetComponent<AudioVolumeAdjustor>().volumeMode = "distance";
+        gameObject.GetComponent<AudioVolumeAdjustor>().volumeMode = "distance_half";
         yield return null;
     }
 
