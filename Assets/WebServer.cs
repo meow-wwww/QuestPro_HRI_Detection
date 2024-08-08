@@ -302,7 +302,7 @@ public class QuestServerBehavior : WebSocketBehavior
             }
             else if (e.Data == "Drone - Open cup catchers"){
                 MainThreadDispatcher.Enqueue(() => {
-                    GameObject.Find("DroneRobot").transform.Find("CupCatcher").gameObject.GetComponent<DroneCatcherController>().OpenCatcher();
+                    GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().OpenCupCatcher();
                     Send("Received");
                 });
             }
