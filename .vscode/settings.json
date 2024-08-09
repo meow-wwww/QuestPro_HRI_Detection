@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "QuestProHelloWorld.sln"
+    "dotnet.defaultSolution": "QuestPro_HRI_Detection.sln"
 }
