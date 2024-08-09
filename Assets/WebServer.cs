@@ -13,20 +13,6 @@ public class QuestServerBehavior : WebSocketBehavior
     protected override void OnMessage(MessageEventArgs e){
         Debug.Log("Receive from client: " + e.Data);
         
-        if (e.Data == "Plan") {
-            MainThreadDispatcher.Enqueue(() => {
-                TrajectoryPlanner trajectoryPlanner = GameObject.Find("Publisher").GetComponent<TrajectoryPlanner>();
-                if (trajectoryPlanner != null){
-                    trajectoryPlanner.PublishJoints();
-                    Send("Plan Success");
-                }
-                else{
-                    Debug.Log("TrajectoryPlanner not found! 404 404 404");
-                    Send("Plan Fail: TrajectoryPlanner not found!");
-                }
-            // Send("Plan Finish");
-            });
-        }
         if (e.Data.StartsWith("Waiter - ")){
             if (e.Data.StartsWith("Waiter - Move ")){
                 MainThreadDispatcher.Enqueue(() => {
@@ -203,25 +189,12 @@ public class QuestServerBehavior : WebSocketBehavior
                         Send("Received");
                     });
                 }
-                else if (e.Data == "Drone - Move to the table user1 dangerous"){
-                    MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveToTableUser1Dangerous();
-                        GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(false);
-                        Send("Received");
-                    });
-                }
                 else if (e.Data == "Drone - Move to the table user2"){
                     MainThreadDispatcher.Enqueue(() => {
                         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveToTableUser2();
                         Send("Received");
                     });
                 }
-                // else if (e.Data == "Drone - Move up"){
-                //     MainThreadDispatcher.Enqueue(() => {
-                //         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().MoveUp(height: 0.55f);
-                //         Send("Received");
-                //     });
-                // }
                 else if (e.Data == "Drone - Move away"){
                     MainThreadDispatcher.Enqueue(() => {
                         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().GoAway();
@@ -270,26 +243,6 @@ public class QuestServerBehavior : WebSocketBehavior
                 else if (e.Data == "Drone - Current drink: wrong"){
                     MainThreadDispatcher.Enqueue(() => {
                         GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().SetCurrentDrink(GameObject.Find("Coffee_wrong"));
-                        Send("Received");
-                    });
-                }
-                else if (e.Data == "Drone - Current drink: attach"){
-                    MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().SetCurrentDrink(
-                            GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().currentDrink
-                        );
-                        Send("Received");
-                    });
-                }
-                else if (e.Data == "Drone - Current drink: detach"){
-                    MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().SetCurrentDrink(null);
-                        Send("Received");
-                    });
-                }
-                else if (e.Data == "Drone - Current drink: dangerous"){
-                    MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("DroneRobot").GetComponent<EXPDroneOperation>().currentDrink.GetComponent<DrinkAction>().Dangerous();
                         Send("Received");
                     });
                 }
@@ -472,20 +425,6 @@ public class QuestServerBehavior : WebSocketBehavior
             }
         }
 
-
-        ////////////////////////// Other shared by all robots
-        else if (e.Data == "Coffee - User2 drink up"){
-            MainThreadDispatcher.Enqueue(() => {
-                GameObject.Find("Coffee_user2").GetComponent<DrinkAction>().DrinkUp();
-                Send("Received");
-            });
-        }
-        else if (e.Data == "Coffee1 - Enable interaction"){
-            MainThreadDispatcher.Enqueue(() => {
-                GameObject.Find("Coffee_user1").GetComponent<DrinkAction>().SetInteractionMode(true);
-                Send("Received");
-            });
-        }
         ////////////////////////// system control
         else if (e.Data == "Start recording"){
             MainThreadDispatcher.Enqueue(() => {
@@ -501,7 +440,7 @@ public class QuestServerBehavior : WebSocketBehavior
                 GameObject.Find("PoseCamera").GetComponent<CameraRecord>().StopRecordingInterface(newFilename);
                 GameObject.Find("AvatarRelated").transform.Find("AvatarCamera").GetComponent<CameraRecord>().StopRecordingInterface(newFilename);
                 GameObject.Find("MainCameraRecord").GetComponent<CameraRecord>().StopRecordingInterface(newFilename);
-                Send("Received"); // +f1+"\n"+f2+"\n"+f3);
+                Send("Received");
             });
         }
         else if (e.Data.StartsWith("Save context - ")){
