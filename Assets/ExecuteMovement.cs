@@ -35,7 +35,6 @@ public class ExecuteMovement : MonoBehaviour
     {
         // start to play the movement sound effect just before moving
         AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
-        movementAudioSource.loop = true;
         movementAudioSource.Play();
 
         float accelerateRate = 1.0f;
@@ -83,7 +82,6 @@ public class ExecuteMovement : MonoBehaviour
     {
         // start to play the movement sound effect just before moving
         AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
-        movementAudioSource.loop = true; // TODO: can be deleted
         movementAudioSource.Play();
 
         loopInterrupted = false;
@@ -115,8 +113,6 @@ public class ExecuteMovement : MonoBehaviour
                     float step = moveSpeed * Time.deltaTime;
                     transform.position = Vector3.MoveTowards(transform.position, target, step);
 
-                    // rigid body 写法
-                    // rigidbody.MovePosition(transform.position + direction * step);
                     yield return null;
                 }
             }
@@ -279,6 +275,110 @@ public class ExecuteMovement : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, moveSpeed * Time.deltaTime);
                     yield return null;
                 }
+            }
+        }
+    }
+
+    public IEnumerator MoveAlongPath_ROS_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed, bool finalRotate=false, Vector3 finalFaceTowards=default(Vector3), bool accelerate=false)
+    {
+        // start to play the movement sound effect just before moving
+        AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
+        movementAudioSource.Play();
+
+        float accelerateRate = 1.0f;
+
+        foreach (Vector3 target in targetList)
+        {
+            // TODO: first rotate to face target (only when the moving distance in this step is large enough)
+
+            /*** original implementation ***/
+            // if (Vector3.Distance(transform.position, target) > 0.3f)
+            //     while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
+            //     {
+            //         // ensure that the rotation degree is less than 180
+            //         Quaternion targetRotation = Quaternion.LookRotation((target - transform.position).normalized);
+            //         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            //         yield return null;
+            //     }
+
+
+
+            // TODO: then move to target position
+
+            /*** original implementation ***/
+            // while (Vector3.Distance(transform.position, target) > 0.02f)
+            // {
+            //     Vector3 direction = (target - transform.position).normalized;
+            //     if (accelerate){
+            //         accelerateRate *= 1.005f;
+            //     }
+            //     float step = moveSpeed * Time.deltaTime * accelerateRate;
+            //     transform.position = Vector3.MoveTowards(transform.position, target, step);
+
+            //     yield return null;
+            // }
+
+        }
+        if (finalRotate){
+            /*** original implementation ***/
+            // while (Vector3.Angle(transform.forward, finalFaceTowards - transform.position) > 1f)
+            // {
+            //     Quaternion targetRotation = Quaternion.LookRotation(finalFaceTowards - transform.position);
+            //     transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            //     yield return null;
+            // }
+        }
+        movementAudioSource.Stop();
+        yield return null;
+    }
+
+    public IEnumerator MoveAlongPath_ROS_Loop_Coroutine(List<Vector3> targetList, float moveSpeed, float rotateSpeed)
+    {
+        /* Reminder
+           the robot moves along the path in a loop. 
+           But when the loopInterrupted is set to true, the robot stops moving.
+           (So loopInterrupted should be checked frequently in the loop.)
+        */
+
+        // start to play the movement sound effect just before moving
+        AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
+        movementAudioSource.Play();
+
+        loopInterrupted = false;
+        while(true){ 
+            foreach (Vector3 target in targetList) // for the 'next point'
+            {
+                // TODO: first rotate to face target (same as above)
+
+                /*** original implementation ***/
+                // while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
+                // {
+                    // if (loopInterrupted){
+                    //     movementAudioSource.Stop();
+                    //     yield break;
+                    // }
+                //     // ensure that the rotation degree is less than 180
+                //     Quaternion targetRotation = Quaternion.LookRotation((target - transform.position).normalized);
+                //     transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                    
+                //     yield return null;
+                // }
+
+
+                // TODO: then move to target position
+
+                /*** original implementation ***/
+                // while (Vector3.Distance(transform.position, target) > 0.02f)
+                // {
+                    // if (loopInterrupted){
+                    //     movementAudioSource.Stop();
+                    //     yield break;
+                    // }
+                //     Vector3 direction = (target - transform.position).normalized;
+                //     float step = moveSpeed * Time.deltaTime;
+                //     transform.position = Vector3.MoveTowards(transform.position, target, step);
+                //     yield return null;
+                // }
             }
         }
     }

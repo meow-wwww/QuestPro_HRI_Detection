@@ -424,7 +424,138 @@ public class QuestServerBehavior : WebSocketBehavior
                 });
             }
         }
-
+        else if (e.Data.StartsWith("Dog - ")){
+            string command = e.Data.Substring("Dog - ".Length);
+            if (command.StartsWith("Move ")){
+                if (command == "Move towards the table (half)"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().MoveToTableHalf_Fixed();
+                        Send("Received");
+                    });
+                }
+                else if (command.StartsWith("Move to the table user1#")){
+                    string instructionText = command.Substring("Move to the table user1#".Length);
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().MoveToTableUser1_Fixed(instructionText);
+                        Send("Received");       
+                    });
+                }
+                else if (command == "Move to the table user1 collision"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().MoveToTableUser1Collision_Fixed();
+                        Send("Received");       
+                    });
+                }
+                else if (command == "Move to the table user1 dangerous"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().MoveToTableUser1Dangerous_Fixed();
+                        // MoveToTableUser2(rigid: true);
+                        Send("Received");       
+                    });
+                }
+                else if (command == "Move to the table user1 from collision"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().MoveToTableUser1FromCollision_Fixed();
+                        Send("Received");       
+                    });
+                }
+                else if (command == "Move to the table user2"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().MoveToTableUser2_Fixed();
+                        // MoveToTableUser2(rigid: true);
+                        Send("Received");
+                    });
+                }
+                else if (command == "Move away"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().GoAway();
+                        Send("Received");
+                    });
+                }
+                else if (command == "Move around"){
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().WanderAround();
+                        Send("Received");
+                    });
+                }
+                else{
+                    Send("Unknown Command");
+                }
+            }
+            else if (command == "Send out drink"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().SendOutDrink();
+                    Send("Received");
+                });
+            }
+            else if (command == "Send out drink dangerous"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().SendOutDrink(dangerous: true);
+                    GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(false);
+                    Send("Received");
+                });
+            }
+            else if (command == "Collect drink"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().CollectDrink();
+                    Send("Received");
+                });
+            }
+            else if (command == "Stop wandering"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().StopWandering();
+                    Send("Received");
+                });
+            }
+            else if (command == "Current drink: wrong"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().SetCurrentDrink(GameObject.Find("Coffee_wrong"));
+                    Send("Received");
+                });
+            }
+            else if (command == "Current drink: user1"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().SetCurrentDrink(GameObject.Find("Coffee_user1"));
+                    Send("Received");
+                });
+            }
+            else if (command == "Current drink: user2"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DogRobot").GetComponent<EXPDogOperation>().SetCurrentDrink(GameObject.Find("Coffee_user2"));
+                    Send("Received");
+                });
+            }
+            //// All audios
+            else if (command.StartsWith("Audio: ")){
+                string prefix = "Audio: ";
+                string audioClipName_Instruction = command.Substring(prefix.Length);
+                // if "#" in audioClipName_Instruction, then the string after "#" is the instruction text, before is the audio clip name
+                if (audioClipName_Instruction.Contains("#")){
+                    string audioClipName = audioClipName_Instruction.Split('#')[0];
+                    string instructionText = audioClipName_Instruction.Split('#')[1];
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").gameObject.GetComponent<DogNotification>().SendVoiceRequestWithInstruction(audioClipName, instructionText);
+                        if (audioClipName == "WhereShouldIPlace")
+                            GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
+                        Send("Received");
+                    });
+                }
+                else{
+                    MainThreadDispatcher.Enqueue(() => {
+                        GameObject.Find("DogRobot").gameObject.GetComponent<DogNotification>().SendVoiceRequest(audioClipName_Instruction);
+                        if (audioClipName_Instruction == "WhereShouldIPlace")
+                            GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
+                        Send("Received");
+                    });
+                }
+            }
+            else if (command == "Audio info stop"){
+                MainThreadDispatcher.Enqueue(() => {
+                    GameObject.Find("DogRobot").transform.Find("spot1").gameObject.GetComponent<AudioPlayer>().StopAudio();
+                    Send("Received");
+                });
+            }
+        }
         ////////////////////////// system control
         else if (e.Data == "Start recording"){
             MainThreadDispatcher.Enqueue(() => {

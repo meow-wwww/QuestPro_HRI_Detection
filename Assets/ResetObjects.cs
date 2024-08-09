@@ -97,6 +97,9 @@ public class ResetObjects : MonoBehaviour
             else if (globalPositionInfo.robot.name == "HumanoidRobot"){
                 currentDrinkSaved = globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().currentDrink;
             }
+            else if (globalPositionInfo.robot.name == "DogRobot"){
+                currentDrinkSaved = globalPositionInfo.robot.GetComponent<EXPDogOperation>().currentDrink;
+            }
             else{
                 Debug.LogError("Error: Invalid robot name.");
             }
