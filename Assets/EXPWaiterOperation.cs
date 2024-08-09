@@ -316,8 +316,8 @@ public class EXPWaiterOperation : MonoBehaviour
                     ),
                     executor.MoveAlongPath_Loop_Coroutine(
                         new List<Vector3>{
-                            globalPositionInfo.userPosition + globalPositionInfo.userRight * 2.0f + globalPositionInfo.userForward * 0.7f,
-                            globalPositionInfo.userPosition + globalPositionInfo.userRight * 2.0f + globalPositionInfo.userForward * 0.0f
+                            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 0.2f,
+                            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * -0.3f
                         }, 
                         moveSpeed, rotateSpeed //, false, new Vector3(0,0,0)
                     )

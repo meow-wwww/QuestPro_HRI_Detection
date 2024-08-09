@@ -86,10 +86,13 @@ public class ObjectPlacementInitialization : MonoBehaviour
     }
 
     void FindGlobalPositionInfo(){
-        // Change FLOOR's layer, and all its children's layer to "CollilderRobot"
-        GameObject.Find("FLOOR").layer = LayerMask.NameToLayer("ColliderRobot");
-        foreach (Transform child in GameObject.Find("FLOOR").transform){
-            child.gameObject.layer = LayerMask.NameToLayer("ColliderRobot");
+        // Change every furniture's layer, and all their children's layer to "CollilderRobot"
+        GameObject room = GameObject.Find("COUCH").transform.parent.gameObject;
+        foreach (Transform furniture in room.transform){
+            furniture.gameObject.layer = LayerMask.NameToLayer("ColliderRobot");
+            foreach (Transform child in furniture){
+                child.gameObject.layer = LayerMask.NameToLayer("ColliderRobot");
+            }
         }
 
         floorHeight = GameObject.Find("FLOOR").transform.position.y;

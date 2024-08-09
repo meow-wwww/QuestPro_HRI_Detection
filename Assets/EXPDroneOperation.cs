@@ -246,8 +246,8 @@ public class EXPDroneOperation : MonoBehaviour
 
     public void WanderAround(){
         List<Vector3> wanderPath = new List<Vector3>{
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 0.7f,
-            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.5f + globalPositionInfo.userForward * 0.0f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * 0.2f,
+            globalPositionInfo.userPosition + globalPositionInfo.userRight * 1.0f + globalPositionInfo.userForward * -0.3f,
         };
         for (int i = 0; i < wanderPath.Count; i++)
             wanderPath[i] = new Vector3(wanderPath[i].x, gameObject.GetComponent<ExecuteMovement>().flightHeight, wanderPath[i].z);
