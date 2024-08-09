@@ -86,6 +86,12 @@ public class ObjectPlacementInitialization : MonoBehaviour
     }
 
     void FindGlobalPositionInfo(){
+        // Change FLOOR's layer, and all its children's layer to "CollilderRobot"
+        GameObject.Find("FLOOR").layer = LayerMask.NameToLayer("ColliderRobot");
+        foreach (Transform child in GameObject.Find("FLOOR").transform){
+            child.gameObject.layer = LayerMask.NameToLayer("ColliderRobot");
+        }
+
         floorHeight = GameObject.Find("FLOOR").transform.position.y;
 
         // set up the room's directions
