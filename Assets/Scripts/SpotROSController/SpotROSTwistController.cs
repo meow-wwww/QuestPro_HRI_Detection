@@ -10,22 +10,32 @@ using UnityEngine;
 public class SpotROSTwistController : MonoBehaviour
 {
     const string k_RobotName = "spot1";
-    private string maxVelocityPublisherName = k_RobotName + "/max_velocity";
-    private string twistPublisherName = k_RobotName + "/cmd_vel";
+    private static readonly string maxVelocityPublisherName = k_RobotName + "/max_velocity";
+    private static readonly string twistPublisherName = k_RobotName + "/cmd_vel";
 
     [SerializeField]
     float m_MaxLinearSpeedZ = 1.9f; // m/sec
     private float prevMaxLinearSpeedZ = 0f;
 
     [SerializeField]
-    float m_MaxLinearSpeedX = 0.5f; // m/sec
+    float m_MaxLinearSpeedX = 1.9f; // m/sec
     private float prevMaxLinearSpeedX = 0f;
 
     [SerializeField]
-    float m_MaxAngularSpeed = 1.0f; // rad/sec
+    float m_MaxAngularSpeed = 1.5f; // rad/sec
     private float prevMaxAngularSpeed = 0f;
 
-    private ROSConnection ros;
+    [SerializeField]
+    float m_LinearSpeedForward = 0f; // m/sec
+
+    [SerializeField]
+    float m_LinearSpeedLeftward = 0f; // m/sec
+
+    [SerializeField]
+    float m_AngularSpeed = 0f; // rad/sec
+
+
+    private static ROSConnection ros;
 
     // Start is called before the first frame update
     void Start()
@@ -48,13 +58,13 @@ public class SpotROSTwistController : MonoBehaviour
         }
 
         // Test publish twist
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.T))
         {
-            PublishTwistTarget(new Vector3(0.1f, 0f, 0.2f), new Vector3(0f, 0f, 0.1f));
+            PublishTwistTarget(new Vector3(m_LinearSpeedLeftward, 0f, m_LinearSpeedForward), new Vector3(0f, m_AngularSpeed, 0f));
         }
     }
 
-    public void SetMaxVelocities(float maxLinearZ, float maxLinearX, float maxAngular)
+    public static void SetMaxVelocities(float maxLinearZ, float maxLinearX, float maxAngular)
     {
         TwistMsg msg = new TwistMsg
         {
@@ -64,7 +74,17 @@ public class SpotROSTwistController : MonoBehaviour
         ros.Publish(maxVelocityPublisherName, msg);
     }
 
-    public void PublishTwistTarget(Vector3 linearVelocity, Vector3 angularVelocity)
+    public static void MoveTowards(Vector3 targetPosition, float maxLinearSpeedZ, float maxLinearSpeedX, float maxAngularSpeed)
+    {
+        // Vector3 direction = targetPosition - SpotGlobalPoseController.GetCurrentGlobalPose().position;
+        // direction.y = 0;
+        // direction.Normalize();
+        // Vector3 linearVelocity = direction * maxLinearSpeedZ;
+        // Vector3 angularVelocity = new Vector3(0, maxAngularSpeed, 0);
+        // PublishTwistTarget(linearVelocity, angularVelocity);
+    }
+
+    public static void PublishTwistTarget(Vector3 linearVelocity, Vector3 angularVelocity)
     {
         TwistMsg twistMsg = new TwistMsg
         {
