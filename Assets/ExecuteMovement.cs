@@ -150,7 +150,7 @@ public class ExecuteMovement : MonoBehaviour
                 float realMoveSpeed = moveSpeed;
                 if (Vector3.Distance(transform.position, robotInFlightHeight) < 0.15f)
                     realMoveSpeed = moveSpeed / 2;
-                Vector3 direction = new Vector3(0, 1, 0);
+                // Vector3 direction = new Vector3(0, 1, 0);
                 transform.position = Vector3.MoveTowards(transform.position, robotInFlightHeight, realMoveSpeed * Time.deltaTime);
                 yield return null;
             }
@@ -206,25 +206,26 @@ public class ExecuteMovement : MonoBehaviour
             {
                 // Before start, check the distance in x-z plane between the robot and the target, and using this to decide the flight height.
                 // (if the distance is too small, the robot will fly lower)
-                float realFlightHeight;
-                if (Vector3.Distance(transform.position, target) < 0.5f)
-                    realFlightHeight = globalPositionInfo.tableHeight + 0.55f;
-                else
-                    realFlightHeight = flightHeight;
+                float realFlightHeight = target.y;
+                // if (Vector3.Distance(transform.position, target) < 0.5f)
+                //     realFlightHeight = globalPositionInfo.tableHeight + 0.55f;
+                // else
+                //     realFlightHeight = flightHeight + globalPositionInfo.floorHeight;
 
                 // first lift up to the flight height
                 Vector3 robotInFlightHeight = new Vector3(transform.position.x, realFlightHeight, transform.position.z);
-                while (Vector3.Distance(transform.position, robotInFlightHeight) > 0.03f)
+
+                while (Vector3.Distance(transform.position, robotInFlightHeight) > 0.05f)
                 {
                     float realMoveSpeed = moveSpeed;
-                    if (Vector3.Distance(transform.position, robotInFlightHeight) < 0.1f)
+                    if (Vector3.Distance(transform.position, robotInFlightHeight) < 0.15f)
                         realMoveSpeed = moveSpeed / 2;
                     if (loopInterrupted){
                         gameObject.GetComponent<AudioSource>().Stop();
                         yield break;
                     }
-                    Vector3 direction = new Vector3(0, 1, 0);
-                    transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, realMoveSpeed * Time.deltaTime);
+                    // Vector3 direction = new Vector3(0, 1, 0);
+                    transform.position = Vector3.MoveTowards(transform.position, robotInFlightHeight, realMoveSpeed * Time.deltaTime);
                     yield return null;
                 }
                 Vector3 targetInFlightHeight = new Vector3(target.x, realFlightHeight, target.z);
