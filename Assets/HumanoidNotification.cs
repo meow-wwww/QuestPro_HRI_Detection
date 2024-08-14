@@ -7,6 +7,19 @@ public class HumanoidNotification : MonoBehaviour
     InstructionManager instructionManager;
     AudioPlayer requestAudioPlayer;
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
+    public PepperHeadController headController; // assigned in Unity Inspector
+
+    private IEnumerator ShakeHead_Async(){
+        StartCoroutine(ShakeHeadCore());
+        yield return null;
+    }
+
+    private IEnumerator ShakeHeadCore(){
+        headController.headPitchDriveTarget = 20f;
+        yield return new WaitForSeconds(1.5f);
+        headController.headPitchDriveTarget = 0f;
+        yield return new WaitForSeconds(1.5f);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -19,13 +32,14 @@ public class HumanoidNotification : MonoBehaviour
         // Debug.Log("+++++++ in SendVoiceRequestWithInstruction:" + audioClipName + " " + instructionText);
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator> {
             gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
-                new List<Vector3> {globalPositionInfo.robot.transform.position},
+                new List<Vector3> {},
                 globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().moveSpeed,
                 globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().rotateSpeed,
                 finalRotate: true,
                 finalFaceTowards: globalPositionInfo.userPosition
             ),
             SendVoiceRequest_Coroutine(audioClipName),
+            ShakeHead_Async(),
             instructionManager.SetText_Coroutine(instructionText)
         }));
     }
@@ -33,13 +47,14 @@ public class HumanoidNotification : MonoBehaviour
     public void SendVoiceRequest(string audioClipName){
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator> {
             gameObject.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
-                new List<Vector3> {globalPositionInfo.robot.transform.position},
+                new List<Vector3> {},
                 globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().moveSpeed,
                 globalPositionInfo.robot.GetComponent<EXPHumanoidOperation>().rotateSpeed,
                 finalRotate: true,
                 finalFaceTowards: globalPositionInfo.userPosition
             ),
-            SendVoiceRequest_Coroutine(audioClipName)
+            SendVoiceRequest_Coroutine(audioClipName),
+            ShakeHead_Async()
         }));
     }
 

@@ -24,7 +24,7 @@ public class PepperHeadController : MonoBehaviour
     private float headYawDriveTarget = 0.0f;
     [Range(-40.49998f, 36.49999f)]
     [SerializeField]
-    private float headPitchDriveTarget = 0.0f;
+    public float headPitchDriveTarget = 0.0f;
 
 
     // Start is called before the first frame update
