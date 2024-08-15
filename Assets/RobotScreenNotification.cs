@@ -39,7 +39,7 @@ public class RobotScreenNotification : MonoBehaviour
     public void SendVoiceRequestWithInstruction(string audioClipName, string instructionText){
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator> {
             globalPositionInfo.robot.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
-                new List<Vector3> {globalPositionInfo.robot.transform.position},
+                new List<Vector3> {globalPositionInfo.robotPositionLink.transform.position},
                 globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().moveSpeed,
                 globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().rotateSpeed,
                 finalRotate: true,
@@ -53,7 +53,7 @@ public class RobotScreenNotification : MonoBehaviour
     public void SendVoiceRequest(string audioClipName){
         StartCoroutine(WaitForCoroutinesToEnd(new List<IEnumerator> {
             globalPositionInfo.robot.GetComponent<ExecuteMovement>().MoveAlongPath_Coroutine(
-                new List<Vector3> {globalPositionInfo.robot.transform.position},
+                new List<Vector3> {globalPositionInfo.robotPositionLink.transform.position},
                 globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().moveSpeed,
                 globalPositionInfo.robot.GetComponent<EXPWaiterOperation>().rotateSpeed,
                 finalRotate: true,

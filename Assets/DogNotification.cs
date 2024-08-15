@@ -12,7 +12,7 @@ public class DogNotification : MonoBehaviour
     void Start()
     {
         instructionManager = GameObject.Find("InstructionManager").GetComponent<InstructionManager>();
-        requestAudioPlayer = gameObject.transform.Find("spot1").GetComponent<AudioPlayer>();
+        requestAudioPlayer = gameObject.transform.Find("spot1/base_link").GetComponent<AudioPlayer>();
     }
 
     public void SendVoiceRequestWithInstruction(string audioClipName, string instructionText){

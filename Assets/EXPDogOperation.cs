@@ -27,6 +27,7 @@ public class EXPDogOperation : MonoBehaviour
 
     HumanoidCatcherController controller;
     InstructionManager instructionManager;
+    GameObject robotPositionLink;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +38,7 @@ public class EXPDogOperation : MonoBehaviour
 
         controller = cupCatcher.GetComponent<HumanoidCatcherController>();
         instructionManager = GameObject.Find("InstructionManager").GetComponent<InstructionManager>();
+        robotPositionLink = transform.Find("spot1/base_link").gameObject;
     }
 
     void Update(){
@@ -189,7 +191,7 @@ public class EXPDogOperation : MonoBehaviour
     }
 
     public void MoveToTableHalf_Fixed(){
-        Vector3 targetPosition = (gameObject.transform.position + table.transform.position) / 2f - 0.5f * globalPositionInfo.userForward;
+        Vector3 targetPosition = (robotPositionLink.transform.position + table.transform.position) / 2f - 0.5f * globalPositionInfo.userForward;
         targetPosition = new Vector3(targetPosition.x, globalPositionInfo.floorHeight, targetPosition.z);
         if (globalPositionInfo.sceneName == "Standing"){
             targetPosition += 0.5f * globalPositionInfo.userRight;
@@ -332,7 +334,7 @@ public class EXPDogOperation : MonoBehaviour
                 new List<IEnumerator>(){
                     executor.MoveAlongPath_ROS_Coroutine(
                         new List<Vector3>{
-                            gameObject.transform.position - gameObject.transform.forward
+                            robotPositionLink.transform.position - robotPositionLink.transform.forward
                         }, 
                         moveSpeed, rotateSpeed
                     ),

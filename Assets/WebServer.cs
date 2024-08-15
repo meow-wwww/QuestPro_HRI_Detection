@@ -551,7 +551,7 @@ public class QuestServerBehavior : WebSocketBehavior
             }
             else if (command == "Audio info stop"){
                 MainThreadDispatcher.Enqueue(() => {
-                    GameObject.Find("DogRobot").transform.Find("spot1").gameObject.GetComponent<AudioPlayer>().StopAudio();
+                    GameObject.Find("DogRobot").transform.Find("spot1/base_link").gameObject.GetComponent<AudioPlayer>().StopAudio();
                     Send("Received");
                 });
             }
