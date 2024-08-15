@@ -13,24 +13,24 @@ public class SpotROSBodyPoseController : MonoBehaviour
 
     [Header("Position")]
     [SerializeField]
-    private float m_PositionX;
+    private static float m_PositionX;
 
     [SerializeField]
-    private float m_PositionY;
+    private static float m_PositionY;
 
     [SerializeField]
-    private float m_PositionZ;
+    private static float m_PositionZ;
 
     [Header("Rotation (in degrees)")]
-    [SerializeField] private float m_RotationRoll;
-    [SerializeField] private float m_RotationPitch;
-    [SerializeField] private float m_RotationYaw;
+    [SerializeField] private static float m_RotationRoll;
+    [SerializeField] private static float m_RotationPitch;
+    [SerializeField] private static float m_RotationYaw;
 
     // ROS Connector
     static ROSConnection m_Ros;
 
-    private Vector3 m_LastPosition;
-    private Vector3 m_LastRotation;
+    private static Vector3 m_LastPosition;
+    private static Vector3 m_LastRotation;
 
     // Start is called before the first frame update
     void Start()
@@ -63,7 +63,7 @@ public class SpotROSBodyPoseController : MonoBehaviour
         }
     }
 
-    void UpdatePose()
+    public static void UpdatePose()
     {
         Vector3 position = new Vector3(m_PositionX, m_PositionY, m_PositionZ);
         Vector3 rotation = new Vector3(m_RotationRoll, m_RotationPitch, m_RotationYaw);
@@ -90,17 +90,32 @@ public class SpotROSBodyPoseController : MonoBehaviour
     }
 
     // Public methods to set values from other scripts if needed
-    public void SetPosition(float x, float y, float z)
+    public static void SetPosition(float x, float y, float z)
     {
         m_PositionX = x;
         m_PositionY = y;
         m_PositionZ = z;
     }
 
-    public void SetRotation(float roll, float pitch, float yaw)
+    public static void SetPosition(Vector3 position)
+    {
+        m_PositionX = position.x;
+        m_PositionY = position.y;
+        m_PositionZ = position.z;
+    }
+
+    public static void SetRotation(float roll, float pitch, float yaw)
     {
         m_RotationRoll = roll;
         m_RotationPitch = pitch;
         m_RotationYaw = yaw;
     }
+
+    public static void SetRotation(Vector3 rotation)
+    {
+        m_RotationRoll = rotation.x;
+        m_RotationPitch = rotation.y;
+        m_RotationYaw = rotation.z;
+    }
+
 }
