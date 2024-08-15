@@ -307,11 +307,11 @@ public class ExecuteMovement : MonoBehaviour
             {
                 // Before start, check the distance in x-z plane between the robot and the target, and using this to decide the flight height.
                 // (if the distance is too small, the robot will fly lower)
-                float realFlightHeight;
-                if (Vector3.Distance(transform.position, target) < 0.5f)
-                    realFlightHeight = globalPositionInfo.tableHeight + 0.55f;
-                else
-                    realFlightHeight = flightHeight;
+                float realFlightHeight = target.y;
+                // if (Vector3.Distance(transform.position, target) < 0.5f)
+                //     realFlightHeight = globalPositionInfo.tableHeight + 0.55f;
+                // else
+                //     realFlightHeight = flightHeight + globalPositionInfo.floorHeight;
 
                 // first lift up to the flight height
                 Vector3 robotInFlightHeight = new Vector3(
@@ -322,7 +322,7 @@ public class ExecuteMovement : MonoBehaviour
                 while (Vector3.Distance(transform.position, robotInFlightHeight) > 0.03f)
                 {
                     float realMoveSpeed = moveSpeed;
-                    if (Vector3.Distance(transform.position, robotInFlightHeight) < 0.1f)
+                    if (Vector3.Distance(transform.position, robotInFlightHeight) < 0.15f)
                         realMoveSpeed = moveSpeed / 2;
                     if (loopInterrupted)
                     {

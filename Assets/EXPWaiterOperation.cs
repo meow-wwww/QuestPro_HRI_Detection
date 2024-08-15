@@ -299,7 +299,7 @@ public class EXPWaiterOperation : MonoBehaviour
             }, 
             moveSpeed, rotateSpeed,
             finalRotate: true,
-            finalFaceTowards: globalPositionInfo.robotInitialPosition
+            finalFaceTowards: globalPositionInfo.userPosition
         ));
     }
 
