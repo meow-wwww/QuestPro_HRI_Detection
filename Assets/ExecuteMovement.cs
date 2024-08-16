@@ -553,6 +553,7 @@ public class ExecuteMovement : MonoBehaviour
             //     transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
             //     yield return null;
             // }
+            finalFaceTowards.y = spotTransform.position.y;
             Vector3 initialPos = spotTransform.position;
             Quaternion targetRotation = Quaternion.LookRotation(
                 (finalFaceTowards - spotTransform.position).normalized
