@@ -491,20 +491,15 @@ public class ExecuteMovement : MonoBehaviour
                         targetRotation,
                         rotateSpeed * Time.deltaTime
                     );
-                    Vector3 orientationToRotateEuler = (spotTransform.rotation * orientationToRotate).eulerAngles;
-                    orientationToRotateEuler.x = 0;
-                    orientationToRotateEuler.z = 0;
-                    orientationToRotate = Quaternion.Euler(orientationToRotateEuler);
 
-                    // Debug.Log("orientation to rotate: " + orientationToRotate.eulerAngles);
-                    // SpotROSGlobalPoseController.SetPosition(initialPos);
-                    // SpotROSGlobalPoseController.SetRotation(
-                    //     (spotTransform.rotation * orientationToRotate).eulerAngles
-                    // );
-                    // SpotROSGlobalPoseController.UpdatePose();
+                    SpotROSGlobalPoseController.SetPosition(initialPos);
+                    SpotROSGlobalPoseController.SetRotation(
+                        (orientationToRotate).eulerAngles
+                    );
+                    SpotROSGlobalPoseController.UpdatePose();
                     rootBody.TeleportRoot(
                         initialPos,
-                        (spotTransform.rotation * orientationToRotate)
+                        orientationToRotate
                     );
                     // SpotROSGlobalPoseController.StopSpot();
                     yield return null;
@@ -539,10 +534,10 @@ public class ExecuteMovement : MonoBehaviour
                 }
                 float step = moveSpeed * Time.deltaTime * accelerateRate;
                 Vector3 targetMovement = Vector3.MoveTowards(spotTransform.position, target, step);
-                SpotROSGlobalPoseController.SetPosition(spotTransform.position + targetMovement);
+                SpotROSGlobalPoseController.SetPosition(targetMovement);
                 SpotROSGlobalPoseController.SetRotation(initialOri.eulerAngles);
                 SpotROSGlobalPoseController.UpdatePose();
-                rootBody.TeleportRoot(spotTransform.position + targetMovement, initialOri);
+                rootBody.TeleportRoot(targetMovement, initialOri);
                 // SpotROSGlobalPoseController.StopSpot();
                 yield return null;
             }
@@ -578,16 +573,13 @@ public class ExecuteMovement : MonoBehaviour
                     targetRotation,
                     rotateSpeed * Time.deltaTime
                 );
-                Vector3 orientationToRotateEuler = (spotTransform.rotation * orientationToRotate).eulerAngles;
-                orientationToRotateEuler.x = 0;
-                orientationToRotateEuler.z = 0;
-                orientationToRotate = Quaternion.Euler(orientationToRotateEuler);
+                
                 SpotROSGlobalPoseController.SetPosition(initialPos);
                 SpotROSGlobalPoseController.SetRotation(
-                    (spotTransform.rotation * orientationToRotate).eulerAngles
+                    (orientationToRotate).eulerAngles
                 );
                 SpotROSGlobalPoseController.UpdatePose();
-                rootBody.TeleportRoot(initialPos, (spotTransform.rotation * orientationToRotate));
+                rootBody.TeleportRoot(initialPos, (orientationToRotate));
                 yield return null;
             }
             // rootBody.TeleportRoot(initialPos, targetRotation);
@@ -671,18 +663,15 @@ public class ExecuteMovement : MonoBehaviour
                             targetRotation,
                             rotateSpeed * Time.deltaTime
                         );
-                        Vector3 orientationToRotateEuler = (spotTransform.rotation * orientationToRotate).eulerAngles;
-                        orientationToRotateEuler.x = 0;
-                        orientationToRotateEuler.z = 0;
-                        orientationToRotate = Quaternion.Euler(orientationToRotateEuler);
+                        
                         SpotROSGlobalPoseController.SetPosition(initialPos);
                         SpotROSGlobalPoseController.SetRotation(
-                            (spotTransform.rotation * orientationToRotate).eulerAngles
+                            (orientationToRotate).eulerAngles
                         );
                         SpotROSGlobalPoseController.UpdatePose();
                         rootBody.TeleportRoot(
                             initialPos,
-                            (spotTransform.rotation * orientationToRotate)
+                            (orientationToRotate)
                         );
                         // SpotROSGlobalPoseController.StopSpot();
                         yield return null;
@@ -723,11 +712,11 @@ public class ExecuteMovement : MonoBehaviour
                         step
                     );
                     SpotROSGlobalPoseController.SetPosition(
-                        spotTransform.position + targetMovement
+                        targetMovement
                     );
                     SpotROSGlobalPoseController.SetRotation(initialOri.eulerAngles);
                     SpotROSGlobalPoseController.UpdatePose();
-                    rootBody.TeleportRoot(spotTransform.position + targetMovement, initialOri);
+                    rootBody.TeleportRoot(targetMovement, initialOri);
                     // SpotROSGlobalPoseController.StopSpot();
                     yield return null;
                 }
