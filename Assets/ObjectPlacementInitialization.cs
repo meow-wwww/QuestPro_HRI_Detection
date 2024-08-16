@@ -24,6 +24,7 @@ public class ObjectPlacementInitialization : MonoBehaviour
 
     [Header("Object References")]
     public GameObject robot;
+    public GameObject robotPositionLink;
 
     public List<GameObject> robotList;
 
@@ -40,6 +41,10 @@ public class ObjectPlacementInitialization : MonoBehaviour
         robotName = PlayerPrefs.GetString("robot");
         //get robot reference
         robot = GameObject.Find(robotName);
+        robotPositionLink = robot;
+        if (robotName == "DogRobot") {
+            robotPositionLink = robot.transform.Find("spot1/base_link").gameObject;
+        }
         // disable all other robots
         foreach (GameObject robotItem in robotList){
             if (robotItem.name != robotName){
@@ -140,18 +145,22 @@ public class ObjectPlacementInitialization : MonoBehaviour
         // sitting: 4 right + 1.5 forward
         // standing: 2 right + 4 forward
         if (sceneName == "Sitting"){
-            robot.transform.position = userPosition + userRight * 4f + userForward * 2.5f;
+            robotPositionLink.transform.position = userPosition + userRight * 4f + userForward * 2.5f;
+
+            SpotROSBodyPoseController.SetPosition(robotPositionLink.transform.position);
+            SpotROSBodyPoseController.SetRotation(0, robotPositionLink.transform.rotation.y, 0);
+            SpotROSBodyPoseController.UpdatePose();
         }
         else if (sceneName == "Standing"){
-            robot.transform.position = userPosition + userRight * 2f + userForward * 4f;
+            robotPositionLink.transform.position = userPosition + userRight * 2f + userForward * 4f;
         }
         else{
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
         }
 
         if (robot.name == "DroneRobot")
-            robot.transform.position += new Vector3(0, 2f, 0);
-        robotInitialPosition = robot.transform.position;
+            robotPositionLink.transform.position += new Vector3(0, 2f, 0);
+        robotInitialPosition = robotPositionLink.transform.position;
 
         if (sceneName == "Sitting"){
             tableHeight = table.transform.Find("TableTop").transform.position.y;

@@ -74,16 +74,6 @@ public class SpotROSTwistController : MonoBehaviour
         ros.Publish(maxVelocityPublisherName, msg);
     }
 
-    public static void MoveTowards(Vector3 targetPosition, float maxLinearSpeedZ, float maxLinearSpeedX, float maxAngularSpeed)
-    {
-        // Vector3 direction = targetPosition - SpotGlobalPoseController.GetCurrentGlobalPose().position;
-        // direction.y = 0;
-        // direction.Normalize();
-        // Vector3 linearVelocity = direction * maxLinearSpeedZ;
-        // Vector3 angularVelocity = new Vector3(0, maxAngularSpeed, 0);
-        // PublishTwistTarget(linearVelocity, angularVelocity);
-    }
-
     public static void PublishTwistTarget(Vector3 linearVelocity, Vector3 angularVelocity)
     {
         TwistMsg twistMsg = new TwistMsg

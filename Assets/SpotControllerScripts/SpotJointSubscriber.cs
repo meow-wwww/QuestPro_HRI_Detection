@@ -24,6 +24,20 @@ public class SpotJointSubscriber : MonoBehaviour
         "base_link/rear_rail/rear_right_hip/rear_right_upper_leg/rear_right_lower_leg"
     };
 
+// # ------------------ Standard pose for starting step
+// sit_down = [[0.20, 1.0, -2.49],  # Front left leg
+//             [-0.20, 1.0, -2.49],  # Front right leg
+//             [0.20, 1.0, -2.49],  # Rear left leg
+//             [-0.20, 1.0, -2.49]]  # Rear right leg
+
+// stand_up = [[0.20, 0.7, -1.39],  # Front left leg
+//             [-0.20, 0.7, -1.39],  # Front right leg
+//             [0.20, 0.7, -1.39],  # Rear left leg
+//             [-0.20, 0.7, -1.39]]  # Rear right leg
+
+    static readonly float[] sit_down = { 0.20f, 1.0f, -2.49f, -0.20f, 1.0f, -2.49f, 0.20f, 1.0f, -2.49f, -0.20f, 1.0f, -2.49f };
+    static readonly float[] stand_up = { 0.20f, 0.7f, -1.39f, -0.20f, 0.7f, -1.39f, 0.20f, 0.7f, -1.39f, -0.20f, 0.7f, -1.39f };
+
     // Hardcoded variables
     const int k_NumRobotJoints = 12;
 
@@ -65,7 +79,20 @@ public class SpotJointSubscriber : MonoBehaviour
         m_Ros.Subscribe<Float>("spot1/joint_rear_right_hip_y_controller/command", UpdateRearRightHipY);
         m_Ros.Subscribe<Float>("spot1/joint_rear_right_knee_controller/command", UpdateRearRightKnee);
 
+        UpdateJointAngles(stand_up);
+    }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            UpdateJointAngles(stand_up);
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            UpdateJointAngles(sit_down);
+        }
     }
 
     // Update the joint angle by setting the
@@ -77,6 +104,15 @@ public class SpotJointSubscriber : MonoBehaviour
         jointXDrive.target = angle;
         m_JointArticulationBodies[joint].xDrive = jointXDrive;
     }
+
+    public void UpdateJointAngles(float[] cmd)
+    {
+        for (var i = 0; i < k_NumRobotJoints; i++)
+        {
+            UpdateJointAngle(cmd[i], i);
+        }
+    }
+
 
     public void UpdateFrontLeftHipX(Float cmd)
     {

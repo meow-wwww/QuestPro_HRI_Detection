@@ -3,8 +3,9 @@ import websockets
 import sys
 
 async def communicate_with_server(cmd):
-    uri = "ws://10.79.85.90:8081/Server" # quest: 10.79.85.90 # win: 10.79.44.94
+    # uri = "ws://10.79.85.90:8081/Server" # quest: 10.79.85.90 # win: 10.79.44.94
     # uri = "ws://10.79.44.94:8081/Server"
+    uri = "ws://127.0.0.1:8081/Server"
     async with websockets.connect(uri) as websocket:
         await websocket.send(cmd)
         response = await websocket.recv()

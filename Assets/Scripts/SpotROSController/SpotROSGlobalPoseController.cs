@@ -13,22 +13,22 @@ public class SpotROSGlobalPoseController : MonoBehaviour
     private static readonly string m_ResetPublisherName = "spot1/reset";
 
     [SerializeField]
-    Transform m_CurrentGlobalPose;
+    static Transform m_CurrentGlobalPose;
 
     [Header("Position")]
     [SerializeField]
-    private float m_PositionX;
+    private static float m_PositionX;
 
     [SerializeField]
-    private float m_PositionY;
+    private static float m_PositionY;
 
     [SerializeField]
-    private float m_PositionZ;
+    private static float m_PositionZ;
 
     [Header("Rotation (in degrees)")]
-    [SerializeField] private float m_RotationRoll;
-    [SerializeField] private float m_RotationPitch;
-    [SerializeField] private float m_RotationYaw;
+    [SerializeField] private static float m_RotationRoll;
+    [SerializeField] private static float m_RotationPitch;
+    [SerializeField] private static float m_RotationYaw;
 
     [Header("Update Rate")]
     [SerializeField] private float m_UpdateRate = 20f; // Update 20 times per second by default
@@ -36,18 +36,18 @@ public class SpotROSGlobalPoseController : MonoBehaviour
     // ROS Connector
     static ROSConnection m_Ros;
 
-    private float m_TimeElapsed;
-
     // Start is called before the first frame update
     void Start()
     {
+        m_CurrentGlobalPose = transform.parent.Find("base_link");
+
         // ROS Connector
         m_Ros = ROSConnection.GetOrCreateInstance();
         m_Ros.RegisterPublisher<PoseMsg>(m_GlobalPosePublisherName);
         m_Ros.RegisterPublisher<PoseMsg>(m_CurrentGlobalPosePublisherName);
 
-        SetPosition(m_CurrentGlobalPose.localPosition.x, m_CurrentGlobalPose.localPosition.y, m_CurrentGlobalPose.localPosition.z);
-        SetRotation(m_CurrentGlobalPose.localRotation.eulerAngles.x, m_CurrentGlobalPose.localRotation.eulerAngles.y, m_CurrentGlobalPose.localRotation.eulerAngles.z);
+        SetPosition(m_CurrentGlobalPose.position.x, m_CurrentGlobalPose.position.y, m_CurrentGlobalPose.position.z);
+        SetRotation(m_CurrentGlobalPose.rotation.eulerAngles.x, m_CurrentGlobalPose.rotation.eulerAngles.y, m_CurrentGlobalPose.rotation.eulerAngles.z);
     }
 
     // Update is called once per frame
@@ -56,6 +56,7 @@ public class SpotROSGlobalPoseController : MonoBehaviour
         PublishCurrentGlobalPose();
         if (Input.GetKey(KeyCode.S))
         {
+            CancelInvoke("UpdatePose");
             StopSpot();
         }
         
@@ -65,22 +66,26 @@ public class SpotROSGlobalPoseController : MonoBehaviour
         }
     }
 
-    void StopSpot()
+    public static Transform GetGlobalPoseTransform()
     {
-        CancelInvoke("UpdatePose");
-        SpotROSTwistController.PublishTwistTarget(new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 0f));
-        SetPosition(m_CurrentGlobalPose.localPosition.x, m_CurrentGlobalPose.localPosition.y, m_CurrentGlobalPose.localPosition.z);
-        SetRotation(m_CurrentGlobalPose.localRotation.eulerAngles.x, m_CurrentGlobalPose.localRotation.eulerAngles.y, m_CurrentGlobalPose.localRotation.eulerAngles.z);
+        return m_CurrentGlobalPose;
+    }
+
+    public static void StopSpot()
+    {
+        SetPosition(m_CurrentGlobalPose.position.x, m_CurrentGlobalPose.position.y, m_CurrentGlobalPose.position.z);
+        SetRotation(m_CurrentGlobalPose.rotation.eulerAngles.x, m_CurrentGlobalPose.rotation.eulerAngles.y, m_CurrentGlobalPose.rotation.eulerAngles.z);
         UpdatePose();
+        SpotROSTwistController.PublishTwistTarget(new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 0f));
         m_Ros.Publish(m_ResetPublisherName, new BoolMsg(true));
     }
 
-    void UpdatePose()
+    public static void UpdatePose()
     {
         Vector3 position = new Vector3(m_PositionX, m_PositionY, m_PositionZ);
         Vector3 rotation = new Vector3(m_RotationRoll, m_RotationPitch, m_RotationYaw);
 
-        if (position != m_CurrentGlobalPose.localPosition || rotation != m_CurrentGlobalPose.localRotation.eulerAngles)
+        if (position != m_CurrentGlobalPose.position || rotation != m_CurrentGlobalPose.rotation.eulerAngles)
         {
             Quaternion orientation = Quaternion.Euler(rotation);
             PublishGlobalPose(position, orientation);
@@ -102,24 +107,38 @@ public class SpotROSGlobalPoseController : MonoBehaviour
     {
         PoseMsg msg = new PoseMsg
         {
-            position = m_CurrentGlobalPose.localPosition.To<FLU>(),
-            orientation = m_CurrentGlobalPose.localRotation.To<FLU>()
+            position = m_CurrentGlobalPose.position.To<FLU>(),
+            orientation = m_CurrentGlobalPose.rotation.To<FLU>()
         };
         m_Ros.Publish(m_CurrentGlobalPosePublisherName, msg);
     }
 
     // Public methods to set values from other scripts if needed
-    public void SetPosition(float x, float y, float z)
+    public static void SetPosition(float x, float y, float z)
     {
         m_PositionX = x;
         m_PositionY = y;
         m_PositionZ = z;
     }
 
-    public void SetRotation(float roll, float pitch, float yaw)
+    public static void SetPosition(Vector3 position)
+    {
+        m_PositionX = position.x;
+        m_PositionY = position.y;
+        m_PositionZ = position.z;
+    }
+
+    public static void SetRotation(float roll, float pitch, float yaw)
     {
         m_RotationRoll = roll;
         m_RotationPitch = pitch;
         m_RotationYaw = yaw;
+    }
+
+    public static void SetRotation(Vector3 rotation)
+    {
+        m_RotationRoll = rotation.x;
+        m_RotationPitch = rotation.y;
+        m_RotationYaw = rotation.z;
     }
 }
