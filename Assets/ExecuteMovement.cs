@@ -434,20 +434,20 @@ public class ExecuteMovement : MonoBehaviour
         bool accelerate = false
     )
     {
-        Transform spotTransform = SpotROSGlobalPoseController.GetGlobalPoseTransform();
+        ArticulationBody rootBody = GameObject
+            .Find("spot1/base_link")
+            .GetComponent<ArticulationBody>();
+        Transform spotTransform = rootBody.transform;
         SpotROSTwistController.SetMaxVelocities(moveSpeed, 0.5f, rotateSpeed);
+        SpotROSTwistController.PublishTwistTarget(new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 0f));
 
-        SpotROSGlobalPoseController.StopSpot();
+        // SpotROSGlobalPoseController.StopSpot();
 
         // start to play the movement sound effect just before moving
         AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
         movementAudioSource.Play();
 
         float accelerateRate = 1.0f;
-
-        ArticulationBody rootBody = GameObject
-            .Find("spot1/base_link")
-            .GetComponent<ArticulationBody>();
 
         foreach (Vector3 t in targetList)
         {
@@ -463,20 +463,19 @@ public class ExecuteMovement : MonoBehaviour
             //         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
             //         yield return null;
             //     }
-            spotTransform = SpotROSGlobalPoseController.GetGlobalPoseTransform();
             Vector3 initialPos = spotTransform.position;
             Quaternion targetRotation = Quaternion.LookRotation(
                 (target - spotTransform.position).normalized
             );
             // Debug.Log("postion: " + spotTransform.position);
             // Debug.Log("local postion: " + spotTransform.localPosition);
-            Debug.Log("target rotation: " + targetRotation);
-            Debug.Log("current rotation: " + spotTransform.rotation.eulerAngles);
-            Debug.Log("articulation position: " + rootBody.transform.position);
-            Debug.Log("articulation rotation: " + rootBody.transform.rotation.eulerAngles);
+            // Debug.Log("target rotation: " + targetRotation);
+            // Debug.Log("current rotation: " + spotTransform.rotation.eulerAngles);
+            // Debug.Log("articulation position: " + rootBody.transform.position);
+            // Debug.Log("articulation rotation: " + rootBody.transform.rotation.eulerAngles);
 
-            Debug.Log("base link position: " + spotTransform.position);
-            Debug.Log("base link rotation: " + spotTransform.rotation.eulerAngles);
+            // Debug.Log("base link position: " + spotTransform.position);
+            // Debug.Log("base link rotation: " + spotTransform.rotation.eulerAngles);
 
             if (Vector3.Distance(spotTransform.position, target) > 0.3f)
                 while (Vector3.Angle(spotTransform.forward, target - spotTransform.position) > 1f)
@@ -491,21 +490,27 @@ public class ExecuteMovement : MonoBehaviour
                         targetRotation,
                         rotateSpeed * Time.deltaTime
                     );
+                    // float m_AngularSpeed = (orientationToRotate.eulerAngles.y - spotTransform.rotation.eulerAngles.y) / Time.deltaTime;
+                    SpotROSTwistController.PublishTwistTarget(
+                        new Vector3(0f, 0f, 0f),
+                        new Vector3(0f, rotateSpeed, 0f)
+                    );
 
-                    SpotROSGlobalPoseController.SetPosition(initialPos);
-                    SpotROSGlobalPoseController.SetRotation(
-                        (orientationToRotate).eulerAngles
-                    );
-                    SpotROSGlobalPoseController.UpdatePose();
-                    rootBody.TeleportRoot(
-                        initialPos,
-                        orientationToRotate
-                    );
+                    // SpotROSGlobalPoseController.SetPosition(initialPos);
+                    // SpotROSGlobalPoseController.SetRotation(
+                    //     (orientationToRotate).eulerAngles
+                    // );
+                    // SpotROSGlobalPoseController.UpdatePose();
+                    rootBody.TeleportRoot(initialPos, orientationToRotate);
                     // SpotROSGlobalPoseController.StopSpot();
                     yield return null;
                 }
             // rootBody.TeleportRoot(initialPos, targetRotation);
-            SpotROSGlobalPoseController.StopSpot();
+            // SpotROSGlobalPoseController.StopSpot();
+            SpotROSTwistController.PublishTwistTarget(
+                new Vector3(0f, 0f, 0f),
+                new Vector3(0f, 0f, 0f)
+            );
 
             // TODO: then move to target position
 
@@ -521,7 +526,7 @@ public class ExecuteMovement : MonoBehaviour
 
             //     yield return null;
             // }
-            spotTransform = SpotROSGlobalPoseController.GetGlobalPoseTransform();
+            // spotTransform = SpotROSGlobalPoseController.GetGlobalPoseTransform();
 
             Quaternion initialOri = spotTransform.rotation;
 
@@ -534,15 +539,27 @@ public class ExecuteMovement : MonoBehaviour
                 }
                 float step = moveSpeed * Time.deltaTime * accelerateRate;
                 Vector3 targetMovement = Vector3.MoveTowards(spotTransform.position, target, step);
-                SpotROSGlobalPoseController.SetPosition(targetMovement);
-                SpotROSGlobalPoseController.SetRotation(initialOri.eulerAngles);
-                SpotROSGlobalPoseController.UpdatePose();
+                Vector3 targetVelocity = (targetMovement - spotTransform.position) / Time.deltaTime;
+                targetVelocity.y = 0f;
+                float targetForwardSpeed = targetVelocity.magnitude;
+                SpotROSTwistController.PublishTwistTarget(
+                    new Vector3(0f, 0f, targetForwardSpeed),
+                    new Vector3(0f, 0f, 0f)
+                );
+
+                // SpotROSGlobalPoseController.SetPosition(targetMovement);
+                // SpotROSGlobalPoseController.SetRotation(initialOri.eulerAngles);
+                // SpotROSGlobalPoseController.UpdatePose();
                 rootBody.TeleportRoot(targetMovement, initialOri);
                 // SpotROSGlobalPoseController.StopSpot();
                 yield return null;
             }
             // rootBody.TeleportRoot(target, initialOri);
-            SpotROSGlobalPoseController.StopSpot();
+            // SpotROSGlobalPoseController.StopSpot();
+            SpotROSTwistController.PublishTwistTarget(
+                new Vector3(0f, 0f, 0f),
+                new Vector3(0f, 0f, 0f)
+            );
         }
         if (finalRotate)
         {
@@ -574,20 +591,31 @@ public class ExecuteMovement : MonoBehaviour
                     targetRotation,
                     rotateSpeed * Time.deltaTime
                 );
-                
-                SpotROSGlobalPoseController.SetPosition(initialPos);
-                SpotROSGlobalPoseController.SetRotation(
-                    (orientationToRotate).eulerAngles
+                // float m_AngularSpeed = (orientationToRotate.eulerAngles.y - spotTransform.rotation.eulerAngles.y) / Time.deltaTime;
+                SpotROSTwistController.PublishTwistTarget(
+                    new Vector3(0f, 0f, 0f),
+                    new Vector3(0f, rotateSpeed, 0f)
                 );
-                SpotROSGlobalPoseController.UpdatePose();
+
+                // SpotROSGlobalPoseController.SetPosition(initialPos);
+                // SpotROSGlobalPoseController.SetRotation((orientationToRotate).eulerAngles);
+                // SpotROSGlobalPoseController.UpdatePose();
                 rootBody.TeleportRoot(initialPos, (orientationToRotate));
                 yield return null;
             }
             // rootBody.TeleportRoot(initialPos, targetRotation);
-            SpotROSGlobalPoseController.StopSpot();
+            // SpotROSGlobalPoseController.StopSpot();
+            SpotROSTwistController.PublishTwistTarget(
+                new Vector3(0f, 0f, 0f),
+                new Vector3(0f, 0f, 0f)
+            );
         }
         movementAudioSource.Stop();
-        SpotROSGlobalPoseController.StopSpot();
+        // SpotROSGlobalPoseController.StopSpot();
+        // SpotROSTwistController.PublishTwistTarget(
+        //     new Vector3(0f, 0f, 0f),
+        //     new Vector3(0f, 0f, 0f)
+        // );
         yield return null;
     }
 
@@ -604,12 +632,16 @@ public class ExecuteMovement : MonoBehaviour
         */
         SpotROSTwistController.SetMaxVelocities(moveSpeed, 0.5f, rotateSpeed);
 
-        SpotROSGlobalPoseController.StopSpot();
-        Transform spotTransform = SpotROSGlobalPoseController.GetGlobalPoseTransform();
+        // SpotROSGlobalPoseController.StopSpot();
+        SpotROSTwistController.PublishTwistTarget(
+            new Vector3(0f, 0f, 0f),
+            new Vector3(0f, 0f, 0f)
+        );
 
         ArticulationBody rootBody = GameObject
             .Find("spot1/base_link")
             .GetComponent<ArticulationBody>();
+        Transform spotTransform = rootBody.transform;
 
         // start to play the movement sound effect just before moving
         AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
@@ -636,7 +668,6 @@ public class ExecuteMovement : MonoBehaviour
 
                 //     yield return null;
                 // }
-                spotTransform = SpotROSGlobalPoseController.GetGlobalPoseTransform();
                 Vector3 initialPos = spotTransform.position;
                 Quaternion targetRotation = Quaternion.LookRotation(
                     (target - spotTransform.position).normalized
@@ -664,21 +695,25 @@ public class ExecuteMovement : MonoBehaviour
                             targetRotation,
                             rotateSpeed * Time.deltaTime
                         );
-                        
-                        SpotROSGlobalPoseController.SetPosition(initialPos);
-                        SpotROSGlobalPoseController.SetRotation(
-                            (orientationToRotate).eulerAngles
+                        // float m_AngularSpeed = (orientationToRotate.eulerAngles.y - spotTransform.rotation.eulerAngles.y) / Time.deltaTime;
+                        SpotROSTwistController.PublishTwistTarget(
+                            new Vector3(0f, 0f, 0f),
+                            new Vector3(0f, rotateSpeed, 0f)
                         );
-                        SpotROSGlobalPoseController.UpdatePose();
-                        rootBody.TeleportRoot(
-                            initialPos,
-                            (orientationToRotate)
-                        );
+
+                        // SpotROSGlobalPoseController.SetPosition(initialPos);
+                        // SpotROSGlobalPoseController.SetRotation((orientationToRotate).eulerAngles);
+                        // SpotROSGlobalPoseController.UpdatePose();
+                        rootBody.TeleportRoot(initialPos, (orientationToRotate));
                         // SpotROSGlobalPoseController.StopSpot();
                         yield return null;
                     }
                 // rootBody.TeleportRoot(initialPos, targetRotation);
-                SpotROSGlobalPoseController.StopSpot();
+                // SpotROSGlobalPoseController.StopSpot();
+                SpotROSTwistController.PublishTwistTarget(
+                    new Vector3(0f, 0f, 0f),
+                    new Vector3(0f, 0f, 0f)
+                );
 
                 // TODO: then move to target position
 
@@ -694,7 +729,6 @@ public class ExecuteMovement : MonoBehaviour
                 //     transform.position = Vector3.MoveTowards(transform.position, target, step);
                 //     yield return null;
                 // }
-                spotTransform = SpotROSGlobalPoseController.GetGlobalPoseTransform();
                 Quaternion initialOri = spotTransform.rotation;
 
                 while (Vector3.Distance(spotTransform.position, target) > 0.02f)
@@ -702,7 +736,11 @@ public class ExecuteMovement : MonoBehaviour
                     if (loopInterrupted)
                     {
                         movementAudioSource.Stop();
-                        SpotROSGlobalPoseController.StopSpot();
+                        // SpotROSGlobalPoseController.StopSpot();
+                        SpotROSTwistController.PublishTwistTarget(
+                            new Vector3(0f, 0f, 0f),
+                            new Vector3(0f, 0f, 0f)
+                        );
                         yield break;
                     }
                     Vector3 direction = (target - spotTransform.position).normalized;
@@ -712,17 +750,26 @@ public class ExecuteMovement : MonoBehaviour
                         target,
                         step
                     );
-                    SpotROSGlobalPoseController.SetPosition(
-                        targetMovement
+                    Vector3 targetVelocity = (targetMovement - spotTransform.position) / Time.deltaTime;
+                    targetVelocity.y = 0f;
+                    float targetForwardSpeed = targetVelocity.magnitude;
+                    SpotROSTwistController.PublishTwistTarget(
+                        new Vector3(0f, 0f, targetForwardSpeed),
+                        new Vector3(0f, 0f, 0f)
                     );
-                    SpotROSGlobalPoseController.SetRotation(initialOri.eulerAngles);
-                    SpotROSGlobalPoseController.UpdatePose();
+                    // SpotROSGlobalPoseController.SetPosition(targetMovement);
+                    // SpotROSGlobalPoseController.SetRotation(initialOri.eulerAngles);
+                    // SpotROSGlobalPoseController.UpdatePose();
                     rootBody.TeleportRoot(targetMovement, initialOri);
                     // SpotROSGlobalPoseController.StopSpot();
                     yield return null;
                 }
                 // rootBody.TeleportRoot(target, initialOri);
                 SpotROSGlobalPoseController.StopSpot();
+                SpotROSTwistController.PublishTwistTarget(
+                    new Vector3(0f, 0f, 0f),
+                    new Vector3(0f, 0f, 0f)
+                );
             }
         }
     }
