@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Meta.XR.MRUtilityKit;
 
 public class ObjectPlacementInitialization : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ObjectPlacementInitialization : MonoBehaviour
     [Header("Scene Setting")]
     public string sceneName;
     public string robotName;
+    public string roomMaterialName;
     public ResetObjects resetManager; // assigned in Unity Inspector
 
     [Header("Global Position Info")]
@@ -42,6 +44,12 @@ public class ObjectPlacementInitialization : MonoBehaviour
     {
         sceneName = PlayerPrefs.GetString("mode");
         robotName = PlayerPrefs.GetString("robot");
+        roomMaterialName = PlayerPrefs.GetString("roomMaterial");
+
+        // Set up the room material
+        GameObject.Find("EffectMesh").GetComponent<EffectMesh>().MeshMaterial = Resources.Load<Material>("Materials/"+roomMaterialName);
+        Debug.Log("Room material set as: " + roomMaterialName + "\nSet result: " + GameObject.Find("EffectMesh").GetComponent<EffectMesh>().MeshMaterial);
+
         //get robot reference
         robot = GameObject.Find(robotName);
         robotPositionLink = robot;
