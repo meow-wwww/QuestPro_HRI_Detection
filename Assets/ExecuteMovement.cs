@@ -7,6 +7,7 @@ public class ExecuteMovement : MonoBehaviour
     RoutePlanning routePlanner;
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
 
+    AudioSource movingAudioSource;
     string initialMovingSoundEffect = "";
 
     void Start()
@@ -15,15 +16,13 @@ public class ExecuteMovement : MonoBehaviour
 
         if (gameObject.name == "DogRobot")
         {
-            initialMovingSoundEffect = GameObject
-                .Find("spot1/base_link/body")
-                .GetComponent<AudioSource>()
-                .clip.name;
+            movingAudioSource = GameObject.Find("spot1/base_link/body").GetComponent<AudioSource>()
         }
         else
         {
-            initialMovingSoundEffect = gameObject.GetComponent<AudioSource>().clip.name;
+            movingAudioSource = gameObject.GetComponent<AudioSource>();
         }
+        initialMovingSoundEffect = movingAudioSource.clip.name;
 
         System.Diagnostics.Debug.Assert(
             globalPositionInfo != null,
