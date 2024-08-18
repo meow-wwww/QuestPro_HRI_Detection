@@ -5,7 +5,6 @@ using UnityEngine;
 public class ExecuteMovement : MonoBehaviour
 {
     RoutePlanning routePlanner;
-    Rigidbody rigidbody;
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
 
     string initialMovingSoundEffect = "";
@@ -13,8 +12,18 @@ public class ExecuteMovement : MonoBehaviour
     void Start()
     {
         routePlanner = GameObject.Find("MRUK").GetComponent<RoutePlanning>();
-        rigidbody = gameObject.GetComponent<Rigidbody>();
-        initialMovingSoundEffect = gameObject.GetComponent<AudioSource>().clip.name;
+
+        if (gameObject.name == "DogRobot")
+        {
+            initialMovingSoundEffect = GameObject
+                .Find("spot1/base_link/body")
+                .GetComponent<AudioSource>()
+                .clip.name;
+        }
+        else
+        {
+            initialMovingSoundEffect = gameObject.GetComponent<AudioSource>().clip.name;
+        }
 
         System.Diagnostics.Debug.Assert(
             globalPositionInfo != null,
@@ -444,7 +453,9 @@ public class ExecuteMovement : MonoBehaviour
         // SpotROSGlobalPoseController.StopSpot();
 
         // start to play the movement sound effect just before moving
-        AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
+        AudioSource movementAudioSource = GameObject
+            .Find("spot1/base_link/body")
+            .GetComponent<AudioSource>();
         movementAudioSource.Play();
 
         float accelerateRate = 1.0f;
@@ -633,10 +644,7 @@ public class ExecuteMovement : MonoBehaviour
         SpotROSTwistController.SetMaxVelocities(moveSpeed, 0.5f, rotateSpeed);
 
         // SpotROSGlobalPoseController.StopSpot();
-        SpotROSTwistController.PublishTwistTarget(
-            new Vector3(0f, 0f, 0f),
-            new Vector3(0f, 0f, 0f)
-        );
+        SpotROSTwistController.PublishTwistTarget(new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 0f));
 
         ArticulationBody rootBody = GameObject
             .Find("spot1/base_link")
@@ -644,7 +652,9 @@ public class ExecuteMovement : MonoBehaviour
         Transform spotTransform = rootBody.transform;
 
         // start to play the movement sound effect just before moving
-        AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
+        AudioSource movementAudioSource = GameObject
+            .Find("spot1/base_link/body")
+            .GetComponent<AudioSource>();
         movementAudioSource.Play();
 
         loopInterrupted = false;
@@ -750,7 +760,8 @@ public class ExecuteMovement : MonoBehaviour
                         target,
                         step
                     );
-                    Vector3 targetVelocity = (targetMovement - spotTransform.position) / Time.deltaTime;
+                    Vector3 targetVelocity =
+                        (targetMovement - spotTransform.position) / Time.deltaTime;
                     targetVelocity.y = 0f;
                     float targetForwardSpeed = targetVelocity.magnitude;
                     SpotROSTwistController.PublishTwistTarget(
