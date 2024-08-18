@@ -8,6 +8,7 @@ public class ExecuteMovement : MonoBehaviour
     public ObjectPlacementInitialization globalPositionInfo; // assigned in Unity Inspector
 
     AudioSource movingAudioSource;
+    AudioVolumeAdjustor movingAudioVolumeAdjustor;
     string initialMovingSoundEffect = "";
 
     void Start()
@@ -17,10 +18,12 @@ public class ExecuteMovement : MonoBehaviour
         if (gameObject.name == "DogRobot")
         {
             movingAudioSource = GameObject.Find("spot1/base_link/body").GetComponent<AudioSource>();
+            movingAudioVolumeAdjustor = GameObject.Find("spot1/base_link/body").GetComponent<AudioVolumeAdjustor>();
         }
         else
         {
             movingAudioSource = gameObject.GetComponent<AudioSource>();
+            movingAudioVolumeAdjustor = gameObject.GetComponent<AudioVolumeAdjustor>();
         }
         initialMovingSoundEffect = movingAudioSource.clip.name;
 
@@ -32,17 +35,17 @@ public class ExecuteMovement : MonoBehaviour
 
     public IEnumerator CollisionMode()
     {
-        gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/Warning");
-        gameObject.GetComponent<AudioVolumeAdjustor>().volumeMode = "distance_full";
+        movingAudioSource.clip = Resources.Load<AudioClip>("Audio/Warning");
+        movingAudioVolumeAdjustor.volumeMode = "distance_full";
         yield return null;
     }
 
     public IEnumerator NormalMode()
     {
-        gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>(
+        movingAudioSource.clip = Resources.Load<AudioClip>(
             "Audio/" + initialMovingSoundEffect
         );
-        gameObject.GetComponent<AudioVolumeAdjustor>().volumeMode = "distance_half";
+        movingAudioVolumeAdjustor.volumeMode = "distance_half";
         yield return null;
     }
 
@@ -56,8 +59,7 @@ public class ExecuteMovement : MonoBehaviour
     )
     {
         // start to play the movement sound effect just before moving
-        AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
-        movementAudioSource.Play();
+        movingAudioSource.Play();
 
         float accelerateRate = 1.0f;
 
@@ -109,7 +111,7 @@ public class ExecuteMovement : MonoBehaviour
                 yield return null;
             }
         }
-        movementAudioSource.Stop();
+        movingAudioSource.Stop();
     }
 
     public bool loopInterrupted;
@@ -121,8 +123,7 @@ public class ExecuteMovement : MonoBehaviour
     )
     {
         // start to play the movement sound effect just before moving
-        AudioSource movementAudioSource = gameObject.GetComponent<AudioSource>();
-        movementAudioSource.Play();
+        movingAudioSource.Play();
 
         loopInterrupted = false;
         while (true)
@@ -134,7 +135,7 @@ public class ExecuteMovement : MonoBehaviour
                 {
                     if (loopInterrupted)
                     {
-                        movementAudioSource.Stop();
+                        movingAudioSource.Stop();
                         yield break;
                     }
                     // ensure that the rotation degree is less than 180
@@ -155,7 +156,7 @@ public class ExecuteMovement : MonoBehaviour
                 {
                     if (loopInterrupted)
                     {
-                        movementAudioSource.Stop();
+                        movingAudioSource.Stop();
                         yield break;
                     }
                     Vector3 direction = (target - transform.position).normalized;
@@ -182,7 +183,7 @@ public class ExecuteMovement : MonoBehaviour
     )
     {
         // start to play the movement sound effect just before moving
-        gameObject.GetComponent<AudioSource>().Play();
+        movingAudioSource.Play();
         float accelerateRate = 1.0f;
 
         foreach (Vector3 target in targetList)
@@ -293,7 +294,7 @@ public class ExecuteMovement : MonoBehaviour
                 }
             }
         }
-        gameObject.GetComponent<AudioSource>().Stop();
+        movingAudioSource.Stop();
     }
 
     public IEnumerator FlyAlongPath_Loop_Coroutine(
@@ -305,7 +306,7 @@ public class ExecuteMovement : MonoBehaviour
     )
     {
         // start to play the movement sound effect just before moving
-        gameObject.GetComponent<AudioSource>().Play();
+        movingAudioSource.Play();
 
         loopInterrupted = false;
 
@@ -334,7 +335,7 @@ public class ExecuteMovement : MonoBehaviour
                         realMoveSpeed = moveSpeed / 2;
                     if (loopInterrupted)
                     {
-                        gameObject.GetComponent<AudioSource>().Stop();
+                        movingAudioSource.Stop();
                         yield break;
                     }
                     Vector3 direction = new Vector3(0, 1, 0);
@@ -353,7 +354,7 @@ public class ExecuteMovement : MonoBehaviour
                 {
                     if (loopInterrupted)
                     {
-                        gameObject.GetComponent<AudioSource>().Stop();
+                        movingAudioSource.Stop();
                         yield break;
                     }
                     Quaternion targetRotation = Quaternion.LookRotation(
@@ -371,7 +372,7 @@ public class ExecuteMovement : MonoBehaviour
                 {
                     if (loopInterrupted)
                     {
-                        gameObject.GetComponent<AudioSource>().Stop();
+                        movingAudioSource.Stop();
                         yield break;
                     }
                     Vector3 direction = (targetInFlightHeight - transform.position).normalized;
@@ -399,7 +400,7 @@ public class ExecuteMovement : MonoBehaviour
                     {
                         if (loopInterrupted)
                         {
-                            gameObject.GetComponent<AudioSource>().Stop();
+                            movingAudioSource.Stop();
                             yield break;
                         }
                         Quaternion targetRotation = Quaternion.LookRotation(
@@ -418,7 +419,7 @@ public class ExecuteMovement : MonoBehaviour
                 {
                     if (loopInterrupted)
                     {
-                        gameObject.GetComponent<AudioSource>().Stop();
+                        movingAudioSource.Stop();
                         yield break;
                     }
                     Vector3 direction = new Vector3(0, -1, 0);
@@ -452,10 +453,7 @@ public class ExecuteMovement : MonoBehaviour
         // SpotROSGlobalPoseController.StopSpot();
 
         // start to play the movement sound effect just before moving
-        AudioSource movementAudioSource = GameObject
-            .Find("spot1/base_link/body")
-            .GetComponent<AudioSource>();
-        movementAudioSource.Play();
+        movingAudioSource.Play();
 
         float accelerateRate = 1.0f;
 
@@ -620,7 +618,7 @@ public class ExecuteMovement : MonoBehaviour
                 new Vector3(0f, 0f, 0f)
             );
         }
-        movementAudioSource.Stop();
+        movingAudioSource.Stop();
         // SpotROSGlobalPoseController.StopSpot();
         // SpotROSTwistController.PublishTwistTarget(
         //     new Vector3(0f, 0f, 0f),
@@ -651,10 +649,7 @@ public class ExecuteMovement : MonoBehaviour
         Transform spotTransform = rootBody.transform;
 
         // start to play the movement sound effect just before moving
-        AudioSource movementAudioSource = GameObject
-            .Find("spot1/base_link/body")
-            .GetComponent<AudioSource>();
-        movementAudioSource.Play();
+        movingAudioSource.Play();
 
         loopInterrupted = false;
         while (true)
@@ -668,7 +663,7 @@ public class ExecuteMovement : MonoBehaviour
                 // while (Vector3.Angle(transform.forward, target - transform.position) > 1f)
                 // {
                 // if (loopInterrupted){
-                //     movementAudioSource.Stop();
+                //     movingAudioSource.Stop();
                 //     yield break;
                 // }
                 //     // ensure that the rotation degree is less than 180
@@ -689,7 +684,7 @@ public class ExecuteMovement : MonoBehaviour
                     {
                         if (loopInterrupted)
                         {
-                            movementAudioSource.Stop();
+                            movingAudioSource.Stop();
                             yield break;
                         }
                         // Debug.Log(
@@ -730,7 +725,7 @@ public class ExecuteMovement : MonoBehaviour
                 // while (Vector3.Distance(transform.position, target) > 0.02f)
                 // {
                 // if (loopInterrupted){
-                //     movementAudioSource.Stop();
+                //     movingAudioSource.Stop();
                 //     yield break;
                 // }
                 //     Vector3 direction = (target - transform.position).normalized;
@@ -744,7 +739,7 @@ public class ExecuteMovement : MonoBehaviour
                 {
                     if (loopInterrupted)
                     {
-                        movementAudioSource.Stop();
+                        movingAudioSource.Stop();
                         // SpotROSGlobalPoseController.StopSpot();
                         SpotROSTwistController.PublishTwistTarget(
                             new Vector3(0f, 0f, 0f),
