@@ -7,6 +7,9 @@ public class ObjectPlacementInitialization : MonoBehaviour
     GameObject user1Seat,
         user2Seat,
         user3Seat;
+    GameObject user1Seat,
+        user2Seat,
+        user3Seat;
 
     [Header("Scene Setting")]
     public string sceneName;
@@ -163,7 +166,19 @@ public class ObjectPlacementInitialization : MonoBehaviour
         // for standing scenario, the positions are different.
         if (sceneName == "Sitting")
         {
+        if (sceneName == "Sitting")
+        {
             experimentTable = table;
+            userPosition = new Vector3(
+                user1Seat.transform.position.x,
+                floorHeight,
+                user1Seat.transform.position.z
+            );
+            performerPosition = new Vector3(
+                user2Seat.transform.position.x,
+                floorHeight,
+                user2Seat.transform.position.z
+            );
             userPosition = new Vector3(
                 user1Seat.transform.position.x,
                 floorHeight,
@@ -177,7 +192,15 @@ public class ObjectPlacementInitialization : MonoBehaviour
         }
         else if (sceneName == "Standing")
         {
+        else if (sceneName == "Standing")
+        {
             experimentTable = bar;
+            userPosition =
+                new Vector3(bar.transform.position.x, floorHeight, bar.transform.position.z)
+                - userForward * 0.9f;
+            performerPosition =
+                new Vector3(bar.transform.position.x, floorHeight, bar.transform.position.z)
+                + userForward * 0.9f;
             userPosition =
                 new Vector3(bar.transform.position.x, floorHeight, bar.transform.position.z)
                 - userForward * 0.9f;
@@ -187,6 +210,8 @@ public class ObjectPlacementInitialization : MonoBehaviour
         }
         else
         {
+        else
+        {
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
         }
 
@@ -194,18 +219,20 @@ public class ObjectPlacementInitialization : MonoBehaviour
         // sitting: 4 right + 1.5 forward
         // standing: 2 right + 4 forward
         if (sceneName == "Sitting")
+        
         {
-            Vector3 initPosition = userPosition + userRight * 4f + userForward * 2.5f;
+            Vector3 initPosition =
+                userPosition + userRight * 4f + userForward * 2.5f;
             if (robotName == "DogRobot")
             {
                 initPosition.y = dogArticulation.transform.position.y;
                 dogArticulation.TeleportRoot(initPosition, robotPositionLink.transform.rotation);
+
+                SpotROSBodyPoseController.SetPosition(robotPositionLink.transform.position);
+                SpotROSBodyPoseController.SetRotation(0, robotPositionLink.transform.rotation.y, 0);
+                SpotROSBodyPoseController.UpdatePose();
             }
             robotPositionLink.transform.position = initPosition;
-
-            SpotROSBodyPoseController.SetPosition(robotPositionLink.transform.position);
-            SpotROSBodyPoseController.SetRotation(0, robotPositionLink.transform.rotation.y, 0);
-            SpotROSBodyPoseController.UpdatePose();
         }
         else if (sceneName == "Standing")
         {
@@ -214,12 +241,16 @@ public class ObjectPlacementInitialization : MonoBehaviour
             {
                 initPosition.y = dogArticulation.transform.position.y;
                 dogArticulation.TeleportRoot(initPosition, robotPositionLink.transform.rotation);
+
+                SpotROSBodyPoseController.SetPosition(robotPositionLink.transform.position);
+                SpotROSBodyPoseController.SetRotation(0, robotPositionLink.transform.rotation.y, 0);
+                SpotROSBodyPoseController.UpdatePose();
             }
             robotPositionLink.transform.position = initPosition;
-
-            SpotROSBodyPoseController.SetPosition(robotPositionLink.transform.position);
-            SpotROSBodyPoseController.SetRotation(0, robotPositionLink.transform.rotation.y, 0);
-            SpotROSBodyPoseController.UpdatePose();
+        }
+        else if (sceneName == "Standing")
+        {
+            robotPositionLink.transform.position = userPosition + userRight * 2f + userForward * 4f;
         }
         else
         {
@@ -230,6 +261,8 @@ public class ObjectPlacementInitialization : MonoBehaviour
             robotPositionLink.transform.position += new Vector3(0, 2f, 0);
         robotInitialPosition = robotPositionLink.transform.position;
 
+        if (sceneName == "Sitting")
+        {
         if (sceneName == "Sitting")
         {
             tableHeight = table.transform.Find("TableTop").transform.position.y;
@@ -243,13 +276,19 @@ public class ObjectPlacementInitialization : MonoBehaviour
 
         GameObject.Find("Coffee_user1").transform.position =
             userPosition - userRight * 2000f + userForward * 0.2f;
+        GameObject.Find("Coffee_user1").transform.position =
+            userPosition - userRight * 2000f + userForward * 0.2f;
         GameObject.Find("Coffee_user2").transform.position = userPosition - userRight * 2000f;
+        GameObject.Find("Coffee_wrong").transform.position =
+            userPosition - userRight * 2000f - userForward * 0.2f;
         GameObject.Find("Coffee_wrong").transform.position =
             userPosition - userRight * 2000f - userForward * 0.2f;
 
         GlobalPositionSet = true;
     }
 
+    public void SetDrinkPositionIndicator(bool state)
+    {
     public void SetDrinkPositionIndicator(bool state)
     {
         experimentTable.transform.Find("DrinkPlaceIndicator").gameObject.SetActive(state);
