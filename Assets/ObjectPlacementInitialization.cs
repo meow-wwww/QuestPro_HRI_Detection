@@ -195,15 +195,13 @@ public class ObjectPlacementInitialization : MonoBehaviour
         // standing: 2 right + 4 forward
         if (sceneName == "Sitting")
         {
-            robotPositionLink.transform.position =
-                userPosition + userRight * 4f + userForward * 2.5f;
+            Vector3 initPosition = userPosition + userRight * 4f + userForward * 2.5f;
             if (robotName == "DogRobot")
             {
-                dogArticulation.TeleportRoot(
-                    userPosition + userRight * 4f + userForward * 2.5f,
-                    robotPositionLink.transform.rotation
-                );
+                initPosition.y = dogArticulation.transform.position.y;
+                dogArticulation.TeleportRoot(initPosition, robotPositionLink.transform.rotation);
             }
+            robotPositionLink.transform.position = initPosition;
 
             SpotROSBodyPoseController.SetPosition(robotPositionLink.transform.position);
             SpotROSBodyPoseController.SetRotation(0, robotPositionLink.transform.rotation.y, 0);
@@ -211,14 +209,13 @@ public class ObjectPlacementInitialization : MonoBehaviour
         }
         else if (sceneName == "Standing")
         {
-            robotPositionLink.transform.position = userPosition + userRight * 2f + userForward * 4f;
+            Vector3 initPosition = userPosition + userRight * 2f + userForward * 4f;
             if (robotName == "DogRobot")
             {
-                dogArticulation.TeleportRoot(
-                    userPosition + userRight * 2f + userForward * 4f,
-                    robotPositionLink.transform.rotation
-                );
+                initPosition.y = dogArticulation.transform.position.y;
+                dogArticulation.TeleportRoot(initPosition, robotPositionLink.transform.rotation);
             }
+            robotPositionLink.transform.position = initPosition;
 
             SpotROSBodyPoseController.SetPosition(robotPositionLink.transform.position);
             SpotROSBodyPoseController.SetRotation(0, robotPositionLink.transform.rotation.y, 0);
