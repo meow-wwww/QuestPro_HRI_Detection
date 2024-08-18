@@ -2510,7 +2510,7 @@ PrefabInstance:
     - target: {fileID: 2296141232796561049, guid: cee191920b8eb41b0960b1082a393a3e, type: 3}
       propertyPath: MeshMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 00dd1a29f740ecc4eaf44199fda740bf, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5456522116536683058, guid: cee191920b8eb41b0960b1082a393a3e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -25529,6 +25529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: 
   robotName: 
+  roomMaterialName: 
   resetManager: {fileID: 46749902}
   GlobalPositionSet: 0
   userForward: {x: 0, y: 0, z: 0}
@@ -29484,7 +29485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1097112806
 Transform:
   m_ObjectHideFlags: 0
