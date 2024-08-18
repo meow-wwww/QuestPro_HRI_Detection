@@ -2510,7 +2510,7 @@ PrefabInstance:
     - target: {fileID: 2296141232796561049, guid: cee191920b8eb41b0960b1082a393a3e, type: 3}
       propertyPath: MeshMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 0f42a68b88513d14fbb84319e309aaa2, type: 2}
+      objectReference: {fileID: 2100000, guid: 00dd1a29f740ecc4eaf44199fda740bf, type: 2}
     - target: {fileID: 5456522116536683058, guid: cee191920b8eb41b0960b1082a393a3e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -46504,6 +46504,10 @@ PrefabInstance:
     - target: {fileID: 4369246577281446754, guid: 82c0abf8adf8d6945a79f49768d9ab63, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4369246577281446754, guid: 82c0abf8adf8d6945a79f49768d9ab63, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4369246577281446759, guid: 82c0abf8adf8d6945a79f49768d9ab63, type: 3}
       propertyPath: m_Immovable
