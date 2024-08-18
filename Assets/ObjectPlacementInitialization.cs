@@ -7,9 +7,6 @@ public class ObjectPlacementInitialization : MonoBehaviour
     GameObject user1Seat,
         user2Seat,
         user3Seat;
-    GameObject user1Seat,
-        user2Seat,
-        user3Seat;
 
     [Header("Scene Setting")]
     public string sceneName;
@@ -166,8 +163,6 @@ public class ObjectPlacementInitialization : MonoBehaviour
         // for standing scenario, the positions are different.
         if (sceneName == "Sitting")
         {
-        if (sceneName == "Sitting")
-        {
             experimentTable = table;
             userPosition = new Vector3(
                 user1Seat.transform.position.x,
@@ -192,8 +187,6 @@ public class ObjectPlacementInitialization : MonoBehaviour
         }
         else if (sceneName == "Standing")
         {
-        else if (sceneName == "Standing")
-        {
             experimentTable = bar;
             userPosition =
                 new Vector3(bar.transform.position.x, floorHeight, bar.transform.position.z)
@@ -210,8 +203,6 @@ public class ObjectPlacementInitialization : MonoBehaviour
         }
         else
         {
-        else
-        {
             System.Diagnostics.Debug.Assert(false, "Invalid scene name.");
         }
 
@@ -219,7 +210,6 @@ public class ObjectPlacementInitialization : MonoBehaviour
         // sitting: 4 right + 1.5 forward
         // standing: 2 right + 4 forward
         if (sceneName == "Sitting")
-        
         {
             Vector3 initPosition =
                 userPosition + userRight * 4f + userForward * 2.5f;
@@ -263,8 +253,6 @@ public class ObjectPlacementInitialization : MonoBehaviour
 
         if (sceneName == "Sitting")
         {
-        if (sceneName == "Sitting")
-        {
             tableHeight = table.transform.Find("TableTop").transform.position.y;
         }
         else if (sceneName == "Standing")
@@ -287,8 +275,6 @@ public class ObjectPlacementInitialization : MonoBehaviour
         GlobalPositionSet = true;
     }
 
-    public void SetDrinkPositionIndicator(bool state)
-    {
     public void SetDrinkPositionIndicator(bool state)
     {
         experimentTable.transform.Find("DrinkPlaceIndicator").gameObject.SetActive(state);
