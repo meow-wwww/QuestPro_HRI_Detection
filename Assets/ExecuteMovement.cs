@@ -16,7 +16,7 @@ public class ExecuteMovement : MonoBehaviour
 
         if (gameObject.name == "DogRobot")
         {
-            movingAudioSource = GameObject.Find("spot1/base_link/body").GetComponent<AudioSource>()
+            movingAudioSource = GameObject.Find("spot1/base_link/body").GetComponent<AudioSource>();
         }
         else
         {
