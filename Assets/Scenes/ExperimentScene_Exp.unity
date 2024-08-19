@@ -59094,7 +59094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instruction: {fileID: 1692376868}
-  instructionShowTime: 2
+  instructionShowTime: 3
 --- !u!1 &1989447534
 GameObject:
   m_ObjectHideFlags: 8
