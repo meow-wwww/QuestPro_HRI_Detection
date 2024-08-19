@@ -533,8 +533,13 @@ public class QuestServerBehavior : WebSocketBehavior
                 if (audioClipName_Instruction.Contains("#")){
                     string audioClipName = audioClipName_Instruction.Split('#')[0];
                     string instructionText = audioClipName_Instruction.Split('#')[1];
+                    bool moveToUser1 = false;
+                    if (instructionText.Contains("*1")){
+                        moveToUser1 = true;
+                        instructionText = instructionText.Replace("*1", "");
+                    }
                     MainThreadDispatcher.Enqueue(() => {
-                        GameObject.Find("DogRobot").gameObject.GetComponent<DogNotification>().SendVoiceRequestWithInstruction(audioClipName, instructionText);
+                        GameObject.Find("DogRobot").gameObject.GetComponent<DogNotification>().SendVoiceRequestWithInstruction(audioClipName, instructionText, moveToUser1);
                         if (audioClipName == "WhereShouldIPlace")
                             GameObject.Find("MRUK").GetComponent<ObjectPlacementInitialization>().SetDrinkPositionIndicator(true);
                         Send("Received");
